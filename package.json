@@ -1,0 +1,9 @@
+{
+ "name": "canyouplay",
+ "main": "app.js",
+ "dependencies": {
+   "express": "*",
+   "jade": "*",
+   "body-parser": "*"
+ }
+}

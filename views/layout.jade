@@ -1,0 +1,29 @@
+//Layout.jade defines the layout of the entire website. It will contain the navbar and
+//extension views will populate pageTitle and pageContent blocks
+doctype html
+html
+  head
+    title= title
+    script(src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js')
+    script(src='/js/bootstrap.min.js')
+    link(rel='stylesheet', href='/css/bootstrap-theme.min.css')
+    link(rel='stylesheet', href='/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/css/style.css')
+
+
+  body
+
+    nav.navbar.navbar-default
+      div.container
+        .container-fluid
+          .navbar-header
+            a.navbar-brand(href='#') CanYouPlay
+          ul.nav.navbar-nav
+            li.active
+          ui.nav.navbar-nav.navbar-right
+            li
+              a(href='#') Sign In
+            li
+              a(href='register') Register
+    block content
+

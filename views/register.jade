@@ -1,0 +1,37 @@
+extends layout
+
+block content
+  div.container
+    div.jumbotron
+      h1 Join CanYouPlay
+      div.row
+        form(action='/api/register', method='post')
+          div.col-sm-4
+            .form-group
+              label(for='inputEmail') Email address
+              input#inputEmail1.form-control(type='email', placeholder='Email', name='email')
+            .form-group
+              label(for='inputFirstName') First Name
+              input#inputFirstName.form-control(type='text', placeholder='First Name' name='firstName')
+            .form-group
+              label(for='inputLastName') Last Name
+              input#inputLastName.form-control(type='text', placeholder='Last Name', name='lastName')
+          div.col-sm-4
+            .form-group
+              label(for='inputMobile') Mobile
+              input#inputMobile.form-control(type='text', placeholder='Mobile', name='mobile')
+            .form-group
+              label(for="inputPassword") Password
+              input#inputPassword.form-control(type='password', placeholder='Password', name='password')
+            .form-group
+              label(for="inputPassword2") Password
+              input#inputPassword2.form-control(type='password', placeholder='Confirm Password', name='password2')
+            button.btn.btn-default.vcenter(type='submit') Next
+
+
+
+
+ 
+ 
+
+
