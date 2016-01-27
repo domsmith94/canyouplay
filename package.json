@@ -12,5 +12,8 @@
    "express": "*",
    "jade": "*",
    "body-parser": "*"
+ },
+ "engines": {
+ 	"node": "5.0.0"
  }
 }
