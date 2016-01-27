@@ -8,6 +8,9 @@
   "url": "https://github.com/domsmith94/canyouplay"
  },
  "main": "app.js",
+ "scripts": {
+    "start": "app.js"
+ },
  "dependencies": {
    "express": "*",
    "jade": "*",
