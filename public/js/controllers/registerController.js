@@ -1,6 +1,4 @@
-var validationApp = angular.module('validationApp', []);
-
-validationApp.controller('mainController', function($scope, $http) {
+myApp.controller('mainController', function($scope, $http) {
 	 $scope.submitForm = function(isValid) {
 
     // check to make sure the form is completely valid
@@ -25,6 +23,3 @@ validationApp.controller('mainController', function($scope, $http) {
   };
 
 });
-
-
-

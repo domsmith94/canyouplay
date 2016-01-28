@@ -7,13 +7,15 @@ html
     script(src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js')
     script(src='js/lib/bootstrap.min.js')
     script(src='js/lib/angular.min.js')
-    script(src='js/validationApp.js')
+    script(src='js/app.js')
+    script(src='js//controllers/registerController.js')
+
     link(rel='stylesheet', href='/css/bootstrap-theme.min.css')
     link(rel='stylesheet', href='/css/bootstrap.min.css')
     link(rel='stylesheet', href='/css/style.css')
 
 
-  body(ng-app='validationApp', ng-controller='mainController')
+  body(ng-app='myApp', ng-controller='mainController')
     nav.navbar.navbar-default
       div.container
         .container-fluid
