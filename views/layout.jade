@@ -5,14 +5,15 @@ html
   head
     title= title
     script(src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js')
-    script(src='/js/bootstrap.min.js')
+    script(src='js/lib/bootstrap.min.js')
+    script(src='js/lib/angular.min.js')
+    script(src='js/validationApp.js')
     link(rel='stylesheet', href='/css/bootstrap-theme.min.css')
     link(rel='stylesheet', href='/css/bootstrap.min.css')
     link(rel='stylesheet', href='/css/style.css')
 
 
-  body
-
+  body(ng-app='validationApp', ng-controller='mainController')
     nav.navbar.navbar-default
       div.container
         .container-fluid

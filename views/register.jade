@@ -5,28 +5,35 @@ block content
     div.jumbotron
       h1 Join CanYouPlay
       div.row
-        form(action='/api/register', method='post')
+        form(name='userForm', ng-submit='submitForm(userForm.$valid)', novalidate='')
           div.col-sm-4
-            .form-group
+            .form-group(ng-class="{ 'has-error' : userForm.email.$invalid && !userForm.email.$pristine }")
               label(for='inputEmail') Email address
-              input#inputEmail1.form-control(type='email', placeholder='Email', name='email')
-            .form-group
+              input#inputEmail1.form-control(type='email', placeholder='Email', name='email', class='form-control', ng-model='email', required)
+              p.help-block(ng-show='userForm.email.$invalid && !userForm.email.$pristine') Your email is required
+            .form-group(ng-class="{ 'has-error' : userForm.firstName.$invalid && !userForm.firstName.$pristine }")
               label(for='inputFirstName') First Name
-              input#inputFirstName.form-control(type='text', placeholder='First Name' name='firstName')
-            .form-group
+              input#inputFirstName.form-control(type='text', placeholder='First Name' name='firstName',class='form-control', ng-model='firstName', required)
+              p.help-block(ng-show='userForm.firstName.$invalid && !userForm.firstName.$pristine') Your first name is required
+            .form-group(ng-class="{ 'has-error' : userForm.lastName.$invalid && !userForm.lastName.$pristine }")
               label(for='inputLastName') Last Name
-              input#inputLastName.form-control(type='text', placeholder='Last Name', name='lastName')
+              input#inputLastName.form-control(type='text', placeholder='Last Name', name='lastName', class='form-control', ng-model='lastName', required)
+              p.help-block(ng-show='userForm.lastName.$invalid && !userForm.lastName.$pristine') Your last name is required
           div.col-sm-4
-            .form-group
+            .form-group(ng-class="{ 'has-error' : userForm.mobile.$invalid && !userForm.mobile.$pristine }")
               label(for='inputMobile') Mobile
-              input#inputMobile.form-control(type='text', placeholder='Mobile', name='mobile')
-            .form-group
+              input#inputMobile.form-control(type='text', placeholder='Mobile', name='mobile', required,
+              class='form-control', ng-model='mobile')
+              p.help-block(ng-show='userForm.mobile.$invalid && !userForm.mobile.$pristine') Your mobile is required
+            .form-group(ng-class="{ 'has-error' : userForm.password.$invalid && !userForm.password.$pristine }")
               label(for="inputPassword") Password
-              input#inputPassword.form-control(type='password', placeholder='Password', name='password')
-            .form-group
+              input#inputPassword.form-control(type='password', placeholder='Password', name='password', class='form-control', ng-model='password', required)
+              p.help-block(ng-show='userForm.password.$invalid && !userForm.password.$pristine') Your password is required
+            .form-group(ng-class="{ 'has-error' : userForm.password2.$invalid && !userForm.password2.$pristine }")
               label(for="inputPassword2") Password
-              input#inputPassword2.form-control(type='password', placeholder='Confirm Password', name='password2')
-            button.btn.btn-default.vcenter(type='submit') Next
+              input#inputPassword2.form-control(type='password', placeholder='Confirm Password', name='password2', required, class='form-control', ng-model='password2')
+              p.help-block(ng-show='userForm.password2.$invalid && !userForm.password2.$pristine') Your password is required
+            button.btn.btn-default(type='submit', ng-disabled='userForm.$invalid') Next
 
 
 
