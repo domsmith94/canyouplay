@@ -12,7 +12,8 @@
    "express": "*",
    "jade": "*",
    "body-parser": "*",
-   "serve-static": "*"
+   "serve-static": "*",
+   "jsonschema": "1.0.3"
  },
  "engines": {
  	"node": "5.0.0"

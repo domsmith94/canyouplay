@@ -18,10 +18,32 @@ app.get('/', function(req, res) {
 
 app.get('/register', function(req, res){
 	res.render('register');
+
 })
 
 app.post('/api/register', function(req, res){
+	// Called in this first stage of registering a new user. We are looking for a JSON from
+	// containing properties specified in register schema. 
 	console.log(req.body);
+	var inputData = req.body;
+
+	var Validator = require('jsonschema').Validator;
+	var v = new Validator();
+
+	var registerSchema = {"type": "object",
+							"properties" : {
+								"email" : {"type": "string"},
+								"firstName": {"type": "string"},
+								"lastName": {"type": "string"},
+								"mobile": {"type": "string"},
+								"password": {"type": "string"}
+							}
+						};
+
+	console.log(v.validate(inputData, registerSchema)); //if its valid lets add the user
+	var result = v.validate(inputData, registerSchema); //result.valid = true if valid
+	console.log(result.valid)
+	res.send(inputData);
 
 });
 
