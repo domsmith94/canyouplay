@@ -7,46 +7,53 @@ module.exports = (function(){
 	var api = express.Router();
 
 	api.post('/register', function(req, res){
-	// Called in this first stage of registering a new user. We are looking for a JSON from
-	// containing properties specified in register schema. 
-	console.log(req.body);
-	var inputData = req.body;
+		// Called in this first stage of registering a new user. We are looking for a JSON from
+		// containing properties specified in register schema. 
+		console.log(req.body);
+		var inputData = req.body;
 
-	var Validator = require('jsonschema').Validator;
-	var v = new Validator();
+		var Validator = require('jsonschema').Validator;
+		var v = new Validator();
 
-	var registerSchema = {"type": "object",
-							"properties" : {
-								"email" : {"type": "string"},
-								"firstName": {"type": "string"},
-								"lastName": {"type": "string"},
-								"mobile": {"type": "string"},
-								"password": {"type": "string"},
-								"password2": {'type': 'string'}
-							}
-						};
+		var registerSchema = {"type": "object",
+								"properties" : {
+									"email" : {"type": "string"},
+									"firstName": {"type": "string"},
+									"lastName": {"type": "string"},
+									"mobile": {"type": "string"},
+									"password": {"type": "string"},
+									"password2": {'type': 'string'}
+								}
+							};
 
-	var result = v.validate(inputData, registerSchema); //result.valid = true if valid
+		var result = v.validate(inputData, registerSchema); //result.valid = true if valid
 
+		if(result.valid){
+			console.log('JSON sent was valid...');
 
-	var newUser = new User();
-	newUser.firstname = inputData['firstName'];
-	newUser.lastname = inputData['lastName'];
-	newUser.mobile = inputData['mobile'];
-	newUser.password = inputData['password'];
+			var newUser = new User();
+			newUser.firstname = inputData['firstName'];
+			newUser.lastname = inputData['lastName'];
+			newUser.mobile = inputData['mobile'];
+			newUser.password = inputData['password'];
 
-	newUser.save(function(err){
-		if(err)
-			res.send(err);
+			newUser.save(function(err){
+				if(err)
+					res.send(err);
 
-		res.send("Hurray");
-	});
+				console.log('New user has been created and saved to mongodb');
+				res.send({'status': 200, 'message': 'New user created'});
 
-	console.log(result.valid) //JSON contains correct information
+			});
 
-	});
+		} else {
+			console.log('JSON submitted was not valid');
+			res.send({'status': 300, 'message': 'Could not create new user'});
+		}
 
-	return api;
+		});
+
+		return api;
 
 
 })();
