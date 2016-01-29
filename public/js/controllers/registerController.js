@@ -7,7 +7,8 @@ myApp.controller('mainController', function($scope, $http) {
 					'firstName': $scope.firstName,
 					'lastName': $scope.lastName, 
 					'mobile': $scope.mobile,
-					'password': $scope.password}; 
+					'password': $scope.password,
+					'password2': $scope.password2}; 
 
 		var res = $http.post('/api/register', data);
 

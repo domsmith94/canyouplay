@@ -6,7 +6,7 @@ block content
       h1 Join CanYouPlay
       div.row
         form(name='userForm', ng-submit='submitForm(userForm.$valid)', novalidate='')
-          div.col-sm-4
+          div.col-lg-4
 
             .form-group(ng-class="{ 'has-error' : userForm.email.$invalid && !userForm.email.$pristine }")
               label(for='inputEmail') Email address
@@ -23,7 +23,7 @@ block content
               input#inputLastName.form-control(type='text', placeholder='Last Name', name='lastName', class='form-control', ng-model='lastName', required)
               p.help-block(ng-show='userForm.lastName.$invalid && !userForm.lastName.$pristine') Your last name is required
           
-          div.col-sm-4
+          div.col-lg-4
             
             .form-group(ng-class="{ 'has-error' : userForm.mobile.$invalid && !userForm.mobile.$pristine }")
               label(for='inputMobile') Mobile
