@@ -10,7 +10,7 @@ block content
 
             .form-group(ng-class="{ 'has-error' : userForm.email.$invalid && !userForm.email.$pristine }")
               label(for='inputEmail') Email address
-              input#inputEmail1.form-control(type='email', placeholder='Email', name='email', class='form-control', ng-model='email', required)
+              input#inputEmail1.form-control(type='email', placeholder='Email', name='email', class='form-control', ng-model='email', required, autofocus)
               p.help-block(ng-show='userForm.email.$invalid && !userForm.email.$pristine') Your email is required
             
             .form-group(ng-class="{ 'has-error' : userForm.firstName.$invalid && !userForm.firstName.$pristine }")
@@ -40,6 +40,8 @@ block content
               label(for="inputPassword2") Password
               input#inputPassword2.form-control(type='password', placeholder='Confirm Password', name='password2', required, class='form-control', ng-model='password2')
               p.help-block(ng-show='userForm.password2.$invalid && !userForm.password2.$pristine') Your password is required
+
+            p.help-block(ng-bind='displayMessage')
 
             button.btn.btn-default(type='submit', ng-disabled='userForm.$invalid') Next
 

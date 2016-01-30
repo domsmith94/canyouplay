@@ -32,6 +32,7 @@ module.exports = (function(){
 			console.log('JSON sent was valid...');
 
 			var newUser = new User();
+			newUser.email = inputData['email'];
 			newUser.firstname = inputData['firstName'];
 			newUser.lastname = inputData['lastName'];
 			newUser.mobile = inputData['mobile'];

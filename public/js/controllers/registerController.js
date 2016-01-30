@@ -13,8 +13,14 @@ myApp.controller('mainController', function($scope, $http, $window) {
 			var res = $http.post('/api/register', data);
 
 			res.success(function(data, status, headers, config) {
-				if (data['status']===200){
+				if (data['status'] === 00) {
+					//$scope.displayMessage = "We registered that correctly";
 					$window.location.href = 'http://' + $window.location.host + '/app';
+				} else if (data['status'] == 300) {
+					// Server sends back error saying there was a problem registering
+					// TODO: Add different messages depending on what the problem was
+					// e.g. email address already taken, mobile number already exists
+					$scope.displayMessage = "We couldnt register this account";
 				}
 
 			});

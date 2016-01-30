@@ -18,8 +18,14 @@ app.get('/', function(req, res) {
 		{title : 'CanYouPlay'})
 });
 
+app.get('/sign-in', function(req, res) {
+	res.render('sign-in',
+		{title : 'Sign In - CanYouPlay'});
+});
+
 app.get('/register', function(req, res){
-	res.render('register');
+	res.render('register',
+		{title: 'Register - CanYouPlay'});
 
 })
 
