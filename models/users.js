@@ -3,7 +3,18 @@ var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt');
 var SALT_WORK_FACTOR = 10;
 
-mongoose.connect('mongodb://localhost:27017/canyouplay'); //used in local development
+var uristring =
+    process.env.MONGOLAB_URI ||
+    process.env.MONGOHQ_URL ||
+    'mongodb://localhost:27017/canyouplay';
+
+mongoose.connect(uristring, function(err, res){
+	if (err) {
+		console.log('Couldnt connect to ' + uristring + err);
+	} else {
+		console.log('Successfully connected to ' + uristring);
+	}
+}); //used in local development
 
 var UserSchema = new Schema({
 	email: { type: String, required: true },
