@@ -13,7 +13,7 @@ myApp.controller('mainController', function($scope, $http, $window) {
 			var res = $http.post('/api/register', data);
 
 			res.success(function(data, status, headers, config) {
-				if (data['status'] === 00) {
+				if (data['status'] === 200) {
 					//$scope.displayMessage = "We registered that correctly";
 					$window.location.href = 'http://' + $window.location.host + '/app';
 				} else if (data['status'] == 300) {
