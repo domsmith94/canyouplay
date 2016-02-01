@@ -1,7 +1,6 @@
 var express = require('express');
 var User = require('../models/users');
-
-
+var Validator = require('jsonschema').Validator;
 
 module.exports = (function(){
 	var api = express.Router();
@@ -11,18 +10,34 @@ module.exports = (function(){
 		// containing properties specified in register schema. 
 		console.log(req.body);
 		var inputData = req.body;
-
-		var Validator = require('jsonschema').Validator;
 		var v = new Validator();
 
 		var registerSchema = {"type": "object",
 								"properties" : {
-									"email" : {"type": "string"},
-									"firstName": {"type": "string"},
-									"lastName": {"type": "string"},
-									"mobile": {"type": "string"},
-									"password": {"type": "string"},
-									"password2": {'type': 'string'}
+									"email" : {
+										"type": "string",
+										'required': true
+									},
+									"firstName": {
+										"type": "string",
+										'required': true
+									},
+									"lastName": {
+										"type": "string",
+										'required': true
+									},
+									"mobile": {
+										"type": "string",
+										'required': true
+									},
+									"password": {
+										"type": "string",
+										'required': true
+									},
+									"password2": {
+										'type': 'string',
+										'required': true
+									}
 								}
 							};
 

@@ -27,21 +27,31 @@ app.post('/sign-in', function(req, res) {
 	var Validator = require('jsonschema').Validator;
 	var v = new Validator();
 
-	var signUpSchema = {"type": "object",
+	// Provides backend validation for the request 
+	var loginSchema = {"type": "object",
 							"properties" : {
-								"username" : {"type" : "string"},
-								"password" :  {"type" : "string"} 
+								"email" : {
+									"type" : "string",
+									 "disallow" : "null",
+									 "required" : true
+								},
+								"password" :  {
+									"type" : "string",
+									"disallow" : "null",
+									"required" : true
+								}
 							}
 						};
 
-	var result = v.validate(inputData, signUpSchema); //result.valid = true if valid
+	var result = v.validate(inputData, loginSchema); //result.valid = true if valid
 
 	if (result.valid) {
 		console.log("Sign up JSON was correct")
-		// try and log in user 
+		res.send({'success' : true});
 
 	} else {
 		console.log("Sign up JSON was incorrect")
+		res.send({'success' : false});
 	}
 
 	
