@@ -1,18 +1,14 @@
 var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+var dbConfig = require('../config/db');
 var bcrypt = require('bcrypt');
+var Schema = mongoose.Schema;
 var SALT_WORK_FACTOR = 10;
 
-var uristring =
-    process.env.MONGOLAB_URI ||
-    process.env.MONGOHQ_URL ||
-    'mongodb://localhost:27017/canyouplay';
-
-mongoose.connect(uristring, function(err, res){
+mongoose.connect(dbConfig.url, function(err, res){
 	if (err) {
-		console.log('Couldnt connect to ' + uristring + err);
+		console.log('Couldnt connect to ' + dbConfig.url + err);
 	} else {
-		console.log('Successfully connected to ' + uristring);
+		console.log('Successfully connected to ' + dbConfig.url);
 	}
 }); //used in local development
 

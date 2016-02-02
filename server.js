@@ -45,7 +45,28 @@ app.post('/sign-in', function(req, res) {
 
 	if (result.valid) {
 		console.log("Sign up JSON was correct")
-		res.send({'success' : true});
+		var User = require('./models/users');
+
+		// Mongoose query to find the user in mongo collection
+		User.findOne({ email: inputData['email'] }, function(err, result) {
+
+	  		if (err) throw err;
+
+	  		if (result) {
+	  			result.comparePassword(inputData['password'], function(err, isMatch){
+	  				if (isMatch) {
+	  					console.log('User found');
+	  					console.log(result);
+	  					res.send({'success': true});
+	  				} else {
+	  					console.log('User found, password not correct');
+	  				}
+	  			});
+	  		} else {
+	  			console.log('No user found');
+	  		}
+		});
+
 
 	} else {
 		console.log("Sign up JSON was incorrect")
