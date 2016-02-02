@@ -1,14 +1,12 @@
 var express = require('express');
 var app = express();
+var bodyParser = require('body-parser');
+var api = require('./routes/api'); // Define and use the API routes
 
 app.set('view engine', 'jade');
 app.use(express.static('public'));
-
-var bodyParser = require('body-parser');
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
-
-var api = require('./routes/api'); // Define and use the API routes
 app.use('/api', api);
 
 
