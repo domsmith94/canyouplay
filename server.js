@@ -1,11 +1,18 @@
 var express = require('express');
 var session = require('express-session');
 var app = express();
+var MongoStore = require('connect-mongo')(session);
+
 var sessionOptions = {
-	secret: "secret",
-  	resave : true,
- 	saveUninitialized : false
+  secret: "secret",
+  resave : true,
+  saveUninitialized : false,
+  store: new MongoStore({
+    url:"mongodb://localhost:27017/canyouplay",
+    //other advanced options
+  })
 };
+
 var bodyParser = require('body-parser');
 var api = require('./routes/api'); // Define and use the API routes
 
@@ -14,8 +21,10 @@ app.use(express.static('public'));
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.use(session(sessionOptions));
-app.use('/api', api);
 
+//*** Below here is route stuff ***
+
+app.use('/api', api);
 
 app.get('/', function(req, res) {
 
