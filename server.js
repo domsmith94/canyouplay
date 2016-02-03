@@ -1,5 +1,11 @@
 var express = require('express');
+var session = require('express-session');
 var app = express();
+var sessionOptions = {
+	secret: "secret",
+  	resave : true,
+ 	saveUninitialized : false
+};
 var bodyParser = require('body-parser');
 var api = require('./routes/api'); // Define and use the API routes
 
@@ -7,10 +13,12 @@ app.set('view engine', 'jade');
 app.use(express.static('public'));
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+app.use(session(sessionOptions));
 app.use('/api', api);
 
 
 app.get('/', function(req, res) {
+
 	res.render('index',
 		{title : 'CanYouPlay'})
 });
@@ -21,6 +29,7 @@ app.get('/sign-in', function(req, res) {
 });
 
 app.post('/sign-in', function(req, res) {
+	var success = false;
 	var inputData = req.body;
 	var Validator = require('jsonschema').Validator;
 	var v = new Validator();
@@ -57,24 +66,24 @@ app.post('/sign-in', function(req, res) {
 	  				if (isMatch) {
 	  					console.log('User found');
 	  					console.log(result);
+	  					req.session.auth = true; // User now logged in
+	  					req.session.user = result; // Store user object in session
 	  					res.send({'success': true});
 	  				} else {
 	  					console.log('User found, password not correct');
+	  					res.send({'success': false});
+
 	  				}
 	  			});
 	  		} else {
 	  			console.log('No user found');
+	  			res.send({'success': false});
 	  		}
 		});
-
-
 	} else {
-		console.log("Sign up JSON was incorrect")
-		res.send({'success' : false});
+		console.log(success);
+		res.send({'success': false});
 	}
-
-	
-
 
 });
 
@@ -82,6 +91,14 @@ app.get('/register', function(req, res){
 	res.render('register',
 		{title: 'Register - CanYouPlay'});
 
+})
+
+app.get('/app', function(req, res) {
+	if (req.session.auth) {
+		res.send('User logged in');
+	} else {
+		res.send('Not logged in');
+	}
 })
 
 
