@@ -57,6 +57,8 @@ router.post('/register', function(req, res){
 				console.log(err);
 				res.send(err);
 			} else {
+				req.session.auth = true;
+				req.session.user = newUser;
 				console.log('New user has been created and saved to mongodb');
 				res.send({'status': 200, 'message': 'New user created'});
 			}

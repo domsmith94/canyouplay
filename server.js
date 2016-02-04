@@ -42,7 +42,7 @@ app.get('/register', function(req, res){
 	res.render('register',
 		{title: 'Register - CanYouPlay'});
 
-})
+});
 
 app.get('/app', function(req, res) {
 	if (req.session.auth) {
@@ -50,7 +50,15 @@ app.get('/app', function(req, res) {
 	} else {
 		res.send('Not logged in');
 	}
-})
+});
+
+app.get('/status', function(req, res) {
+	res.render('status',
+		{
+			auth: req.session.auth,
+			user: req.session.user
+		});
+});
 
 
 var port = process.env.PORT || 3000;

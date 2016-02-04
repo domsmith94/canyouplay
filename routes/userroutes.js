@@ -64,4 +64,18 @@ router.post('/sign-in', function(req, res) {
 
 });
 
+router.get('/sign-out', function(req, res){
+	if (req.session.auth) {
+		console.log('User ' + req.session.user.firstname + " is being logged out");
+		req.session.auth = false;
+		req.session.user = undefined;
+		res.redirect('/');
+
+	} else {
+		console.log('Nobody logged in');
+		res.send('No body was logged in');
+	}
+
+});
+
 module.exports = router;

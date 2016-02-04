@@ -1,0 +1,21 @@
+doctype html
+html
+	head
+		title Status Page
+
+	body
+		h1 CanYouPlay Status Page
+		ul#systemdetails
+			li req.session.auth - #{auth}
+
+		if auth
+			h3 Authenticated User Details
+			ul#userDetails
+				li First Name - #{user.firstname}
+				li Last Name - #{user.lastname}
+				li Email - #{user.email}
+				li Mobile - #{user.mobile}
+				li ID - #{user._id}
+				li Password - #{user.password}
+		else
+			h3 User Logged In = False
