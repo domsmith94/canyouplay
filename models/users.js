@@ -4,11 +4,11 @@ var bcrypt = require('bcrypt');
 var Schema = mongoose.Schema;
 var SALT_WORK_FACTOR = 10;
 
-mongoose.connect(dbConfig.url, function(err, res){
+mongoose.connect(dbConfig.getMongoURI(), function(err, res){
 	if (err) {
-		console.log('Couldnt connect to ' + dbConfig.url + err);
+		console.log('Couldnt connect to ' + dbConfig.getMongoURI() + err);
 	} else {
-		console.log('Successfully connected to ' + dbConfig.url);
+		console.log('Successfully connected to ' + dbConfig.getMongoURI());
 	}
 }); //used in local development
 
@@ -46,6 +46,7 @@ UserSchema.pre('save', function(next) {
 
 // Check password is valid
 UserSchema.methods.comparePassword = function(candidatePassword, cb) {
+	console.log(candidatePassword);
     bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
         if (err) return cb(err);
         cb(null, isMatch);

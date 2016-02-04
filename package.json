@@ -1,8 +1,9 @@
 {
  "name": "canyouplay",
- "version": "0.0.1",
+ "version": "0.0.2",
  "description": "Sports team management application. Final year university project.",
  "author": "Dominic Smith <ds19g13@soton.ac.uk",
+ "license": "UNLICENSED",
  "main": "server.js",
  "repository": {
   "type": "git",
@@ -22,8 +23,6 @@
    "connect-flash": "0.1.1",
    "morgan": "1.6.1",
    "cookie-parser": "1.4.1",
-   "passport-local-mongoose": "4.0.0",
-   "connect-mongodb-session": "1.1.0",
    "connect-mongo": "1.1.0"
  },
  "engines": {
