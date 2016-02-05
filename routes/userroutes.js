@@ -3,7 +3,8 @@ var router = express.Router();
 
 router.get('/sign-in', function(req, res) {
 	res.render('sign-in',
-		{title : 'Sign In - CanYouPlay'});
+		{title : 'Sign In - CanYouPlay',
+		user: req.session.auth});
 });
 
 router.post('/sign-in', function(req, res) {
@@ -45,6 +46,7 @@ router.post('/sign-in', function(req, res) {
 	  					console.log('User found');
 	  					req.session.auth = true; // User now logged in
 	  					req.session.user = result; // Store user object in session
+	  					console.log(req.session.auth);
 	  					res.send({'success': true});
 	  				} else {
 	  					console.log('User found, password not correct');
@@ -64,7 +66,7 @@ router.post('/sign-in', function(req, res) {
 
 });
 
-router.get('/sign-out', function(req, res){
+router.post('/sign-out', function(req, res){
 	if (req.session.auth) {
 		console.log('User ' + req.session.user.firstname + " is being logged out");
 		req.session.auth = false;

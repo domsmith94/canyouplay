@@ -34,13 +34,14 @@ app.use('/', userroutes);
 app.get('/', function(req, res) {
 
 	res.render('index',
-		{title : 'CanYouPlay'})
+		{title : 'CanYouPlay', user: req.session.auth})
 });
 
 
 app.get('/register', function(req, res){
 	res.render('register',
-		{title: 'Register - CanYouPlay'});
+		{title: 'Register - CanYouPlay',
+			user: req.session.auth});
 
 });
 
