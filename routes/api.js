@@ -74,28 +74,29 @@ router.post('/register', function(req, res){
 
 });
 
-router.post('/team', function(req, res){
+router.post('/team', function(req, res) {
 	console.log(req.body);
 	var inputData = req.body;
 	var v = new Validator();
 
 
-	var newTeamSchema = {"type": "object",
-							"properties": {
-								"teamName": {
-									"type": "string",
-									"required": true
-								},
-								"teamUsername": {
-									"type": "string",
-									"required": true
-								},
-								"sport": {
-									"type": "string",
-									"required": true
-								}
-							}
-						};
+	var newTeamSchema = {
+		"type": "object",
+		"properties": {
+			"teamName": {
+				"type": "string",
+				"required": true
+			},
+			"teamUsername": {
+				"type": "string",
+				"required": true
+			},
+			"sport": {
+				"type": "string",
+				"required": true
+			}
+		}
+	};
 
 	var result = v.validate(inputData, newTeamSchema);
 
@@ -108,8 +109,8 @@ router.post('/team', function(req, res){
 		newTeam.sport = inputData['sport'];
 		newTeam.owner = req.session.user._id;
 
-		newTeam.save(function(err){
-			if(err) {
+		newTeam.save(function(err) {
+			if (err) {
 				console.log('There was an error');
 				console.log(err);
 				res.send(err);
@@ -117,14 +118,18 @@ router.post('/team', function(req, res){
 				req.session.user.member_of_team = true;
 				req.session.user.is_owner = true;
 
-				req.session.user.save(function(err){
+				User.findByIdAndUpdate(req.session.user._id, {
+					member_of_team: true,
+					is_owner: true,
+					team: newTeam._id
+				}, function(err) {
 					if (err) {
-						console.log('Couldnt update user');
+						console.log('Could not update user')
 					} else {
-						console.log('Saved user to mongo');
+						console.log('Save user to mongo');
 					}
-
 				});
+
 				console.log('Team was saved');
 				res.send('team was saved');
 
@@ -135,7 +140,6 @@ router.post('/team', function(req, res){
 	}
 
 });
-
 module.exports = router;
 
 
