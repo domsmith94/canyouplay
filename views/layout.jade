@@ -4,13 +4,14 @@ doctype html
 html
 	head
 		title= title
-		script(src='../js/lib/jquery-2.2.0.min.js')
-		script(src='../js/lib/bootstrap.min.js')
-		script(src='../js/lib/angular.min.js')
-		script(src='../js/app.js')
-		link(rel='stylesheet', href='../css/bootstrap.min.css')
-		link(rel='stylesheet', href='../css/navbar.css')
-		link(rel='stylesheet', href='../css/style.css')
+		script(src='/js/lib/jquery-2.2.0.min.js')
+		script(src='/js/lib/bootstrap.min.js')
+		script(src='/js/lib/angular.min.js')
+		script(src='/js/app.js')
+		link(rel='stylesheet', href='/css/bootstrap.min.css')
+		link(rel='stylesheet', href='/css/navbar.css')
+		link(rel='stylesheet', href='/css/style.css')
+		meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
 
 
 	body(ng-app='myApp')
@@ -27,15 +28,16 @@ html
 					#navbar.navbar-collapse.collapse
 						ul.nav.navbar-nav
 							li
-								a(href='status') Status
+								a(href='/status') Status
 						ul.nav.navbar-nav.navbar-right
-							li
-								a(href='sign-in') Sign In
-							li
-								a(href='register') Register
+							if !user
+								li
+									a(href='/sign-in') Sign In
+								li
+									a(href='/register') Register
 							if user
 								li
-									a(href='app') App
+									a(href='/app') App
 								li
 									form(method='post', action='/sign-out')
 										input(type='hidden', name='action', value='logout')
