@@ -3,17 +3,20 @@ var session = require('express-session');
 var dbConfig = require('./config/db');
 var app = express();
 var MongoStore = require('connect-mongo')(session);
+var mongoose = require('mongoose');
 
 var sessionOptions = {
   secret: "secret",
   resave : true,
   saveUninitialized : false,
-  cookie: {maxAge: 60000 },
+  cookie: {maxAge: 3600 * 1000},
   store: new MongoStore({
     url: dbConfig.getMongoURI(),
     //other advanced options
   })
 };
+
+mongoose.connect(dbConfig.getMongoURI()); //connect once
 
 var bodyParser = require('body-parser');
 var api = require('./routes/api'); // Define and use the API routes

@@ -4,13 +4,6 @@ var bcrypt = require('bcrypt');
 var Schema = mongoose.Schema;
 var SALT_WORK_FACTOR = 10;
 
-mongoose.connect(dbConfig.getMongoURI(), function(err, res){
-	if (err) {
-		console.log('Couldnt connect to ' + dbConfig.getMongoURI() + err);
-	} else {
-		console.log('Successfully connected to ' + dbConfig.getMongoURI());
-	}
-}); //used in local development
 
 var UserSchema = new Schema({
 	email: { type: String, required: true, unique: true },
