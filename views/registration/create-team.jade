@@ -1,4 +1,4 @@
-extends layout
+extends ../layout
 
 block content
 	div.container(ng-controller='createTeamController')
@@ -12,7 +12,7 @@ block content
 							label(for='teamName') Team Name
 							input#teamName.form-control(type='text', placeholder='Enter the name of your team', name='teamname', class='form-control', ng-model='teamName', required, autofocus, autocomplete='false', autocorrect='false', spellcheck='false')
 						.form-group
-							label(for='webName') Username 
+							label(for='webName') Web Name 
 							input#webName.form-control(type='text', placeholder='Choose a short name for your team, e.g. sotoncricket', name='webName', ng-model='webName', class='form-control', required, autocomplete='false', autocorrect='false', spellcheck='false')
 						.form-group
 							label(for='selectTeam') Team Type

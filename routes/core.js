@@ -8,7 +8,7 @@ router.get('/', function(req, res) {
 			if (user.member_of_team) {
 				res.send('User is member of a team...lets angular');
 			} else {
-				res.render('register2', {
+				res.render('./registration/register2', {
 					title: 'Create Or Join Team - CanYouPlay',
 					user: user
 				});
@@ -21,7 +21,7 @@ router.get('/', function(req, res) {
 });
 
 router.get('/create-team', function(req, res){
-	res.render('create-team', {
+	res.render('./registration/create-team', {
 		title: 'Create Team - CanYouPlay',
 		user: req.session.user
 	});
@@ -30,8 +30,10 @@ router.get('/create-team', function(req, res){
 });
 
 router.get('/join-team', function(req, res){
-
-
+	res.render('./registration/join-team', {
+		title: 'Join Team - CanYouPlay',
+		user: req.session.user
+	});
 });
 
 module.exports = router;

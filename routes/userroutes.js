@@ -32,7 +32,7 @@ router.post('/sign-in', function(req, res) {
 	var result = v.validate(inputData, loginSchema); //result.valid = true if valid
 
 	if (result.valid) {
-		console.log("Sign up JSON was correct")
+		console.log("Sign in JSON was correct")
 		var User = require('../models/users');
 
 		// Mongoose query to find the user in mongo collection
