@@ -4,20 +4,16 @@ myApp.controller('createTeamController', function($scope, $http, $window) {
 	    // check to make sure the form is completely valid
 	    if (isValid) {
 			var data = {'teamName': $scope.teamName, 
-						'teamUsername': $scope.teamUsername,
+						'webName': $scope.webName,
 						'sport': $scope.sport};
 
 			var res = $http.post('/api/team', data);
 
 			res.success(function(data, status, headers, config) {
-				if (data['status'] === 200) {
-					//$scope.displayMessage = "We registered that correctly";
+				if (data[success]) {
 					$window.location.href = 'http://' + $window.location.host + '/app';
-				} else if (data['status'] == 300) {
-					// Server sends back error saying there was a problem registering
-					// TODO: Add different messages depending on what the problem was
-					// e.g. email address already taken, mobile number already exists
-					$scope.displayMessage = "We couldnt register this account";
+				} else {
+					$alert("We couldnt create this team");
 				}
 
 			});

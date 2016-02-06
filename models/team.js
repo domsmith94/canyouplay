@@ -11,10 +11,11 @@ mongoose.connect(dbConfig.getMongoURI(), function(err, res){
 });
 
 var TeamSchema = new Schema({
-	name: { type:String, required: true, unique: true },
-	fullname: { type: String, required: true, unique: true }, 
+	team_name: { type:String, required: true},
+	web_name: { type: String, required: true, unique: true }, 
 	sport: { type: String, required: true },
-	owner: { type: Schema.ObjectId, required: true }
+	owner: { type: Schema.ObjectId, required: true },
+	created: {type:Date, default:Date.now}
 });
 
 module.exports = mongoose.model('Team', TeamSchema);

@@ -87,7 +87,7 @@ router.post('/team', function(req, res) {
 				"type": "string",
 				"required": true
 			},
-			"teamUsername": {
+			"webName": {
 				"type": "string",
 				"required": true
 			},
@@ -104,8 +104,8 @@ router.post('/team', function(req, res) {
 		console.log("JSON sent was valid");
 
 		var newTeam = new Team();
-		newTeam.fullname = inputData['teamName'];
-		newTeam.name = inputData['teamUsername'];
+		newTeam.team_name = inputData['teamName'];
+		newTeam.web_name = inputData['webName'];
 		newTeam.sport = inputData['sport'];
 		newTeam.owner = req.session.user._id;
 
@@ -117,7 +117,6 @@ router.post('/team', function(req, res) {
 			} else {
 				req.session.user.member_of_team = true;
 				req.session.user.is_owner = true;
-
 				User.findByIdAndUpdate(req.session.user._id, {
 					member_of_team: true,
 					is_owner: true,
@@ -131,12 +130,13 @@ router.post('/team', function(req, res) {
 				});
 
 				console.log('Team was saved');
-				res.send('team was saved');
+				res.send({'success': true});
 
 			}
 		});
 	} else {
 		console.log('JSON was not valid');
+		res.send({'success': false});
 	}
 
 });
