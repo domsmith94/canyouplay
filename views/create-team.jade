@@ -1,0 +1,34 @@
+extends layout
+
+block content
+	div.container(ng-controller='createTeamController')
+		div.row
+			div.col-md-12.text-center
+				h1 Create A New Team
+		div.row
+			form(name='createTeamForm', ng-submit='submitForm(createTeamForm.$valid)', novalidate='')
+				div-col.md-12
+						.form-group
+							label(for='teamName') Team Name
+							input#teamName.form-control(type='text', placeholder='Enter the name of your team', name='teamname', class='form-control', ng-model='teamName', required, autofocus)
+						.form-group
+							label(for='teamUsername') Username 
+							input#teamUsername.form-control(type='text', placeholder='Choose a short name for your team, e.g. sotoncricket', name='teamusername', ng-model='teamUsername', class='form-control', required)
+						.form-group
+							label(for='selectTeam') Team Type
+							select#selectTeam.form-control(ng-model='sport', required, name='sport')
+								option Cricket
+								option Football
+				div.row.text-center
+					button.btn.btn-default(type='submit', ng-disabled='createTeamForm.$invalid') Create
+
+	script(src='../js/controllers/createTeamController.js')
+
+
+
+
+
+
+
+
+

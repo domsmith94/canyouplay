@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/users');
+var Team = require('../models/team');
 var Validator = require('jsonschema').Validator;
 
 router.post('/register', function(req, res){
@@ -50,6 +51,7 @@ router.post('/register', function(req, res){
 		newUser.lastname = inputData['lastName'];
 		newUser.mobile = inputData['mobile'];
 		newUser.password = inputData['password'];
+		
 
 		newUser.save(function(err){
 			if(err) {
@@ -68,6 +70,68 @@ router.post('/register', function(req, res){
 	} else {
 		console.log('JSON submitted was not valid');
 		res.send({'status': 300, 'message': 'Could not create new user'});
+	}
+
+});
+
+router.post('/team', function(req, res){
+	console.log(req.body);
+	var inputData = req.body;
+	var v = new Validator();
+
+
+	var newTeamSchema = {"type": "object",
+							"properties": {
+								"teamName": {
+									"type": "string",
+									"required": true
+								},
+								"teamUsername": {
+									"type": "string",
+									"required": true
+								},
+								"sport": {
+									"type": "string",
+									"required": true
+								}
+							}
+						};
+
+	var result = v.validate(inputData, newTeamSchema);
+
+	if (result.valid) {
+		console.log("JSON sent was valid");
+
+		var newTeam = new Team();
+		newTeam.fullname = inputData['teamName'];
+		newTeam.name = inputData['teamUsername'];
+		newTeam.sport = inputData['sport'];
+		newTeam.owner = req.session.user._id;
+
+		newTeam.save(function(err){
+			if(err) {
+				console.log('There was an error');
+				console.log(err);
+				res.send(err);
+			} else {
+				req.session.user.member_of_team = true;
+				req.session.user.is_owner = true;
+
+				req.session.user.save(function(err){
+					if (err) {
+						console.log('Couldnt update user');
+					} else {
+						console.log('Saved user to mongo');
+					}
+
+				});
+				console.log('Team was saved');
+				res.send('team was saved');
+
+			}
+		});
+	} else {
+		console.log('JSON was not valid');
 	}
 
 });

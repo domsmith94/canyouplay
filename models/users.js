@@ -19,6 +19,7 @@ var UserSchema = new Schema({
 	mobile:String,
 	password: { type:String, required: true },
 	member_of_team: { type:Boolean, default: false },
+	team: {type: Schema.ObjectId },
 	is_owner: { type:Boolean, default: false },
 	created: {type:Date, default: Date.now }
 

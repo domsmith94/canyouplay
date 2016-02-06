@@ -17,6 +17,7 @@ var sessionOptions = {
 var bodyParser = require('body-parser');
 var api = require('./routes/api'); // Define and use the API routes
 var dashboard = require('./routes/dashboard');
+var core = require('./routes/core');
 var userroutes = require('./routes/userroutes');
 
 app.set('view engine', 'jade');
@@ -28,6 +29,7 @@ app.use(session(sessionOptions));
 //*** Below here is route stuff ***
 
 app.use('/api', api);
+app.use('/app', core);
 app.use('/dashboard', dashboard);
 app.use('/', userroutes);
 
@@ -43,20 +45,6 @@ app.get('/register', function(req, res){
 		{title: 'Register - CanYouPlay',
 			user: req.session.auth});
 
-});
-
-app.get('/app', function(req, res) {
-	if (req.session.auth) {
-		if (req.session.user.is_owner) {
-			res.send('User is a member of a team...lets Angular');
-		} else {
-			res.render('register2', 
-				{title: 'Create Or Join Team - CanYouPlay',
-					user: req.session.user});
-		}
-	} else {
-		res.redirect('/sign-in');
-	}
 });
 
 app.get('/status', function(req, res) {
