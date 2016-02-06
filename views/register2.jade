@@ -4,22 +4,26 @@ block content
 	div.container
 		div.row
 			div.col-xs-12.text-center
-				h1 Create Or Join Team
+				h1 Just A Few More Details...
 		div.row
 			a(style='display:block', href='/app/createteam')
-				div.col-xs-6.text-center
+				div.col-sm-5.text-center.col-sm-offset-1.col-md-4.col-md-offset-2
 					div.thumbnail
 						h3 Create Team
 						p
 							| Create and set up your team here. You'll be the owner of this team and have complete
 							| control over everything. After you've created the team, you'll be able to invite other
 							| players to join. 
-			a(style='display:block', href='/app/jointeam')
-				div.col-xs-6.text-center
+						p
+							a.btn.btn-primary(href='app/createteam', role='button') Create
+			a(style='display:block', href='/app/create')
+				div.col-sm-5.text-center.col-md-4
 					div.thumbnail
 						h3 Join Existing Team
 						p
 							| Is your team already registered on CanYouPlay? Brilliant. Just provide us with a few
 							| details and we'll find your team and link your account. You'll be up and running in
 							| no time.
+						p
+							a.btn.btn-primary(href='/app/join', role='button') Join
 
