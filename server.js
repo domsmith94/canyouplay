@@ -47,9 +47,15 @@ app.get('/register', function(req, res){
 
 app.get('/app', function(req, res) {
 	if (req.session.auth) {
-		res.send('User logged in as ' + req.session.user.firstname);
+		if (req.session.user.is_owner) {
+			res.send('User is a member of a team...lets Angular');
+		} else {
+			res.render('register2', 
+				{title: 'Create Or Join Team - CanYouPlay',
+					user: req.session.user});
+		}
 	} else {
-		res.send('Not logged in');
+		res.redirect('/sign-in');
 	}
 });
 

@@ -9,8 +9,7 @@ myApp.controller('loginController', function($scope, $http, $window) {
 
 		res.success(function(data, status, headers, config) {
 			if (data['success']) {
-				alert('Credentials correct you logged in');
-				$window.location.href = 'http://' + $window.location.host + '/app';
+				$window.location.href = 'http://' + $window.location.host + '/status';
 				// If correct eventually we will redirect to app
 			} else {
 				alert('Credentials incorrect. Not logged in');

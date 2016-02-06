@@ -18,8 +18,9 @@ var UserSchema = new Schema({
 	lastname: String,
 	mobile:String,
 	password: { type:String, required: true },
-	member_of_team: Boolean,
-	is_owner: Boolean
+	member_of_team: { type:Boolean, default: false },
+	is_owner: { type:Boolean, default: false },
+	created: {type:Date, default: Date.now }
 
 });
 
