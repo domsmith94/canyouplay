@@ -158,4 +158,54 @@ router.post('/team', function(req, res) {
 
 });
 
+router.post('/team/join', function(req, res){
+	var inputData = req.body;
+	var v = new Validator();
+
+	var joinTeamSchema = {
+		"type": "object",
+		"properties": {
+			"webName": {
+				"type": "string",
+				"required": true
+			},
+		}
+	};
+
+	var result = v.validate(inputData, joinTeamSchema);
+
+	if (result.valid) {
+		Team.find({web_name: inputData['webName'].toLowerCase()}, function(err, result) {
+			if (result.length) {
+				req.session.user.member_of_team = true;
+				req.session.user.is_owner = false;
+				User.findByIdAndUpdate(req.session.user._id, {
+					member_of_team: true,
+					is_owner: false,
+					team: result._id
+				}, function(err) {
+					if (err) {
+						console.log('Could not update user')
+					} else {
+						console.log('Save user to mongo');
+					}
+				});
+
+				res.send({'success': true});
+
+			} else {
+				console.log('Team does not exist');
+				res.send({
+					'success': false,
+					'message': 'There\'s no team with that web name!'
+				});
+			}
+		});
+
+	} else {
+		console.log('JSON was not valid');
+		res.send({'success': false});
+	}
+});
+
 module.exports = router;

@@ -5,12 +5,16 @@ block content
 		div.row
 			div.col-md-12.text-center
 				h1 Join Existing Team
+				a(href='/app/create-team') Create a new team team instead
 		div.row
 			form(name='joinTeamForm', ng-submit='submitForm(joinTeamForm.$valid)', novalidate='')
 				div-col.md-12
 						.form-group
 							label(for='webName') Web Name 
-							input#webName.form-control(type='text', placeholder='Choose a short name for your team, e.g. sotoncricket', name='webName', ng-model='webName', class='form-control', required, autocomplete='false', autocorrect='false', spellcheck='false')
+							input#webName.form-control(type='text', placeholder='Enter the web name of the team you want to join', name='webName', ng-model='webName', class='form-control', required, autocomplete='false', autocorrect='false', spellcheck='false')
+							p.help-block(ng-bind='problemInfo')
+
+
 				div.row.text-center
 					button.btn.btn-default(type='submit', ng-disabled='joinTeamForm.$invalid') Join
 

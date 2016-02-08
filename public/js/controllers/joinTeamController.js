@@ -3,17 +3,15 @@ myApp.controller('joinTeamController', function($scope, $http, $window) {
 
 	    // check to make sure the form is completely valid
 	    if (isValid) {
-			var data = {'teamName': $scope.teamName, 
-						'webName': $scope.webName,
-						'sport': $scope.sport};
+			var data = { 'webName': $scope.webName }
 
-			var res = $http.post('/api/team', data);
+			var res = $http.post('/api/team/join', data);
 
 			res.success(function(data, status, headers, config) {
-				if (data[success]) {
+				if (data['success']) {
 					$window.location.href = 'http://' + $window.location.host + '/app';
 				} else {
-					$alert("We couldnt create this team");
+					$scope.problemInfo = data['message'];
 				}
 
 			});
