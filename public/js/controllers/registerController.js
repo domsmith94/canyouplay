@@ -20,7 +20,9 @@ myApp.controller('mainController', function($scope, $http, $window) {
 					// Server sends back error saying there was a problem registering
 					// TODO: Add different messages depending on what the problem was
 					// e.g. email address already taken, mobile number already exists
-					$scope.displayMessage = "We couldnt register this account";
+					$scope.displayMessage = data['message'];
+					$scope.userForm.email.$setValidity("email", false);
+
 				}
 
 			});

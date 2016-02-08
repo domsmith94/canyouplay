@@ -51,21 +51,31 @@ router.post('/register', function(req, res){
 		newUser.lastname = inputData['lastName'];
 		newUser.mobile = inputData['mobile'];
 		newUser.password = inputData['password'];
+
+		User.find({email: inputData['email']}, function(err, results){
+			if (results.length) {
+				console.log('User with this email address already in database');
+				return res.send({'status': 300, 'message': 'An account with that email address already exists'});
+			} else {
+				newUser.save(function(err){
+					if(err) {
+						console.log('There was an error');
+						console.log(err);
+						res.send(err);
+					} else {
+						req.session.auth = true;
+						req.session.user = newUser;
+						console.log('New user has been created and saved to mongodb');
+						res.send({'status': 200, 'message': 'New user created'});
+					}
+
+				});
+
+			}
+		});
 		
 
-		newUser.save(function(err){
-			if(err) {
-				console.log('There was an error');
-				console.log(err);
-				res.send(err);
-			} else {
-				req.session.auth = true;
-				req.session.user = newUser;
-				console.log('New user has been created and saved to mongodb');
-				res.send({'status': 200, 'message': 'New user created'});
-			}
 
-		});
 
 	} else {
 		console.log('JSON submitted was not valid');
