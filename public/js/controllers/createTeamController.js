@@ -13,7 +13,8 @@ myApp.controller('createTeamController', function($scope, $http, $window) {
 				if (data['success']) {
 					$window.location.href = 'http://' + $window.location.host + '/app';
 				} else {
-					$alert("We couldnt create this team");
+					$scope.problemInfo = data['message'];
+
 				}
 
 			});

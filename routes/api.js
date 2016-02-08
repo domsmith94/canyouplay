@@ -119,37 +119,43 @@ router.post('/team', function(req, res) {
 		newTeam.sport = inputData['sport'];
 		newTeam.owner = req.session.user._id;
 
-		newTeam.save(function(err) {
-			if (err) {
-				console.log('There was an error');
-				console.log(err);
-				res.send(err);
+		Team.find({web_name: inputData['webName']}, function(err, results){
+			if (results.length) {
+				console.log('Team name already exists');
+				return res.send({'success': false, 'message': 'This web name is already taken!'});
 			} else {
-				req.session.user.member_of_team = true;
-				req.session.user.is_owner = true;
-				User.findByIdAndUpdate(req.session.user._id, {
-					member_of_team: true,
-					is_owner: true,
-					team: newTeam._id
-				}, function(err) {
+				newTeam.save(function(err) {
 					if (err) {
-						console.log('Could not update user')
+						console.log('There was an error');
+						console.log(err);
+						res.send(err);
 					} else {
-						console.log('Save user to mongo');
+						req.session.user.member_of_team = true;
+						req.session.user.is_owner = true;
+						User.findByIdAndUpdate(req.session.user._id, {
+							member_of_team: true,
+							is_owner: true,
+							team: newTeam._id
+						}, function(err) {
+							if (err) {
+								console.log('Could not update user')
+							} else {
+								console.log('Save user to mongo');
+							}
+						});
+
+						console.log('Team was saved');
+						res.send({'success': true});
 					}
 				});
-
-				console.log('Team was saved');
-				res.send({'success': true});
-
 			}
 		});
+
 	} else {
 		console.log('JSON was not valid');
 		res.send({'success': false});
 	}
 
 });
+
 module.exports = router;
-
-
