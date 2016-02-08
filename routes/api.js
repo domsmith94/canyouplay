@@ -52,7 +52,7 @@ router.post('/register', function(req, res){
 		newUser.mobile = inputData['mobile'];
 		newUser.password = inputData['password'];
 
-		User.find({email: inputData['email']}, function(err, results){
+		User.find({email: inputData['email'].toLowerCase()}, function(err, results){
 			if (results.length) {
 				console.log('User with this email address already in database');
 				return res.send({'status': 300, 'message': 'An account with that email address already exists'});

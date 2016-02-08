@@ -36,7 +36,7 @@ router.post('/sign-in', function(req, res) {
 		var User = require('../models/users');
 
 		// Mongoose query to find the user in mongo collection
-		User.findOne({ email: inputData['email'] }, function(err, result) {
+		User.findOne({ email: inputData['email'].toLowerCase() }, function(err, result) {
 
 	  		if (err) throw err;
 
