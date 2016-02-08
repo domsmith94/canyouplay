@@ -1,5 +1,5 @@
 myApp.controller('joinTeamController', function($scope, $http, $window) {
-	 $scope.submitForm = function(isValid) {
+	$scope.submitForm = function(isValid) {
 
 	    // check to make sure the form is completely valid
 	    if (isValid) {

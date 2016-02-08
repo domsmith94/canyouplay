@@ -9,10 +9,11 @@ block content
 		div.row
 			form(name='joinTeamForm', ng-submit='submitForm(joinTeamForm.$valid)', novalidate='')
 				div-col.md-12
-						.form-group
+						.form-group(ng-class="{ 'has-error' : joinTeamForm.webName.$invalid && !joinTeamForm.webName.$pristine }")
 							label(for='webName') Web Name 
-							input#webName.form-control(type='text', placeholder='Enter the web name of the team you want to join', name='webName', ng-model='webName', class='form-control', required, autocomplete='false', autocorrect='false', spellcheck='false')
+							input#webName.form-control(type='text', placeholder='Enter the web name of the team you want to join', name='webName', ng-model='webName', class='form-control', required, autocomplete='false', autocorrect='false', spellcheck='false', ng-trim ='false',ng-pattern='/^[-a-zA-Z0-9]*$/')
 							p.help-block(ng-bind='problemInfo')
+							p.help-block(ng-show='joinTeamForm.webName.$invalid && !joinTeamForm.webName.$pristine') Please enter a valid web name
 
 
 				div.row.text-center
