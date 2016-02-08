@@ -182,7 +182,7 @@ router.post('/team/join', function(req, res){
 				User.findByIdAndUpdate(req.session.user._id, {
 					member_of_team: true,
 					is_owner: false,
-					team: result._id
+					team: result[0]._id
 				}, function(err) {
 					if (err) {
 						console.log('Could not update user')
