@@ -6,7 +6,9 @@ router.get('/', function(req, res) {
 	if (req.session.auth) {
 		User.findOne({_id: req.session.user._id}, function(err, user) {
 			if (user.member_of_team) {
-				res.send('User is member of a team...lets angular');
+				res.render('./app/applayout', {
+					title: 'CanYouPlay'
+				});
 			} else {
 				res.render('./registration/register2', {
 					title: 'Create Or Join Team - CanYouPlay',

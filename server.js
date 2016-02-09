@@ -23,6 +23,7 @@ var api = require('./routes/api'); // Define and use the API routes
 var dashboard = require('./routes/dashboard');
 var core = require('./routes/core');
 var userroutes = require('./routes/userroutes');
+var partials = require('./routes/partials');
 
 app.set('view engine', 'jade');
 app.use(express.static('public'));
@@ -36,6 +37,7 @@ app.use('/api', api);
 app.use('/app', core);
 app.use('/dashboard', dashboard);
 app.use('/', userroutes);
+app.use('/partials', partials);
 
 app.get('/', function(req, res) {
 
