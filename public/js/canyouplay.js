@@ -16,7 +16,7 @@ canyouplayApp.config(['$routeProvider',
       	controller: 'StatusController'
       }).
       otherwise({
-        redirectTo: '/'
+        redirectTo: '/status'
       });
   }]);
 
