@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var User = require('../models/users');
+
 
 router.get('/sign-in', function(req, res) {
 	res.render('sign-in',
@@ -33,7 +35,6 @@ router.post('/sign-in', function(req, res) {
 
 	if (result.valid) {
 		console.log("Sign in JSON was correct")
-		var User = require('../models/users');
 
 		// Mongoose query to find the user in mongo collection
 		User.findOne({ email: inputData['email'].toLowerCase() }, function(err, result) {
@@ -78,6 +79,20 @@ router.post('/sign-out', function(req, res){
 		res.send('No body was logged in');
 	}
 
+});
+
+router.get('/user', function(req, res) {
+	console.log('This got called');
+	if (req.session.auth) {
+		User.findOne({ _id: req.session.user._id }, function(err, result) {
+			res.send({
+				'_id': result._id,
+				'firstName': result.firstname,
+				'lastName': result.lastname,
+				'email': result.email
+			});
+		});
+	}
 });
 
 module.exports = router;
