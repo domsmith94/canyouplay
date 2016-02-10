@@ -1,8 +1,19 @@
 var canyouplayControllers = angular.module('canyouplayControllers', []);
 
-canyouplayControllers.controller('SettingsController', function($rootScope, $scope, $http, $window) {
-	$scope.firstName = $rootScope.currentUser.firstName;
-	$scope.lastName = $rootScope.currentUser.lastName;
+canyouplayControllers.controller('SettingsController', function($scope, $http, $window) {
+	$http({
+		method: 'GET',
+		url: '/user'
+	}).then(function successCallback(response) {
+		$scope.firstName = response.data.firstName;
+		$scope.lastName = response.data.lastName;
+
+
+	}, function errorCallback(response) {
+		$rootScope.currentUser['loggedIn'] = false;
+		alert('Could not find logged in user. Fatal error')
+
+	});
 
 
 
