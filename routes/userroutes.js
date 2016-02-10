@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/users');
-
+var Team = require('../models/team');
 
 router.get('/sign-in', function(req, res) {
 	res.render('sign-in',
@@ -85,12 +85,21 @@ router.get('/user', function(req, res) {
 	console.log('This got called');
 	if (req.session.auth) {
 		User.findOne({ _id: req.session.user._id }, function(err, result) {
-			res.send({
-				'_id': result._id,
-				'firstName': result.firstname,
-				'lastName': result.lastname,
-				'email': result.email
-			});
+			Team.findOne({_id: result.team}, function(err2, team) {
+				res.send({
+					'_id': result._id,
+					'firstName': result.firstname,
+					'lastName': result.lastname,
+					'email': result.email,
+					'mobile': result.mobile,
+					'teamName': team.team_name,
+					'joined': result.created,
+					'owner': result.is_owner
+				});
+
+			})
+
+
 		});
 	}
 });

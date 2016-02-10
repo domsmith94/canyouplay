@@ -1,4 +1,29 @@
 div.container
-	div.col-md-12
+	div.col-md-4
 		h2 Settings
-		h3 {{firstName}}  {{lastName}}
+		ul.list-group
+			a.list-group-item(href='/')
+				h4.list-group-item-heading Name
+				p {{firstName}} {{lastName}}
+			li.list-group-item
+				h4.list-group-item-heading Email
+				p {{email}}
+			li.list-group-item 
+				h4.list-group-item-heading Mobile
+				p {{ mobile }}
+			li.list-group-item 
+				h4.list-group-item-heading Security
+				p Change Password
+			li.list-group-item
+				h4.list-group-item-heading Member of
+				p {{ teamName}}
+			li.list-group-item
+				h4.list-group-item-heading Role
+				p(ng-if='isowner') Owner
+				p(ng-if='!isownerfalse') Player
+			li.list-group-item
+				h4.list-group-item-heading Joined
+				p {{ joinDate | date:"MM/dd/yyyy"}}
+
+
+

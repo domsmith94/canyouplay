@@ -7,6 +7,11 @@ canyouplayControllers.controller('SettingsController', function($scope, $http, $
 	}).then(function successCallback(response) {
 		$scope.firstName = response.data.firstName;
 		$scope.lastName = response.data.lastName;
+		$scope.email = response.data.email;
+		$scope.mobile = response.data.mobile;
+		$scope.teamName = response.data.teamName;
+		$scope.joinDate = Date.parse(response.data.joined);
+		$scope.owner = response.data.owner;
 
 
 	}, function errorCallback(response) {
