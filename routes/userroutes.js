@@ -82,7 +82,6 @@ router.post('/sign-out', function(req, res){
 });
 
 router.get('/user', function(req, res) {
-	console.log('This got called');
 	if (req.session.auth) {
 		User.findOne({ _id: req.session.user._id }, function(err, result) {
 			Team.findOne({_id: result.team}, function(err2, team) {

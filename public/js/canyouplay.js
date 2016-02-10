@@ -1,4 +1,4 @@
-var canyouplayApp = angular.module('canyouplayApp', ['ngRoute', 'canyouplayControllers']);
+var canyouplayApp = angular.module('canyouplayApp', ['ui.bootstrap','ngRoute', 'ngAnimate', 'canyouplayControllers']);
 
 canyouplayApp.run(function($rootScope, $http) {
   $rootScope.currentUser = {}
