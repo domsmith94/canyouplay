@@ -92,6 +92,9 @@ router.get('/user', function(req, res) {
 					'email': result.email,
 					'mobile': result.mobile,
 					'teamName': team.team_name,
+					'webName': team.web_name,
+					'sport': team.sport,
+					'teamCreated': team.created,
 					'joined': result.created,
 					'owner': result.is_owner
 				});

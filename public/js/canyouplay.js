@@ -1,4 +1,4 @@
-var canyouplayApp = angular.module('canyouplayApp', ['ui.bootstrap','ngRoute', 'canyouplayControllers']);
+var canyouplayApp = angular.module('canyouplayApp', ['ui.bootstrap','ngRoute', 'ngAnimate', 'canyouplayControllers']);
 
 
 canyouplayApp.run(function($rootScope, $http) {
@@ -31,6 +31,10 @@ canyouplayApp.config(['$routeProvider',
       when('/fixtures', {
       	templateUrl: '/partials/fixtures',
       	controller: 'FixturesController'
+      }).
+      when('/fixtures/add', {
+        templateUrl: '/partials/addfixture',
+        controller: 'AddFixtureController'
       }).
       when('/status', {
       	templateUrl: '/partials/status',
