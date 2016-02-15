@@ -33,34 +33,17 @@ canyouplayControllers.controller('FixturesController', function($scope, $http, $
 
 });
 
-canyouplayControllers.controller('AddFixtureController', function($scope, $http, $window) {
-	  $scope.today = function() {
+canyouplayControllers.controller('AddFixtureController', function($scope, $http, $window, $location) {
+  $scope.today = function() {
     $scope.dt = new Date();
   };
+
   $scope.today();
 
-  $scope.clear = function() {
-    $scope.dt = null;
-  };
-
-  // Disable weekend selection
-  $scope.disabled = function(date, mode) {
-    return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
-  };
-
-  $scope.toggleMin = function() {
-    $scope.minDate = $scope.minDate ? null : new Date();
-  };
-
-  $scope.toggleMin();
   $scope.maxDate = new Date(2020, 5, 22);
 
   $scope.open1 = function() {
     $scope.popup1.opened = true;
-  };
-
-  $scope.open2 = function() {
-    $scope.popup2.opened = true;
   };
 
   $scope.setDate = function(year, month, day) {
@@ -80,40 +63,34 @@ canyouplayControllers.controller('AddFixtureController', function($scope, $http,
     opened: false
   };
 
-  $scope.popup2 = {
-    opened: false
-  };
+  $scope.submitForm = function(isValid) {
+    if (isValid) {
+      $scope.dt.setHours($scope.time.getHours());
+      $scope.dt.setMinutes($scope.time.getMinutes());
+      $scope.dt.setSeconds(0);
 
-  var tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  var afterTomorrow = new Date();
-  afterTomorrow.setDate(tomorrow.getDate() + 1);
-  $scope.events =
-    [
-      {
-        date: tomorrow,
-        status: 'full'
-      },
-      {
-        date: afterTomorrow,
-        status: 'partially'
-      }
-    ];
+      var data = {
+        'team': $scope.side,
+        'opposition': $scope.opposition,
+        'location': $scope.location,
+        'date': $scope.dt
+      };
 
-  $scope.getDayClass = function(date, mode) {
-    if (mode === 'day') {
-      var dayToCheck = new Date(date).setHours(0,0,0,0);
+      var res = $http.post('/fixtures', data);
 
-      for (var i = 0; i < $scope.events.length; i++) {
-        var currentDay = new Date($scope.events[i].date).setHours(0,0,0,0);
-
-        if (dayToCheck === currentDay) {
-          return $scope.events[i].status;
+      res.success(function(data, status, headers, config) {
+        if (data['success']) {
+          $location.path('/fixtures');
+        } else {
+          alert('fixtures could not be added');
         }
-      }
-    }
 
-    return '';
+      });
+
+      res.error(function(data, status, headers, config) {
+        alert("The query can't be processed at the moment. Please try again later.");
+      });
+    }
   };
 
 
