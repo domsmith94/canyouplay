@@ -10,13 +10,15 @@ router.post('/', function(req, res){
 	newFixture.location = inputData['location'];
 	newFixture.date = inputData['date'];
 	newFixture.organiser = req.session.user._id;
+	newFixture.team = req.session.user.team;
 
 	newFixture.save(function(err){
 		if (err) {
+			console.log("There was a problem creating the fixture");
 			console.log(err);
 			res.send({'success': false});
 		} else {
-			console.log('Has been saved');
+			console.log('New fixture has been created');
 			res.send({'success': true});
 		}
 

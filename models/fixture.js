@@ -8,7 +8,8 @@ var FixtureSchema = new Schema({
 	date: { type: Date, required: true },
 	created: { type: Date, default: Date.now },
 	organiser: {type: Schema.ObjectId, required: true },
-	active: {type: Boolean, default: true}
+	active: {type: Boolean, default: true},
+	team: { type:Schema.ObjectId, required: true }
 });
 
 module.exports = mongoose.model('Fixture', FixtureSchema);
