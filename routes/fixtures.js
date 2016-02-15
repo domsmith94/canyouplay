@@ -26,4 +26,30 @@ router.post('/', function(req, res){
 
 });
 
+router.get('/', function(req, res){
+	Fixture.find({team: req.session.user.team, active: true}, function(err, results){
+		if (err) {
+			console.log('There was an error getting the fixtures from Mongo');
+		}
+
+		if (results){
+			console.log('We found some fixtures');
+			var resultsToSend = [];
+
+			for(var i = 0; i < results.length; i++) {
+				fixture = {};
+				fixture['opposition'] = results[i]['opposition'];
+				fixture['location'] = results[i]['location'];
+				fixture['date'] = results[i]['date'];
+				resultsToSend.push(fixture);
+			}
+
+			res.send({'fixtures': resultsToSend})
+		}
+
+	});
+
+
+});
+
 module.exports = router;

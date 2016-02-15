@@ -1,4 +1,4 @@
-div.container-fluid
+div.container
 	div.row.text-center
 		h2 Fixtures
 		a(href='#/fixtures/add') Add
@@ -15,18 +15,12 @@ div.container-fluid
 							th Date
 							th Time
 					tbody
-						tr
-							td 1st XI
-							td Solent University 2nd XI
-							td Wide Lane
-							td 16/06/2016
-							td 11:00
-						tr
-							td 2nd XI
-							td Bath University 1st XI
-							td Bath Sports Ground
-							td 16/06/2016
-							td 13:00
+						tr(ng-repeat="fixture in fixtures | orderBy : 'date'")
+							td TBC
+							td {{ fixture['opposition'] }}
+							td {{ fixture['location'] }}
+							td {{ fixture['date'] | date:"dd/MM/yyyy" }}
+							td {{ fixture['date'] | date:"HH:mm" }}
 
 
 

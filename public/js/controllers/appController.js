@@ -29,6 +29,15 @@ canyouplayControllers.controller('SettingsController', function($scope, $http, $
 });
 
 canyouplayControllers.controller('FixturesController', function($scope, $http, $window) {
+  $http({
+    method: 'GET',
+    url: '/fixtures'
+  }).then(function successCallback(response) {
+    $scope.teamName = response.data.teamName;
+    $scope.fixtures = response.data.fixtures;
+  }, function errorCallback(response) {
+    //Handle errors here
+  });
 
 
 });

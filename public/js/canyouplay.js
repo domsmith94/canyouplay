@@ -12,6 +12,8 @@ canyouplayApp.run(function($rootScope, $http) {
     $rootScope.currentUser['firstName'] = response.data.firstName;
     $rootScope.currentUser['lastName'] = response.data.lastName;
 
+    //TO DO ADD team name to root scope for use in Fixtures page
+
 
   }, function errorCallback(response) {
     $rootScope.currentUser['loggedIn'] = false;
