@@ -4,9 +4,8 @@ div.container
 		a(href='#/fixtures/add') Add
 	div.col-md-12
 		div.panel.panel-default
-			div.panel-heading Upcoming Fixtures For Southampton University Cricket Club
 			div.table-responsive
-				table.table
+				table.table.table-hover
 					thead
 						tr
 							th Team
@@ -14,6 +13,7 @@ div.container
 							th Location
 							th Date
 							th Time
+							//th
 					tbody
 						tr(ng-repeat="fixture in fixtures | orderBy : 'date'")
 							td TBC
@@ -21,6 +21,10 @@ div.container
 							td {{ fixture['location'] }}
 							td {{ fixture['date'] | date:"dd/MM/yyyy" }}
 							td {{ fixture['date'] | date:"HH:mm" }}
+							//td
+								button.btn.btn-default Organise
+								button.btn.btn-default Cancel
+
 
 
 

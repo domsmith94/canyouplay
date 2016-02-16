@@ -28,6 +28,11 @@ canyouplayControllers.controller('SettingsController', function($scope, $http, $
 
 });
 
+canyouplayControllers.controller('ChangeNameController', function($scope, $http, $window) {
+
+});
+
+
 canyouplayControllers.controller('FixturesController', function($scope, $http, $window) {
   $http({
     method: 'GET',
@@ -38,6 +43,7 @@ canyouplayControllers.controller('FixturesController', function($scope, $http, $
   }, function errorCallback(response) {
     //Handle errors here
   });
+
 
 
 });

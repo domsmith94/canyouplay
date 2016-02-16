@@ -9,7 +9,7 @@ var sessionOptions = {
   secret: "secret",
   resave : true,
   saveUninitialized : false,
-  cookie: {maxAge: 3600 * 1000},
+  cookie: {maxAge: 3600 * 1000 * 24},
   store: new MongoStore({
     url: dbConfig.getMongoURI(),
     //other advanced options

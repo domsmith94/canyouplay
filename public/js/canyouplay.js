@@ -11,6 +11,7 @@ canyouplayApp.run(function($rootScope, $http) {
     $rootScope.currentUser['_id'] = response.data._id;
     $rootScope.currentUser['firstName'] = response.data.firstName;
     $rootScope.currentUser['lastName'] = response.data.lastName;
+    $rootScope.teamName = response.data.teamName;
 
     //TO DO ADD team name to root scope for use in Fixtures page
 
@@ -41,6 +42,10 @@ canyouplayApp.config(['$routeProvider',
       when('/status', {
       	templateUrl: '/partials/status',
       	controller: 'StatusController'
+      }).
+      when('/settings/changename', {
+        templateUrl: '/partials/name',
+        controller: 'ChangeNameController'
       }).
       otherwise({
         redirectTo: '/status'
