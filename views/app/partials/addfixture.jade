@@ -6,8 +6,7 @@ div.container
 			.form-group
 				label(for='selectTeam') Team
 				select#selectTeam.form-control(ng-model='side', required, name='side')
-					option 1st XI
-					option 2nd XI
+					option(ng-repeat="side in sides") {{ side }}
 			.form-group
 				label(for='opposition') Opposition
 				input#opposition.form-control(type='text', placeholder='Team you are playing', name='opposition', ng-model='opposition', class='form-control', required)

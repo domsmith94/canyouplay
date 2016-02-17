@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/users');
 var Team = require('../models/team');
+var Fixture = require('../models/fixture');
 var Validator = require('jsonschema').Validator;
 
 router.post('/register', function(req, res){
@@ -206,6 +207,25 @@ router.post('/team/join', function(req, res){
 		console.log('JSON was not valid');
 		res.send({'success': false});
 	}
+});
+
+router.get('/fixtureadd', function(req, res){
+	Fixture.find(_id = req.session.user.team).distinct('side', function(err, results) {
+		if (err) {
+			console.log('There was an error finding distinct side values');
+			console.log(err);
+		}
+
+		if (results.length > 0){
+			res.send(results);
+			console.log(results);
+		} else {
+			res.send([]);
+		}		
+
+	});
+
+
 });
 
 module.exports = router;

@@ -16,7 +16,7 @@ div.container
 							//th
 					tbody
 						tr(ng-repeat="fixture in fixtures | orderBy : 'date'")
-							td TBC
+							td {{ fixture['side'] }}
 							td {{ fixture['opposition'] }}
 							td {{ fixture['location'] }}
 							td {{ fixture['date'] | date:"dd/MM/yyyy" }}

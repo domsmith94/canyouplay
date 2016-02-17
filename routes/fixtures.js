@@ -9,6 +9,7 @@ router.post('/', function(req, res){
 	newFixture.opposition = inputData['opposition'];
 	newFixture.location = inputData['location'];
 	newFixture.date = inputData['date'];
+	newFixture.side = inputData['side'];
 	newFixture.organiser = req.session.user._id;
 	newFixture.team = req.session.user.team;
 
@@ -41,6 +42,7 @@ router.get('/', function(req, res){
 				fixture['opposition'] = results[i]['opposition'];
 				fixture['location'] = results[i]['location'];
 				fixture['date'] = results[i]['date'];
+				fixture['side'] = results[i]['side'];
 				resultsToSend.push(fixture);
 			}
 
