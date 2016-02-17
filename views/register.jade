@@ -33,13 +33,14 @@ block content
             
             .form-group(ng-class="{ 'has-error' : userForm.password.$invalid && !userForm.password.$pristine }")
               label(for="inputPassword") Password
-              input#inputPassword.form-control(type='password', placeholder='Password', name='password', class='form-control', ng-model='password', required)
+              input#inputPassword.form-control(type='password', placeholder='Password', name='password', class='form-control', ng-model='password.new', required)
               p.help-block(ng-show='userForm.password.$invalid && !userForm.password.$pristine') Your password is required
             
             .form-group(ng-class="{ 'has-error' : userForm.password2.$invalid && !userForm.password2.$pristine }")
               label(for="inputPassword2") Password
-              input#inputPassword2.form-control(type='password', placeholder='Confirm Password', name='password2', required, class='form-control', ng-model='password2')
-              p.help-block(ng-show='userForm.password2.$invalid && !userForm.password2.$pristine') Your password is required
+              input#inputPassword2.form-control(match='password.new' type='password', placeholder='Confirm Password', name='password2', required, class='form-control', ng-model='password.confirm')
+              p.help-block(ng-show='userForm.password2.$invalid && !userForm.password2.$pristine && !userForm.password2.$error.match') Your password is required
+              p.help-block(ng-show='userForm.password2.$error.match && !userForm.password2.$pristine') Password entered does not match
 
             p.help-block(ng-bind='displayMessage')
 
