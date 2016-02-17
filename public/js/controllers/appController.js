@@ -119,8 +119,17 @@ canyouplayControllers.controller('ChangeTeamNameController', function($scope, $h
   
 });
 
+canyouplayControllers.controller('InviteMemberController', function($scope, $http, $window, $location) {
+  $scope.submitForm = function(isValid) {
+    if (isValid){
+      var data = {'email': $scope.email};
+      var res = $http.post('/api/invite', data);
 
+      $location.path('/settings');
 
+    }
+  };
+});
 
 canyouplayControllers.controller('FixturesController', function($scope, $http, $window) {
   $http({
@@ -132,8 +141,6 @@ canyouplayControllers.controller('FixturesController', function($scope, $http, $
   }, function errorCallback(response) {
     //Handle errors here
   });
-
-
 
 });
 

@@ -1,6 +1,6 @@
 module.exports = {
 
-	locaUrl : 'mongodb://	localhost:27017/canyouplay',
+	locaUrl : 'mongodb://localhost:27017/canyouplay',
 
 	getMongoURI: function(){
 

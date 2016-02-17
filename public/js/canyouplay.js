@@ -63,6 +63,10 @@ canyouplayApp.config(['$routeProvider',
         templateUrl: '/partials/team',
         controller: 'ChangeTeamNameController'
       }).
+      when('/invite', {
+        templateUrl: '/partials/invite',
+        controller: 'InviteMemberController'
+      }).
       otherwise({
         redirectTo: '/status'
       });

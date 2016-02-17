@@ -3,7 +3,10 @@ var router = express.Router();
 var User = require('../models/users');
 var Team = require('../models/team');
 var Fixture = require('../models/fixture');
+var Invite = require('../models/invite');
+var postmarkConfig = require('../config/postmark');
 var Validator = require('jsonschema').Validator;
+var postmark = require("postmark")(postmarkConfig.postmarkKey());
 
 router.post('/register', function(req, res){
 	// Called in this first stage of registering a new user. We are looking for a JSON from
@@ -262,6 +265,64 @@ router.get('/fixtureadd', function(req, res){
 		}		
 
 	});
+
+
+});
+
+router.post('/invite', function(req, res){
+	console.log(req.body);
+	// Used for creating an invite
+	var v = new Validator();
+
+	var inviteSchema = {
+		"type": "object",
+		"properties": {
+			"email": {
+				"type": "string",
+				"required": true
+			},
+		}
+	};
+
+	var result = v.validate(req.body, inviteSchema);
+
+	if (result.valid) {
+		invite = new Invite();
+		invite.email = req.body.email;
+		invite.invite_by = req.session.user._id;
+		invite.team = req.session.user.team;
+
+		invite.save(function(err, invite){
+			if (err) {
+				console.log("There was an error creating this invite");
+				console.log(err);
+				res.send({'success': false});
+			} else {
+				res.send({'success': true});
+				console.log(invite);
+
+				postmark.send({
+					"From": "ds19g13@soton.ac.uk",
+					"To": invite.email,
+					"Subject": "Invite to CanYouPlay",
+					"TextBody": invite._id,
+				}, function(error, success) {
+					if (error) {
+						console.error("Unable to send via postmark: " + error.message);
+						return;
+					}
+					console.info("Sent to postmark for delivery")
+				});
+			}
+		});
+
+	} else {
+		console.log('JSON submitted was not valid');
+		res.send({'success': false});
+	}
+
+
+
 
 
 });
