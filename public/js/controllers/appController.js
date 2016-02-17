@@ -101,6 +101,24 @@ canyouplayControllers.controller('ChangePasswordController', function($scope, $h
   
 });
 
+canyouplayControllers.controller('ChangeTeamNameController', function($scope, $http, $window, $location) {
+  $scope.submitForm = function(isValid) {
+    if (isValid) {
+      var data = {'type': 'teamNameChange', 'teamName': $scope.teamName};
+      var res = $http.put('/api/team', data);
+
+      res.success(function(data, status, headers, config){
+        if (data['success']) {
+          $location.path('/settings');
+        }
+
+      });
+    }
+
+  };
+  
+});
+
 
 
 

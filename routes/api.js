@@ -159,6 +159,44 @@ router.post('/team', function(req, res) {
 
 });
 
+router.put('/team', function(req, res){
+	if (req.session.auth){
+		var request = req.body;
+
+		switch (request['type']) {
+			case 'teamNameChange':
+				Team.findOne({_id: req.session.user.team}, function(err, result){
+					if (err) {
+						console.log("ERROR: Could not find team in db");
+						console.log(err);
+						res.send({'success': false});
+					} else {
+						result.team_name = request['teamName'];
+						result.save(function(err){
+							if (err) {
+								console.log(err);
+								console.log("Could not change team name");
+								res.send({'success': false});
+							} else {
+								console.log("Updated team name");
+								res.send({'success': true});
+							}
+
+						});
+					}
+				});
+				break;
+
+			}
+
+
+
+	} else {
+		console.log("User must be logged in for this action");
+	}
+
+});
+
 router.post('/team/join', function(req, res){
 	var inputData = req.body;
 	var v = new Validator();

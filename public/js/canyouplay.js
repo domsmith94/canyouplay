@@ -59,6 +59,10 @@ canyouplayApp.config(['$routeProvider',
         templateUrl: '/partials/password',
         controller: 'ChangePasswordController'
       }).
+      when('/settings/change-team-name', {
+        templateUrl: '/partials/team',
+        controller: 'ChangeTeamNameController'
+      }).
       otherwise({
         redirectTo: '/status'
       });

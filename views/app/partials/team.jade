@@ -1,0 +1,17 @@
+div.container
+	div.col-md-4
+		h2 Change Mobile
+
+		form(name='changeTeamNameForm', ng-submit='submitForm(changeTeamNameForm.$valid)', novalidate='')
+			.form-group
+				label(for='teamName') Team Name
+				input#teamName.form-control(ng-model='teamName', required, name='teamName')
+			div.row.text-center
+					button.btn.btn-default(type='button', value='Back', onclick="history.back(-1)") Back
+					button.btn.btn-default(type='submit', ng-disabled='changeTeamNameForm.$invalid') Change
+
+
+
+
+
+
