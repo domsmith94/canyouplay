@@ -2,7 +2,16 @@ div.container
 	div.col-md-4
 		h2 Change Name
 
-		form(name='ChangeNam', ng-submit='submitForm(addFixtureForm.$valid)', novalidate='')
+		form(name='changeNameForm', ng-submit='submitForm(changeNameForm.$valid)', novalidate='')
+			.form-group
+				label(for='firstName') First Name
+				input#firstName.form-control(ng-model='firstName', required, name='firstName')
+			.form-group
+				label(for='lastName') Last Name
+				input#lastName.form-control(ng-model='lastName', name='lastName', required)
+			div.row.text-center
+					button.btn.btn-default(type='button', value='Back', onclick="history.back(-1)") Back
+					button.btn.btn-default(type='submit', ng-disabled='changeNameForm.$invalid') Change
 
 
 

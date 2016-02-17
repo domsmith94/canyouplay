@@ -28,9 +28,80 @@ canyouplayControllers.controller('SettingsController', function($scope, $http, $
 
 });
 
-canyouplayControllers.controller('ChangeNameController', function($scope, $http, $window) {
+canyouplayControllers.controller('ChangeNameController', function($scope, $http, $window, $location) {
+  $scope.submitForm = function(isValid) {
+    if (isValid) {
+      var data = {'type': 'nameChange', 'firstName': $scope.firstName, 'lastName': $scope.lastName};
+      var res = $http.put('/user', data);
+
+      res.success(function(data, status, headers, config){
+        if (data['success']) {
+          $location.path('/settings');
+        }
+
+      });
+    }
+
+  };
   
 });
+
+canyouplayControllers.controller('ChangeEmailController', function($scope, $http, $window, $location) {
+  $scope.submitForm = function(isValid) {
+    if (isValid) {
+      var data = {'type': 'emailChange', 'email': $scope.email};
+      var res = $http.put('/user', data);
+
+      res.success(function(data, status, headers, config){
+        if (data['success']) {
+          $location.path('/settings');
+        }
+
+      });
+    }
+
+  };
+  
+});
+
+canyouplayControllers.controller('ChangeMobileController', function($scope, $http, $window, $location) {
+  $scope.submitForm = function(isValid) {
+    if (isValid) {
+      var data = {'type': 'mobileChange', 'mobile': $scope.mobile};
+      var res = $http.put('/user', data);
+
+      res.success(function(data, status, headers, config){
+        if (data['success']) {
+          $location.path('/settings');
+        }
+
+      });
+    }
+
+  };
+  
+});
+
+canyouplayControllers.controller('ChangePasswordController', function($scope, $http, $window, $location) {
+  $scope.submitForm = function(isValid) {
+    if (isValid) {
+      var data = {'type': 'passwordChange', 'currentPassword': $scope.currentPassword,
+                  'newPassword': $scope.newPassword, 'confirmPassword': $scope.confirmPassword};
+      var res = $http.put('/user', data);
+
+      res.success(function(data, status, headers, config){
+        if (data['success']) {
+          $location.path('/settings');
+        }
+
+      });
+    }
+
+  };
+  
+});
+
+
 
 
 canyouplayControllers.controller('FixturesController', function($scope, $http, $window) {

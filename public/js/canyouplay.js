@@ -1,4 +1,4 @@
-var canyouplayApp = angular.module('canyouplayApp', ['ui.bootstrap','ngRoute', 'ngAnimate', 'canyouplayControllers']);
+var canyouplayApp = angular.module('canyouplayApp', ['ui.bootstrap','ngRoute', 'ngAnimate', 'canyouplayControllers', 'validation.match']);
 
 
 canyouplayApp.run(function($rootScope, $http) {
@@ -46,6 +46,18 @@ canyouplayApp.config(['$routeProvider',
       when('/settings/changename', {
         templateUrl: '/partials/name',
         controller: 'ChangeNameController'
+      }).
+      when('/settings/changeemail', {
+        templateUrl: '/partials/email',
+        controller: 'ChangeEmailController'
+      }).
+      when('/settings/changemobile', {
+        templateUrl: '/partials/mobile',
+        controller: 'ChangeMobileController'
+      }).
+      when('/settings/change-password', {
+        templateUrl: '/partials/password',
+        controller: 'ChangePasswordController'
       }).
       otherwise({
         redirectTo: '/status'

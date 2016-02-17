@@ -106,4 +106,82 @@ router.get('/user', function(req, res) {
 	}
 });
 
+router.put('/user', function(req, res){
+	if (req.session.auth) {
+		var request = req.body;
+
+		console.log(request['type']);
+
+		User.findOne({_id: req.session.user._id }, function(err, result){
+			switch (request['type']) {
+				case "nameChange":
+					result.firstname = request['firstName'];
+					result.lastname = request['lastName'];
+					result.save(function(err){
+						if (err) {
+							console.log("ERROR: Could not update users name");
+							res.send({'success': false});
+						} else {
+							console.log("User name updated successfully");
+							res.send({'success': true})
+						}
+					});
+					break;
+
+				case "emailChange":
+					result.email = request['email'];
+					result.save(function(err){
+						if (err) {
+							console.log("ERROR: Could not update email for user");
+							console.log(result);
+							res.send({'success': false});
+						} else {
+							console.log("Email address updated successfully");
+							res.send({'success': true});
+						}
+					});
+					break;
+
+				case "mobileChange":
+					result.mobile = request['mobile'];
+					result.save(function(err){
+						if (err) {
+							console.log("ERROR: Could not update users mobile");
+							res.send({'success': false});
+						} else {
+							console.log("Mobile updated successfully");
+							res.send({'success': true})
+						}
+					});
+					break;
+				case "passwordChange":
+					result.comparePassword(request['currentPassword'], function(err, isMatch){
+						if (isMatch) {
+							console.log('Passwords did match');
+							result.password = request['newPassword'];
+							result.save(function(err){
+								if (err) {
+									console.log("ERROR: Could not save new password");
+									console.log(err);
+									res.send({'success': false});
+								} else {
+									console.log("Password updated successfully");
+									res.send({'success': true})
+								}
+							});
+						} else {
+							console.log("ERROR: Password not correct");
+							res.send({'success': false});
+						}
+					});
+					break;
+			}
+		});
+	} else {
+		console.log('User must be logged in to perform this request');
+		res.send({'success': false});
+	}
+
+});
+
 module.exports = router;

@@ -1,0 +1,17 @@
+div.container
+	div.col-md-4
+		h2 Change Email
+
+		form(name='changeEmailForm', ng-submit='submitForm(changeEmailForm.$valid)', novalidate='')
+			.form-group
+				label(for='email') Email
+				input#email.form-control(ng-model='email', required, name='email')
+			div.row.text-center
+					button.btn.btn-default(type='button', value='Back', onclick="history.back(-1)") Back
+					button.btn.btn-default(type='submit', ng-disabled='changeEmailForm.$invalid') Change
+
+
+
+
+
+
