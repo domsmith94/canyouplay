@@ -243,6 +243,7 @@ router.post('/team/join', function(req, res){
 			if (result.length) {
 				req.session.user.member_of_team = true;
 				req.session.user.is_owner = false;
+				req.session.user.team = result[0]._id;
 				User.findByIdAndUpdate(req.session.user._id, {
 					member_of_team: true,
 					is_owner: false,

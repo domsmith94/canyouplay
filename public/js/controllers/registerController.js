@@ -1,8 +1,8 @@
-myApp.controller('mainController', function($scope, $http, $window, $routeParams) {
+myApp.controller('mainController', function($scope, $http, $window) {
 	var token = location.search.split('=')[1];
 	// Here we get token from URL. This is used when an organiser invites a person to CanYouPlay
 	// the email is sent to person with a token as a URL parameter. 
-	
+
 	 $scope.submitForm = function(isValid) {
 
 	    // check to make sure the form is completely valid

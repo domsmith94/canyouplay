@@ -33,7 +33,7 @@ router.get('/', function(req, res){
 			console.log('There was an error getting the fixtures from Mongo');
 		}
 
-		if (results){
+		if (results.length){
 			console.log('We found some fixtures');
 			var resultsToSend = [];
 
@@ -45,12 +45,10 @@ router.get('/', function(req, res){
 				fixture['side'] = results[i]['side'];
 				resultsToSend.push(fixture);
 			}
-
 			res.send({'fixtures': resultsToSend})
 		}
 
 	});
-
 
 });
 
