@@ -1,4 +1,8 @@
-myApp.controller('mainController', function($scope, $http, $window) {
+myApp.controller('mainController', function($scope, $http, $window, $routeParams) {
+	var token = location.search.split('=')[1];
+	// Here we get token from URL. This is used when an organiser invites a person to CanYouPlay
+	// the email is sent to person with a token as a URL parameter. 
+	
 	 $scope.submitForm = function(isValid) {
 
 	    // check to make sure the form is completely valid
@@ -8,7 +12,8 @@ myApp.controller('mainController', function($scope, $http, $window) {
 						'lastName': $scope.lastName, 
 						'mobile': $scope.mobile,
 						'password': $scope.password.new,
-						'password2': $scope.password.confirm}; 
+						'password2': $scope.password.confirm,
+						'token': token}; 
 
 			var res = $http.post('/api/register', data);
 

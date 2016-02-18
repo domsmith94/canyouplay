@@ -1,4 +1,5 @@
-var canyouplayApp = angular.module('canyouplayApp', ['ui.bootstrap','ngRoute', 'ngAnimate', 'canyouplayControllers', 'validation.match']);
+var canyouplayApp = angular.module('canyouplayApp', ['ui.bootstrap','ngRoute', 'ngAnimate', 'canyouplayControllers',
+                                    'validation.match']);
 
 
 canyouplayApp.run(function($rootScope, $http) {

@@ -40,6 +40,9 @@ router.post('/register', function(req, res){
 								"password2": {
 									'type': 'string',
 									'required': true
+								},
+								"token": {
+									'type': 'string'
 								}
 							}
 						};
@@ -56,6 +59,30 @@ router.post('/register', function(req, res){
 		newUser.mobile = inputData['mobile'];
 		newUser.password = inputData['password'];
 
+		// If the request JSON contains a token, try and find the Token in Mongo. 
+		if (inputData.token) {
+			Invite.findOne({_id: inputData.token}, function(err, invite){
+				if (err) {
+					console.log("There was a problem accessing the invite from DB");
+					console.log(err);
+				// If invite has been found and has not been used
+				} else if (invite && !invite.used) {
+					// Join user who is signing up to the team that invite was created from
+					newUser.team = invite.team;
+					newUser.member_of_team = true;
+					invite.used = true;
+					invite.save(function(err){
+						if (err){
+							console.log(err);
+						} else {
+							console.log("Invite saved");
+						}
+					});
+				}
+			});
+		}
+
+		// Check to see if email address already exists in Mongo
 		User.find({email: inputData['email'].toLowerCase()}, function(err, results){
 			if (results.length) {
 				console.log('User with this email address already in database');
@@ -72,14 +99,9 @@ router.post('/register', function(req, res){
 						console.log('New user has been created and saved to mongodb');
 						res.send({'status': 200, 'message': 'New user created'});
 					}
-
 				});
-
 			}
-		});
-		
-
-
+		});		
 
 	} else {
 		console.log('JSON submitted was not valid');
@@ -305,7 +327,7 @@ router.post('/invite', function(req, res){
 					"From": "ds19g13@soton.ac.uk",
 					"To": invite.email,
 					"Subject": "Invite to CanYouPlay",
-					"TextBody": invite._id,
+					"TextBody": "You have been invited to join CanYouPlay. Your invite id is " + invite._id,
 				}, function(error, success) {
 					if (error) {
 						console.error("Unable to send via postmark: " + error.message);
@@ -320,11 +342,6 @@ router.post('/invite', function(req, res){
 		console.log('JSON submitted was not valid');
 		res.send({'success': false});
 	}
-
-
-
-
-
 });
 
 module.exports = router;
