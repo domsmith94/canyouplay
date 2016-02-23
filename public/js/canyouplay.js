@@ -68,6 +68,10 @@ canyouplayApp.config(['$routeProvider',
         templateUrl: '/partials/invite',
         controller: 'InviteMemberController'
       }).
+      when('/availability', {
+        templateUrl: '/partials/availability',
+        controller: 'AvailabilityController'
+      }).
       otherwise({
         redirectTo: '/status'
       });

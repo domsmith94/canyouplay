@@ -209,7 +209,74 @@ canyouplayControllers.controller('AddFixtureController', function($scope, $http,
 
 });
 
+canyouplayControllers.controller('AvailabilityController', function($scope, $http, $window, $location) {
+  $scope.today = function() {
+    $scope.dt = new Date();
+  };
+
+  $scope.today();
+
+   $scope.toggleMin = function() {
+    $scope.minDate = $scope.minDate ? null : new Date();
+  };
+
+  $scope.toggleMin();
+
+  $scope.maxDate = new Date(2020, 5, 22);
+
+  $scope.open1 = function() {
+    $scope.popup1.opened = true;
+  };
+
+  $scope.setDate = function(year, month, day) {
+    $scope.dt = new Date(year, month, day);
+  };
+
+  $scope.dateOptions = {
+    formatYear: 'yy',
+    startingDay: 1
+  };
+
+  $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+  $scope.format = $scope.formats[0];
+  $scope.altInputFormats = ['M!/d!/yyyy'];
+
+  $scope.popup1 = {
+    opened: false
+  };
+
+  $scope.submitForm = function(isValid) {
+    if (isValid) {
+      $scope.dt.setHours(0);
+      $scope.dt.setMinutes(0);
+      $scope.dt.setSeconds(0);
+      $scope.dt.setMilliseconds(0);
+
+      var data = {
+        'date': $scope.dt,
+        'available': true
+      };
+
+      var res = $http.put('/user/availability', data);
+
+      res.success(function(data, status, headers, config) {
+        if (data['success']) {
+        } else {
+          alert('fixtures could not be added');
+        }
+
+      });
+
+      res.error(function(data, status, headers, config) {
+        alert("The query can't be processed at the moment. Please try again later.");
+      });
+    }
+  };
+
+
+});
+
+
+
 canyouplayControllers.controller('StatusController', function($scope, $http, $window) {
-
-
 });

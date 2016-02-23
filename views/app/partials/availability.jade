@@ -1,0 +1,19 @@
+div.container
+	div.col-md-6.col-md-offset-3
+		h2 Availability
+
+		p Below are the dates you've said you're not available to play on. This information will be made available to team owners when selecting players for fixtures.
+		ui.list-group
+			li.list-group-item 17th February 2016
+
+		form(name='availForm', ng-submit='submitForm(availForm.$valid)', novalidate='')
+
+			.form-group
+				label(for='date') Choose A Date You Are Not Available
+				.input-group
+					input.form-control(type='text', name='date', uib-datepicker-popup='{{format}}', ng-model='dt', is-open='popup1.opened', min-date='minDate', max-date='maxDate', datepicker-options='dateOptions', ng-required='true', close-text='Close', alt-input-formats='altInputFormats')
+					span.input-group-btn
+						button.btn.btn-default(type='button', ng-click='open1()')
+							i.glyphicon.glyphicon-calendar
+			div.row.text-center
+				button.btn.btn-default(type='submit', ng-disabled='availForm.$invalid') Update

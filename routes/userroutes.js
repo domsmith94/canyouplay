@@ -185,4 +185,33 @@ router.put('/user', auth.isAuthenticated, function(req, res){
 
 });
 
+router.put('/user/availability', auth.isAuthenticated, function(req, res) {
+
+	User.findOneAndUpdate(
+		{_id: req.session.user._id},
+		{$push: {not_avail_on: req.body['date']}}, 
+		{safe: true, upsert: true},
+		function(err, model) {
+			if (err) {
+				console.log(err);
+				res.send({'success': false});	
+			} else {
+				console.log("Updated availability for user " + req.session.user._id);
+				res.send({'success': true});
+			}
+		}
+	);
+});
+
+router.get('/user/availability', auth.isAuthenticated, function(req, res){
+
+	User.findOne({_id: req.session.user._id}, function(err, result){
+		if (err) {
+			res.send({'success': false});
+		} else {
+			res.send(result.not_avail_on);
+		}
+	});
+});
+
 module.exports = router;

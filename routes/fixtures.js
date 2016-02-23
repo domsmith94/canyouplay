@@ -13,6 +13,7 @@ router.post('/', auth.isTeamOwner, function(req, res){
 	newFixture.side = inputData['side'];
 	newFixture.organiser = req.session.user._id;
 	newFixture.team = req.session.user.team;
+	console.log(req.session.user.team);
 
 	newFixture.save(function(err){
 		if (err) {
