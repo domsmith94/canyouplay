@@ -145,15 +145,6 @@ canyouplayControllers.controller('FixturesController', function($scope, $http, $
 });
 
 canyouplayControllers.controller('AddFixtureController', function($scope, $http, $window, $location) {
-  //Use this API call to see what teams have been input in the past, can prepopulate list
-  $http({
-    method: 'GET',
-    url: '/api/fixtureadd'
-  }).then(function successCallback(response) {
-    $scope.sides = response.data;
-  }, function errorCallback(response) {
-    //Handle errors
-  });
 
   $scope.today = function() {
     $scope.dt = new Date();

@@ -274,24 +274,6 @@ router.post('/team/join', function(req, res){
 	}
 });
 
-router.get('/fixtureadd', function(req, res){
-	Fixture.find(_id = req.session.user.team).distinct('side', function(err, results) {
-		if (err) {
-			console.log('There was an error finding distinct side values');
-			console.log(err);
-		}
-
-		if (results.length > 0){
-			res.send(results);
-			console.log(results);
-		} else {
-			res.send([]);
-		}		
-
-	});
-
-
-});
 
 router.post('/invite', auth.isTeamOwner, function(req, res){
 	console.log(req.body);
