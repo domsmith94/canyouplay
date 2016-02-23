@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/users');
 var Team = require('../models/team');
+var auth = require('../config/auth');
 
 router.get('/sign-in', function(req, res) {
 	res.render('sign-in',
@@ -81,7 +82,7 @@ router.post('/sign-out', function(req, res){
 
 });
 
-router.get('/user', function(req, res) {
+router.get('/user', auth.isAuthenticated, function(req, res) {
 	if (req.session.auth) {
 		User.findOne({ _id: req.session.user._id }, function(err, result) {
 			Team.findOne({_id: result.team}, function(err2, team) {
@@ -106,7 +107,7 @@ router.get('/user', function(req, res) {
 	}
 });
 
-router.put('/user', function(req, res){
+router.put('/user', auth.isAuthenticated, function(req, res){
 	if (req.session.auth) {
 		var request = req.body;
 

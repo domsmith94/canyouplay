@@ -7,6 +7,7 @@ var Invite = require('../models/invite');
 var postmarkConfig = require('../config/postmark');
 var Validator = require('jsonschema').Validator;
 var postmark = require("postmark")(postmarkConfig.postmarkKey());
+var auth = require('../config/auth');
 
 router.post('/register', function(req, res){
 	// Called in this first stage of registering a new user. We are looking for a JSON from
@@ -184,7 +185,7 @@ router.post('/team', function(req, res) {
 
 });
 
-router.put('/team', function(req, res){
+router.put('/team', auth.isTeamOwner, function(req, res){
 	if (req.session.auth){
 		var request = req.body;
 
@@ -292,7 +293,7 @@ router.get('/fixtureadd', function(req, res){
 
 });
 
-router.post('/invite', function(req, res){
+router.post('/invite', auth.isTeamOwner, function(req, res){
 	console.log(req.body);
 	// Used for creating an invite
 	var v = new Validator();

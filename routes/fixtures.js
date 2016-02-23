@@ -1,8 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var Fixture = require('../models/fixture');
+var auth = require('../config/auth');
 
-router.post('/', function(req, res){
+router.post('/', auth.isTeamOwner, function(req, res){
 	var inputData = req.body;
 
 	var newFixture = new Fixture();
@@ -27,7 +28,7 @@ router.post('/', function(req, res){
 
 });
 
-router.get('/', function(req, res){
+router.get('/', auth.isAuthenticated, function(req, res){
 	Fixture.find({team: req.session.user.team, active: true}, function(err, results){
 		if (err) {
 			console.log('There was an error getting the fixtures from Mongo');
