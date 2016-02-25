@@ -3,8 +3,8 @@ div.container
 		h2 Availability
 
 		p Below are the dates you've said you're not available to play on. This information will be made available to team owners when selecting players for fixtures.
-		ui.list-group
-			li.list-group-item 17th February 2016
+		ui.list-group(ng-repeat="date in userAvailability | orderBy : 'date'")
+			li.list-group-item {{ date | date:"dd/MM/yyyy" }}
 
 		form(name='availForm', ng-submit='submitForm(availForm.$valid)', novalidate='')
 

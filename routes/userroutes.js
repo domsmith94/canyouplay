@@ -189,7 +189,7 @@ router.put('/user/availability', auth.isAuthenticated, function(req, res) {
 
 	User.findOneAndUpdate(
 		{_id: req.session.user._id},
-		{$push: {not_avail_on: req.body['date']}}, 
+		{$addToSet: {not_avail_on: req.body['date']}}, 
 		{safe: true, upsert: true},
 		function(err, model) {
 			if (err) {

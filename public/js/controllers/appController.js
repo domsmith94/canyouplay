@@ -210,6 +210,15 @@ canyouplayControllers.controller('AddFixtureController', function($scope, $http,
 });
 
 canyouplayControllers.controller('AvailabilityController', function($scope, $http, $window, $location) {
+  $http({
+    method: 'GET',
+    url: '/user/availability'
+  }).then(function successCallback(response) {
+    $scope.userAvailability = response.data;
+  }, function errorCallback(response) {
+    //Handle errors here
+  });
+
   $scope.today = function() {
     $scope.dt = new Date();
   };
@@ -252,6 +261,9 @@ canyouplayControllers.controller('AvailabilityController', function($scope, $htt
       $scope.dt.setSeconds(0);
       $scope.dt.setMilliseconds(0);
 
+      $scope.userAvailability.push($scope.dt);
+
+
       var data = {
         'date': $scope.dt,
         'available': true
@@ -263,6 +275,7 @@ canyouplayControllers.controller('AvailabilityController', function($scope, $htt
         if (data['success']) {
         } else {
           alert('fixtures could not be added');
+          $scope.userAvailability.pop();
         }
 
       });
