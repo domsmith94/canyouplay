@@ -311,7 +311,7 @@ router.post('/invite', auth.isTeamOwner, function(req, res){
 					"From": "ds19g13@soton.ac.uk",
 					"To": invite.email,
 					"Subject": "Invite to CanYouPlay",
-					"TextBody": "You have been invited to join CanYouPlay. Your invite id is " + invite._id,
+					"TextBody": "You have been invited to join CanYouPlay. Visit http://localhost:3000/register?token=" + invite._id
 				}, function(error, success) {
 					if (error) {
 						console.error("Unable to send via postmark: " + error.message);
