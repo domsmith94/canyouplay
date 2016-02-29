@@ -151,7 +151,7 @@ canyouplayControllers.controller('FixtureDetailController', function($scope, $ht
   }).then(function successCallback(response) {
     $scope.fixture = response.data;
     var fixDate = new Date(response.data.date);
-    $scope.dt = new Date(fixDate.getFullYear(), fixDate.getMonth(), fixDate.getDay());
+    $scope.dt = new Date(fixDate.getFullYear(), fixDate.getMonth(), fixDate.getDate());
     $scope.time = new Date(0,0,0, fixDate.getHours(), fixDate.getMinutes());
   }, function errorCallback(response) {
     //Handle errors here
@@ -173,7 +173,7 @@ canyouplayControllers.controller('FixtureDetailController', function($scope, $ht
     startingDay: 1
   };
 
-  $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+  $scope.formats = ['dd MMMM yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
   $scope.format = $scope.formats[0];
   $scope.altInputFormats = ['M!/d!/yyyy'];
 
@@ -208,7 +208,7 @@ canyouplayControllers.controller('AddFixtureController', function($scope, $http,
     startingDay: 1
   };
 
-  $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+  $scope.formats = ['dd MMMM yyyy', 'yyyy/MM/dd', 'dd/MM/yyyy', 'shortDate'];
   $scope.format = $scope.formats[0];
   $scope.altInputFormats = ['M!/d!/yyyy'];
 
@@ -287,7 +287,7 @@ canyouplayControllers.controller('AvailabilityController', function($scope, $htt
     startingDay: 1
   };
 
-  $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+  $scope.formats = ['dd MMMM yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
   $scope.format = $scope.formats[0];
   $scope.altInputFormats = ['M!/d!/yyyy'];
 

@@ -15,7 +15,7 @@ div.container
 			.form-group
 				label(for='date') Date
 				.input-group
-					input.form-control(type='date', name='date', uib-datepicker-popup='{{format}}', ng-model='dt', is-open='popup1.opened', min-date='minDate', max-date='maxDate', datepicker-options='dateOptions', ng-required='true', close-text='Close', alt-input-formats='altInputFormats')
+					input.form-control(type='text', name='date', uib-datepicker-popup='{{format}}', ng-model='dt', is-open='popup1.opened', min-date='minDate', max-date='maxDate', datepicker-options='dateOptions', ng-required='true', close-text='Close', alt-input-formats='altInputFormats')
 					span.input-group-btn
 						button.btn.btn-default(type='button', ng-click='open1()')
 							i.glyphicon.glyphicon-calendar

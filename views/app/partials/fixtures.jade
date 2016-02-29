@@ -18,7 +18,7 @@ div.container
 								a(ng-href='#fixture/{{ fixture.id }}') {{ fixture['side'] }}
 							td {{ fixture['opposition'] }}
 							td {{ fixture['location'] }}
-							td {{ fixture['date'] | date:"dd/MM/yyyy" }}
+							td {{ fixture['date'] | date:"dd MMMM yyyy" }}
 							td {{ fixture['date'] | date:"HH:mm" }}
 							//td
 								button.btn.btn-default Organise
