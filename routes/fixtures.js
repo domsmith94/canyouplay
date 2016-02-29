@@ -3,6 +3,8 @@ var router = express.Router();
 var Fixture = require('../models/fixture');
 var Team = require('../models/team')
 var auth = require('../config/auth');
+var Validator = require('jsonschema').Validator;
+
 
 router.post('/', auth.isTeamOwner, function(req, res){
 	var inputData = req.body;
@@ -57,7 +59,7 @@ router.get('/', auth.isAuthenticated, function(req, res){
 });
 
 router.get('/:fixtureId', auth.isAuthenticated, function(req, res) {
-	console.log('Trying to get fixture detail for' + req.params.fixtureId);
+	console.log('Trying to get fixture detail for ' + req.params.fixtureId);
 
 	Fixture.findOne({_id: req.params.fixtureId, team: req.session.user.team }, function(err, fixture){
 		if (err) {
@@ -77,6 +79,66 @@ router.get('/:fixtureId', auth.isAuthenticated, function(req, res) {
 
 	});
 
+});
+
+router.put('/:fixtureId', auth.isAuthenticated, function(req, res){
+	console.log("Received a PUT request for fixture " + req.params.fixtureId);
+
+	var v = new Validator();
+
+	var updateFixtureSchema = {"type": "object",
+							"properties" : {
+								"side" : {
+									"type": "string",
+									'required': true
+								},
+								"opposition": {
+									"type": "string",
+									'required': true
+								},
+								"location": {
+									"type": "string",
+									'required': true
+								},
+								"date": {
+									"type": "string",
+									'required': true
+								},
+
+							}
+						};
+
+	var result = v.validate(req.body, updateFixtureSchema); //result.valid = true if valid
+
+	if (result.valid) {
+		Fixture.findOne({_id: req.params.fixtureId, team: req.session.user.team}, function(err, fixture){
+			if (err) {
+				console.log('Could not find fixture ' + req.params.fixtureId + ' in Mongo store');
+				res.send({'success': false});
+			}
+
+			fixture.side = req.body.side;
+			fixture.opposition = req.body.opposition;
+			fixture.location = req.body.location;
+			fixture.date = req.body.date;
+
+			fixture.save(function(err){
+				if (err) {
+					console.log('Could not save fixture ' + req.params.fixtureId + ' to Mongo store');
+					console.log(err);
+				} else {
+					console.log('Updated information for fixture ' + req.params.fixtureId + ' in mongo');
+					res.send({'success': true});
+				}
+			});
+
+
+	});
+
+	} else {
+		console.log(req.body);
+		res.send({'success': false});
+	}
 });
 
 module.exports = router;

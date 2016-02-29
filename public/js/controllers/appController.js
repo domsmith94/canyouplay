@@ -181,10 +181,41 @@ canyouplayControllers.controller('FixtureDetailController', function($scope, $ht
     opened: false
   };
 
+  $scope.submitForm = function(isValid) {
+    if (isValid) {
+      $scope.dt.setHours($scope.time.getHours());
+      $scope.dt.setMinutes($scope.time.getMinutes());
+      $scope.dt.setSeconds(0);
+
+      var data = {
+        'side': $scope.fixture.side,
+        'opposition': $scope.fixture.opposition,
+        'location': $scope.fixture.location,
+        'date': $scope.dt
+      };
+
+      var res = $http.put('/fixtures/' + $scope.fixture.id, data);
+
+      res.success(function(data, status, headers, config) {
+        if (data['success']) {
+          $location.path('fixtures');
+        } else {
+          alert('We could not update the fixture information');
+        }
+
+      });
+
+      res.error(function(data, status, headers, config) {
+        alert("The query can't be processed at the moment. Please try again later.");
+      });
+
+
+    }
+  };
+
 
 
 });
-
 canyouplayControllers.controller('AddFixtureController', function($scope, $http, $window, $location) {
 
   $scope.today = function() {
