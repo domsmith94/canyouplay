@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Fixture = require('../models/fixture');
+var Team = require('../models/team')
 var auth = require('../config/auth');
 
 router.post('/', auth.isTeamOwner, function(req, res){
@@ -41,6 +42,7 @@ router.get('/', auth.isAuthenticated, function(req, res){
 
 			for(var i = 0; i < results.length; i++) {
 				fixture = {};
+				fixture['id'] = results[i]['_id'];
 				fixture['opposition'] = results[i]['opposition'];
 				fixture['location'] = results[i]['location'];
 				fixture['date'] = results[i]['date'];
@@ -49,6 +51,29 @@ router.get('/', auth.isAuthenticated, function(req, res){
 			}
 			res.send({'fixtures': resultsToSend})
 		}
+
+	});
+
+});
+
+router.get('/:fixtureId', auth.isAuthenticated, function(req, res) {
+	console.log('Trying to get fixture detail for' + req.params.fixtureId);
+
+	Fixture.findOne({_id: req.params.fixtureId, team: req.session.user.team }, function(err, fixture){
+		if (err) {
+			console.log('Could not find fixture ' + req.params.fixtureId + ' in Mongo store');
+			res.send({'success': false});
+		}
+
+		res.send({
+			'id': fixture._id,
+			'side': fixture.side,
+			'location': fixture.location,
+			'opposition': fixture.opposition,
+			'active': fixture.active,
+			'date': fixture.date,
+			'created': fixture.created
+		})
 
 	});
 

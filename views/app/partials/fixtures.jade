@@ -12,10 +12,10 @@ div.container
 							th Location
 							th Date
 							th Time
-							//th
 					tbody
 						tr(ng-repeat="fixture in fixtures | orderBy : 'date'")
-							td {{ fixture['side'] }}
+							td
+								a(ng-href='#fixture/{{ fixture.id }}') {{ fixture['side'] }}
 							td {{ fixture['opposition'] }}
 							td {{ fixture['location'] }}
 							td {{ fixture['date'] | date:"dd/MM/yyyy" }}

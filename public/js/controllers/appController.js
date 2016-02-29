@@ -144,6 +144,47 @@ canyouplayControllers.controller('FixturesController', function($scope, $http, $
 
 });
 
+canyouplayControllers.controller('FixtureDetailController', function($scope, $http, $window, $routeParams) {
+  $http({
+    method: 'GET',
+    url: '/fixtures/' + $routeParams.id
+  }).then(function successCallback(response) {
+    $scope.fixture = response.data;
+    var fixDate = new Date(response.data.date);
+    $scope.dt = new Date(fixDate.getFullYear(), fixDate.getMonth(), fixDate.getDay());
+    $scope.time = new Date(0,0,0, fixDate.getHours(), fixDate.getMinutes());
+  }, function errorCallback(response) {
+    //Handle errors here
+  });
+
+
+  $scope.maxDate = new Date(2020, 5, 22);
+
+  $scope.open1 = function() {
+    $scope.popup1.opened = true;
+  };
+
+  $scope.setDate = function(year, month, day) {
+    $scope.dt = new Date(year, month, day);
+  };
+
+  $scope.dateOptions = {
+    formatYear: 'yy',
+    startingDay: 1
+  };
+
+  $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+  $scope.format = $scope.formats[0];
+  $scope.altInputFormats = ['M!/d!/yyyy'];
+
+  $scope.popup1 = {
+    opened: false
+  };
+
+
+
+});
+
 canyouplayControllers.controller('AddFixtureController', function($scope, $http, $window, $location) {
 
   $scope.today = function() {
