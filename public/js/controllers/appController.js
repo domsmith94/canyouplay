@@ -228,6 +228,10 @@ canyouplayControllers.controller('AskPlayerController', function($scope, $http, 
     //Handle errors here
   });
 
+  $scope.askPlayer = function(playerId) {
+    alert(playerId);
+  }
+
 
 });
 
