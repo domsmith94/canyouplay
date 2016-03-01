@@ -328,4 +328,65 @@ router.post('/invite', auth.isTeamOwner, function(req, res){
 	}
 });
 
+router.get('/ask/:fixtureId', function(req, res){
+	console.log('GET request for Ask page for fixture ' + req.params.fixtureId);
+
+	// Here we now want to find all players and their availability for this date
+	Fixture.findOne({_id: req.params.fixtureId}, function(err, fixture){
+		if (err) {
+			console.log(err);
+			console.log('There was a problem finding this fixture from mongo store');
+		}
+
+		if (!fixture) {
+			console.log('Could not find fixture ' +  req.params.fixtureId + ' in mongo store');
+			return res.send({'success': false});
+		}
+
+		User.find({team: req.session.user.team}, function(err, results){
+			if (err) {
+				console.log(err);
+				console.log('There was a problem finding players from mongo store');
+				return res.send({'success': false});
+			} 
+
+			if (!results.length) {
+				console.log('No players were found with team ID ' + req.session.user.team);
+				return res.send({'success': false});
+			}
+
+			var availability = {};
+			var playersAvail = [];
+			var playersNotAvail = [];
+
+			for (var i = 0; i < results.length; i++) {
+				var playerIsAvail = results[i].isAvailOnDate(fixture.date);
+				console.log(playerIsAvail)
+				var player = {};
+				player['id'] = results[i]._id;
+				player['firstName'] = results[i].firstname;
+				player['lastName'] = results[i].lastname;
+				player['availability'] = playerIsAvail;
+
+				playerIsAvail ? playersAvail.push(player) : playersNotAvail.push(player);
+				
+
+			}
+
+			availability['playersAvail'] = playersAvail;
+			availability['playersNotAvail'] = playersNotAvail;
+
+			console.log(availability);
+			res.send(availability);
+
+
+		});
+
+
+	});
+
+
+
+});
+
 module.exports = router;

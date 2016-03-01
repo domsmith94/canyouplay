@@ -48,5 +48,21 @@ UserSchema.methods.comparePassword = function(candidatePassword, cb) {
     });
 };
 
+UserSchema.methods.isAvailOnDate = function(date) {
+	// check user is available on date or not and return true or false
+	console.log('Checking ' + this.firstname + ' is avail on date '  + date);
+	if (!this.not_avail_on.length) {
+		return true;
+	} else {
+		for (var i = 0; i < this.not_avail_on.length; i++) {
+			console.log(this.not_avail_on[i]);
+			if ((date.getFullYear() === this.not_avail_on[i].getFullYear()) && (date.getMonth() === this.not_avail_on[i].getMonth()) && (date.getDay() === this.not_avail_on[i].getDay())) {
+				return false;
+			}
+		}
+		return true;
+	}
+};
+
 
 module.exports = mongoose.model('User', UserSchema);

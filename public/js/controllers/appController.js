@@ -216,6 +216,21 @@ canyouplayControllers.controller('FixtureDetailController', function($scope, $ht
 
 
 });
+
+canyouplayControllers.controller('AskPlayerController', function($scope, $http, $window, $location, $routeParams) {
+  $http({
+    method: 'GET',
+    url: '/api//ask/' + $routeParams.id
+  }).then(function successCallback(response) {
+    $scope.availData = response.data;
+
+  }, function errorCallback(response) {
+    //Handle errors here
+  });
+
+
+});
+
 canyouplayControllers.controller('AddFixtureController', function($scope, $http, $window, $location) {
 
   $scope.today = function() {
