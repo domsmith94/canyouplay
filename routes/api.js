@@ -375,6 +375,10 @@ router.get('/ask/:fixtureId', function(req, res){
 
 			availability['playersAvail'] = playersAvail;
 			availability['playersNotAvail'] = playersNotAvail;
+			availability['fixtureId'] = fixture._id;
+			availability['opposition'] = fixture.opposition;
+			availability['side'] = fixture.side;
+			availability['date'] = fixture.date;
 
 			console.log(availability);
 			res.send(availability);

@@ -301,7 +301,15 @@ canyouplayControllers.controller('AvailabilityController', function($scope, $htt
     method: 'GET',
     url: '/user/availability'
   }).then(function successCallback(response) {
-    $scope.userAvailability = response.data;
+
+    var dates = [];
+    for (i = 0; i < response.data.length; i++) {
+      var tempDate = new Date(response.data[i]);
+      dates.push(tempDate);
+    }
+
+    $scope.userAvailability = dates;
+
   }, function errorCallback(response) {
     //Handle errors here
   });
