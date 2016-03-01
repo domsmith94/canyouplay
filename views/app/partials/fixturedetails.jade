@@ -1,7 +1,7 @@
 div.container
 	div.row.text-center
 		h2 Fixture Details
-	div.col-md-6
+	div.col-md-6.col-md-offset-3
 		form(name='editFixtureForm', ng-submit='submitForm(editFixtureForm.$valid)', novalidate='')
 			.form-group
 				label(for='selectSide') Team
@@ -24,3 +24,42 @@ div.container
 				input#time.form-control(type='time', name='time', ng-model='time', class='form-control', required)
 			div.row.text-center
 				button.btn.btn-default(type='submit', ng-disabled='editFixtureForm.$invalid') Update
+	div.col-md-6.col-md-offset-3.text-center
+		h2 Team Selection
+	div.col-md-4.col-md-offset-2
+		h3 Playing
+		ul.list-group
+			a.list-group-item
+				h4.list-group-item-heading Dominic Smith
+				p Dominic has confirmed he is playing
+			a.list-group-item
+				h4.list-group-item-heading Mungo Parker
+				p Mungo has confirmed he is playing
+			a.list-group-item
+				h4.list-group-item-heading Freddie Wilson
+				p Freddie has confirmed he is playing
+			a.list-group-item
+				h4.list-group-item-heading Adam Noakes 
+				p Adam has confirmed he is playing
+			a.list-group-item
+				h4.list-group-item-heading Rory Macdonald
+				p Rory has confirmed he is playing
+	div.col-md-4
+		h3 Asked
+		ul.list-group
+			a.list-group-item
+				h4.list-group-item-heading Nick Thuringer
+				p Awaiting response
+			a.list-group-item
+				h4.list-group-item-heading Mungo Parker
+				p Awaiting response
+			a.list-group-item
+				h4.list-group-item-heading Freddie Wilson
+				p Awaiting response
+			a.list-group-item
+				h4.list-group-item-heading Adam Noakes 
+				p Darius cannot play
+			a.list-group-item
+				h4.list-group-item-heading Rory Macdonald
+				p Rory cannot play
+
