@@ -6,8 +6,8 @@ var AskSchema = new Schema({
 	fixture: { type: Schema.ObjectId, required: true },
 	asked_by: { type: Schema.ObjectId, required: true},
 	player: {type: Schema.ObjectId, required: true},
-	responded: {type: Boolean, default: false}
-	is_playing: {type: Boolean, default: true}, 
+	responded: {type: Boolean, default: false},
+	is_playing: {type: Boolean, default: false}, 
 	created: {type:Date, default: Date.now}
 });
 

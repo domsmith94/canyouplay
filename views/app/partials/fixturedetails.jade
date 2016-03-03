@@ -50,19 +50,6 @@ div.container
 	div.col-md-4
 		h3 Asked
 		ul.list-group
-			a.list-group-item
-				h4.list-group-item-heading Nick Thuringer
-				p Awaiting response
-			a.list-group-item
-				h4.list-group-item-heading Mungo Parker
-				p Awaiting response
-			a.list-group-item
-				h4.list-group-item-heading Freddie Wilson
-				p Awaiting response
-			a.list-group-item
-				h4.list-group-item-heading Adam Noakes 
-				p Darius cannot play
-			a.list-group-item
-				h4.list-group-item-heading Rory Macdonald
-				p Rory cannot play
-
+			a.list-group-item(ng-repeat="player in fixture.invited")
+				h4.list-group-item-heading {{ player.firstName }} {{ player.lastName }}
+				p Responded: {{ player.responded }}

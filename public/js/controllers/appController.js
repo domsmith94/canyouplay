@@ -230,6 +230,17 @@ canyouplayControllers.controller('AskPlayerController', function($scope, $http, 
 
   $scope.askPlayer = function(playerId) {
     alert(playerId);
+    var data = {'playerId': playerId};
+    var res = $http.post('/api/ask/' + $routeParams.id, data);
+
+    res.success(function(data){
+      if (data.success) {
+        alert('Player has been asked')
+      } else {
+        alert('There was a problem asking player');
+      }
+
+    });
   }
 
 

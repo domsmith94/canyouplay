@@ -4,6 +4,8 @@ var Fixture = require('../models/fixture');
 var Team = require('../models/team')
 var auth = require('../config/auth');
 var Validator = require('jsonschema').Validator;
+var Ask = require('../models/ask');
+var User = require('../models/users');
 
 
 router.post('/', auth.isTeamOwner, function(req, res){
@@ -67,15 +69,37 @@ router.get('/:fixtureId', auth.isAuthenticated, function(req, res) {
 			res.send({'success': false});
 		}
 
-		res.send({
-			'id': fixture._id,
-			'side': fixture.side,
-			'location': fixture.location,
-			'opposition': fixture.opposition,
-			'active': fixture.active,
-			'date': fixture.date,
-			'created': fixture.created
-		})
+		Ask.find({fixture: fixture._id}, function(err, results){
+			var playersInvited = [];
+
+			function processAsk(i){
+				if (i < results.length){
+					var playerInvited = {};
+					User.findOne({_id: results[i].player}, function(err, player){
+							playerInvited.id = player._id;
+							playerInvited.firstName = player.firstname;
+							playerInvited.lastName = player.lastname;
+							playersInvited.push(playerInvited);
+							processAsk(i+1);
+					});
+				} else {
+					res.send({
+						'id': fixture._id,
+						'side': fixture.side,
+						'location': fixture.location,
+						'opposition': fixture.opposition,
+						'active': fixture.active,
+						'date': fixture.date,
+						'created': fixture.created,
+						'invited': playersInvited
+					});
+
+				}
+			}
+
+			processAsk(0);
+
+		});
 
 	});
 

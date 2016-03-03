@@ -4,6 +4,7 @@ var User = require('../models/users');
 var Team = require('../models/team');
 var Fixture = require('../models/fixture');
 var Invite = require('../models/invite');
+var Ask = require('../models/ask');
 var postmarkConfig = require('../config/postmark');
 var Validator = require('jsonschema').Validator;
 var postmark = require("postmark")(postmarkConfig.postmarkKey());
@@ -391,6 +392,50 @@ router.get('/ask/:fixtureId', function(req, res){
 
 
 
+});
+
+router.post('/ask/:fixtureId', auth.isTeamOwner, function(req, res){
+	console.log('Received an ask request for fixture ' + req.params.fixtureId);
+
+	var v = new Validator();
+
+	var askSchema = {
+		"type": "object",
+		"properties": {
+			"playerId": {
+				"type": "string",
+				"required": true
+			},
+		}
+	};
+
+	var result = v.validate(req.body, askSchema);
+
+	if (result.valid) {
+		Fixture.count({_id: req.params.fixtureId}, function(err, count){
+			if (count > 0){
+				console.log('Fixture does exist in Mongo');
+				ask = new Ask();
+				ask.fixture = req.params.fixtureId;
+				ask.asked_by = req.session.user._id;
+				ask.player = req.body.playerId;
+				ask.save(function(err){
+					if (err) {
+						console.log('Could not save new ask to Mongo');
+						res.send({'success': false});
+					} else {
+						console.log('Ask saved to Mongo');
+						res.send({'success': true});
+					}
+				});
+			} else {
+				res.send({'success': false});
+			}
+		});
+	} else {
+		console.log('JSON submitted was not valid');
+		res.send({'success': false});
+	}
 });
 
 module.exports = router;
