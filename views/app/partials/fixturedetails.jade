@@ -31,8 +31,8 @@ div.container
 		h3 Playing
 		ul.list-group(ng-repeat="player in fixture.playing")
 			a.list-group-item(ng-href='#fixture/{{ fixture.id }}/ask')
-				h4.list-group-item-heading Invite
-				p Invite people to play in fixture
+				h4.list-group-item-heading {{ player.firstName }} {{ player.lastName }}
+				p Agreed to play
 	div.col-md-4
 		h3 Asked
 		ul.list-group
