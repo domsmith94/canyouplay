@@ -332,7 +332,7 @@ router.post('/invite', auth.isTeamOwner, function(req, res){
 router.get('/ask/:fixtureId', function(req, res){
 	console.log('GET request for Ask page for fixture ' + req.params.fixtureId);
 
-	// Here we now want to find all players and their availability for this date
+	// First we try and find the fixture in Mongo based on the URL parameter
 	Fixture.findOne({_id: req.params.fixtureId}, function(err, fixture){
 		if (err) {
 			console.log(err);
@@ -340,10 +340,12 @@ router.get('/ask/:fixtureId', function(req, res){
 		}
 
 		if (!fixture) {
+			// Fixture specified in URL parameter does not exist, we can't go on any further
 			console.log('Could not find fixture ' +  req.params.fixtureId + ' in mongo store');
 			return res.send({'success': false});
 		}
 
+		// Here we find all users from Mongo who are members of the team
 		User.find({team: req.session.user.team}, function(err, results){
 			if (err) {
 				console.log(err);
@@ -351,18 +353,21 @@ router.get('/ask/:fixtureId', function(req, res){
 				return res.send({'success': false});
 			} 
 
+			// If the length of this query is 0, something must be wrong and we can't go any further
 			if (!results.length) {
 				console.log('No players were found with team ID ' + req.session.user.team);
 				return res.send({'success': false});
 			}
 
 			var availability = {};
-			var playersAvail = [];
-			var playersNotAvail = [];
+			var playersAvail = []; // List of player objects who are available
+			var playersNotAvail = []; // List of player objects who are NOT available
 
+			// Iterate through each user and check if they are available on the date of the fixture
 			for (var i = 0; i < results.length; i++) {
+				// True if player is available on date, otherwise false
 				var playerIsAvail = results[i].isAvailOnDate(fixture.date);
-				console.log(playerIsAvail)
+				// console.log(playerIsAvail)
 				var player = {};
 				player['id'] = results[i]._id;
 				player['firstName'] = results[i].firstname;
@@ -374,23 +379,38 @@ router.get('/ask/:fixtureId', function(req, res){
 
 			}
 
-			availability['playersAvail'] = playersAvail;
-			availability['playersNotAvail'] = playersNotAvail;
-			availability['fixtureId'] = fixture._id;
-			availability['opposition'] = fixture.opposition;
-			availability['side'] = fixture.side;
-			availability['date'] = fixture.date;
+			Ask.find({fixture: fixture._id}, function(err, asks){
+				if (err) {
+					console.log(err);
+					console.log('There was a problem finding Asks');
+				}
 
-			console.log(availability);
-			res.send(availability);
+				for (var i = 0; i < asks.length; i++) {
+					for(var x = 0; x < playersAvail.length; x++) {
+						if (playersAvail[x]['id'].equals(asks[i].player)) {
+							// Player has already been asked for this fixture
+							console.log('Player already asked');
+							playersAvail.splice(x, 1);
+						}
 
+					}
+				}
+
+				availability['playersAvail'] = playersAvail;
+				availability['playersNotAvail'] = playersNotAvail;
+				availability['fixtureId'] = fixture._id;
+				availability['opposition'] = fixture.opposition;
+				availability['side'] = fixture.side;
+				availability['date'] = fixture.date;
+
+				console.log(availability);
+				res.send(availability);
+
+			});
 
 		});
 
-
 	});
-
-
 
 });
 

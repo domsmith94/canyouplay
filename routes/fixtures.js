@@ -84,6 +84,7 @@ router.get('/:fixtureId', auth.isAuthenticated, function(req, res) {
 							playerInvited.lastName = player.lastname;
 							playerInvited.responded = results[i].responded;
 							playerInvited.isPlaying = results[i].is_playing;
+							playerInvited.askdate = results[i].created;
 
 							if (player.is_playing) {
 								playersPlaying.push(playerInvited);
