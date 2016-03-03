@@ -70,18 +70,32 @@ router.get('/:fixtureId', auth.isAuthenticated, function(req, res) {
 		}
 
 		Ask.find({fixture: fixture._id}, function(err, results){
+			var playersPlaying = [];
 			var playersInvited = [];
+			var playersDeclined = [];
 
 			function processAsk(i){
-				if (i < results.length){
+				if (i < results.length) {
 					var playerInvited = {};
+
 					User.findOne({_id: results[i].player}, function(err, player){
 							playerInvited.id = player._id;
 							playerInvited.firstName = player.firstname;
 							playerInvited.lastName = player.lastname;
-							playersInvited.push(playerInvited);
+							playerInvited.responded = results[i].responded;
+							playerInvited.isPlaying = results[i].is_playing;
+
+							if (player.is_playing) {
+								playersPlaying.push(playerInvited);
+							} else if (player.responded) {
+								playersDeclined.push(playerInvited);
+							} else {
+								playersInvited.push(playerInvited);
+							}
+
 							processAsk(i+1);
 					});
+
 				} else {
 					res.send({
 						'id': fixture._id,
@@ -91,7 +105,9 @@ router.get('/:fixtureId', auth.isAuthenticated, function(req, res) {
 						'active': fixture.active,
 						'date': fixture.date,
 						'created': fixture.created,
-						'invited': playersInvited
+						'invited': playersInvited,
+						'playing': playersPlaying,
+						'declined': playersDeclined
 					});
 
 				}
