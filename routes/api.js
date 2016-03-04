@@ -520,14 +520,17 @@ router.get('/info', auth.isAuthenticated, function(req, res){
 				askDict.askedBy = ask.asked_by.firstname + ' ' + ask.asked_by.lastname;
 				askDict.id = ask._id;
 
+				console.log(ask);
+
 				if (!ask.responded) {
 					responses.push(askDict);
-				} else if (ask.responded && ask.playing) {
+				} else if (ask.responded && ask.is_playing) {
 					upcoming.push(askDict);
 				}
 
 			}
 
+			console.log(upcoming);
 			res.send({'responses': responses, 'upcoming': upcoming});
 		
 	});

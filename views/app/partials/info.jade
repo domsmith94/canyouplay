@@ -2,17 +2,30 @@ div.container
 	div.col-md-12
 		h1 CanYouPlay
 
-		h2 Responses Required
+		div.row.text-center
+			h2 Responses Required
+		div.row
+			div.col-md-6.col-md-offset-3
+				ul.list-group
+					a.list-group-item(ng-repeat="ask in info.responses")
+						h4.list-group-item-heading {{ ask.side }} v {{ ask.opposition }}
+						p {{ ask.location }} on {{ ask.date | date:"dd MMMM yyyy" }}
+						p Asked to play by {{ ask.askedBy }}
+						div.row.text-center
+							div.col-xs-1.col-xs-offset-4
+								span.glyphicon.glyphicon-ok(ng-click='replyToAsk(ask.id, true, player)')
+							div.col-xs-1.col-xs-offset-2
+								span.glyphicon.glyphicon-remove(ng-click='replyToAsk(ask.id, false, player)')
+
+		div.row.text-center
+			h2 Upcoming Fixtures
 
 		div.col-md-6.col-md-offset-3
 			ul.list-group
-				a.list-group-item(ng-repeat="ask in info.responses")
+				a.list-group-item(ng-repeat="ask in info.upcoming")
 					h4.list-group-item-heading {{ ask.side }} v {{ ask.opposition }}
 					p {{ ask.location }} on {{ ask.date | date:"dd MMMM yyyy" }}
-					p Asked to play by {{ ask.askedBy }}
+					p You Are Playing
 					div.row.text-center
-						div.col-xs-1.col-xs-offset-4
-							span.glyphicon.glyphicon-ok(ng-click='replyToAsk(ask.id, true, player)')
-						div.col-xs-1.col-xs-offset-2
-							span.glyphicon.glyphicon-remove(ng-click='replyToAsk(ask.id, false, player)')
+						span.glyphicon.glyphicon-remove(ng-click='replyToAsk(ask.id, false, player)')
 
