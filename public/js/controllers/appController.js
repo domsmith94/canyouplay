@@ -411,13 +411,20 @@ canyouplayControllers.controller('InfoController', function($scope, $http, $wind
   }, function errorCallback(response) {
   });
 
-  $scope.replyToAsk = function(id, canPlay) {
+  $scope.replyToAsk = function(id, canPlay, item) {
     var data = {
       'askId': id,
       'reply': canPlay
     };
 
-    var res = $http.put('/api/ask', data);    
+    var res = $http.put('/api/ask', data); 
+
+    res.success(function successCallback(data){
+      if (data.success){
+        var index = $scope.info.responses.indexOf(item);
+        $scope.info.responses.splice(index, 1);
+      }
+    }); 
 
   }
 
