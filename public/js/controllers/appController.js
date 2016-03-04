@@ -411,6 +411,16 @@ canyouplayControllers.controller('InfoController', function($scope, $http, $wind
   }, function errorCallback(response) {
   });
 
+  $scope.replyToAsk = function(id, canPlay) {
+    var data = {
+      'askId': id,
+      'reply': canPlay
+    };
+
+    var res = $http.put('/api/ask', data);    
+
+  }
+
 });
 
 canyouplayControllers.controller('StatusController', function($scope, $http, $window) {

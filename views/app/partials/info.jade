@@ -10,3 +10,9 @@ div.container
 					h4.list-group-item-heading {{ ask.side }} v {{ ask.opposition }}
 					p {{ ask.location }} on {{ ask.date | date:"dd MMMM yyyy" }}
 					p Asked to play by {{ ask.askedBy }}
+					div.row.text-center
+						div.col-xs-1.col-xs-offset-4
+							span.glyphicon.glyphicon-ok(ng-click='replyToAsk(ask.id, true)')
+						div.col-xs-1.col-xs-offset-2
+							span.glyphicon.glyphicon-remove(ng-click='replyToAsk(ask.id, false)')
+

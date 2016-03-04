@@ -414,6 +414,48 @@ router.get('/ask/:fixtureId', function(req, res){
 
 });
 
+router.put('/ask', auth.isAuthenticated, function(req, res){
+	console.log('User ' + req.session.user._id + ' has replied to an Ask request');
+
+	var v = new Validator();
+
+	var askReplySchema = {
+		"type": "object",
+		"properties": {
+			"askId": {
+				"type": "string",
+				"required": true
+			},
+			"reply": {
+				"type": "boolean",
+				"required": true
+			},
+		}
+	};
+
+	var result = v.validate(req.body, askReplySchema);
+
+	if (result.valid) {
+		Ask.findOne({_id: req.body.askId}, function(err, ask){
+			ask.responded = true;
+			ask.is_playing = req.body.reply;
+
+			ask.save(function(err){
+				if (err) {
+					console.log(err);
+					res.send({'success': false});
+				} else {
+					res.send({'success': true});
+				}
+			})
+		});
+
+	} else {
+		res.send({'success': false});
+	}
+
+});
+
 router.post('/ask/:fixtureId', auth.isTeamOwner, function(req, res){
 	console.log('Received an ask request for fixture ' + req.params.fixtureId);
 
@@ -476,6 +518,7 @@ router.get('/info', auth.isAuthenticated, function(req, res){
 				askDict.location = ask.fixture.location;
 				askDict.date = ask.fixture.date;
 				askDict.askedBy = ask.asked_by.firstname + ' ' + ask.asked_by.lastname;
+				askDict.id = ask._id;
 
 				if (!ask.responded) {
 					responses.push(askDict);
