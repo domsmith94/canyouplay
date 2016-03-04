@@ -80,6 +80,10 @@ canyouplayApp.config(['$routeProvider',
         templateUrl: '/partials/availability',
         controller: 'AvailabilityController'
       }).
+      when('/panel', {
+        templateUrl: '/partials/info',
+        controller: 'InfoController'
+      }).
       otherwise({
         redirectTo: '/status'
       });

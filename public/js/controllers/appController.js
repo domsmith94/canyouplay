@@ -400,7 +400,18 @@ canyouplayControllers.controller('AvailabilityController', function($scope, $htt
 
 });
 
+canyouplayControllers.controller('InfoController', function($scope, $http, $window) {
+    $http({
+    method: 'GET',
+    url: '/api/info'
+  }).then(function successCallback(response) {
+    $scope.info = response.data;
 
+
+  }, function errorCallback(response) {
+  });
+
+});
 
 canyouplayControllers.controller('StatusController', function($scope, $http, $window) {
 });

@@ -458,4 +458,37 @@ router.post('/ask/:fixtureId', auth.isTeamOwner, function(req, res){
 	}
 });
 
+router.get('/info', auth.isAuthenticated, function(req, res){
+	console.log('Recieved a info request from ' + req.session.user._id);
+
+	// Get all Asks for this player
+	Ask.find({player: req.session.user._id}).
+		populate('fixture').
+		populate('asked_by').
+		exec(function(err, asks){
+			var responses = [];
+			var upcoming = [];
+			for (var i = 0; i < asks.length; i++) {
+				askDict = {};
+				var ask = asks[i];
+				askDict.opposition = ask.fixture.opposition;
+				askDict.side = ask.fixture.side;
+				askDict.location = ask.fixture.location;
+				askDict.date = ask.fixture.date;
+				askDict.askedBy = ask.asked_by.firstname + ' ' + ask.asked_by.lastname;
+
+				if (!ask.responded) {
+					responses.push(askDict);
+				} else if (ask.responded && ask.playing) {
+					upcoming.push(askDict);
+				}
+
+			}
+
+			res.send({'responses': responses, 'upcoming': upcoming});
+		
+	});
+
+});
+
 module.exports = router;

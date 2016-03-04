@@ -1,0 +1,12 @@
+div.container
+	div.col-md-12
+		h1 CanYouPlay
+
+		h2 Responses Required
+
+		div.col-md-6.col-md-offset-3
+			ul.list-group
+				a.list-group-item(ng-repeat="ask in info.responses")
+					h4.list-group-item-heading {{ ask.side }} v {{ ask.opposition }}
+					p {{ ask.location }} on {{ ask.date | date:"dd MMMM yyyy" }}
+					p Asked to play by {{ ask.askedBy }}
