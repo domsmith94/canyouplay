@@ -411,7 +411,7 @@ canyouplayControllers.controller('InfoController', function($scope, $http, $wind
   }, function errorCallback(response) {
   });
 
-  $scope.replyToAsk = function(id, canPlay, item) {
+  $scope.replyToAsk = function(id, canPlay, item, ask) {
     var data = {
       'askId': id,
       'reply': canPlay
@@ -421,14 +421,18 @@ canyouplayControllers.controller('InfoController', function($scope, $http, $wind
 
     res.success(function successCallback(data){
       if (data.success){
+        // Remove element from responses list immediately
         var index = $scope.info.responses.indexOf(item);
         $scope.info.responses.splice(index, 1);
+
+        // If user has replied they are playing add fixture to upcoming list
+        if (canPlay) {
+          $scope.info.upcoming.push(item);
+        }
+
       }
     }); 
 
   }
 
-});
-
-canyouplayControllers.controller('StatusController', function($scope, $http, $window) {
 });

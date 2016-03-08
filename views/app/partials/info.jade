@@ -10,7 +10,7 @@ div.container
 					a.list-group-item(ng-show='info.responses.length===0')
 						h4.list-group-item-heading No Responses Required
 						p You haven't recieved any invitations you need to respond to at the moment. We'll let you know when you do.
-					a.list-group-item(ng-repeat="ask in info.responses | orderBy: 'date'")
+					a.list-group-item(ng-href='#fixture/{{ ask.fixtureId }}', ng-repeat="ask in info.responses | orderBy: 'date'")
 						div.row
 							div.col-xs-10
 								h4.list-group-item-heading {{ ask.side }} v {{ ask.opposition }}
@@ -18,9 +18,9 @@ div.container
 								p Asked to play by {{ ask.askedBy }}
 							div.col-xs-2
 								div.row.text-center
-									span.glyphicon.glyphicon-ok(ng-click='replyToAsk(ask.id, true, player)')
+									span.glyphicon.glyphicon-response.glyphicon-ok(ng-click='replyToAsk(ask.id, true, ask)')
 								div.row.text-center
-									span.glyphicon.glyphicon-remove(ng-click='replyToAsk(ask.id, false, player)')
+									span.glyphicon.glyphicon-response.glyphicon-remove.ask-response(ng-click='replyToAsk(ask.id, false, ask)')
 
 		div.row.text-center
 			h2 Upcoming Fixtures
@@ -30,9 +30,12 @@ div.container
 				a.list-group-item(ng-show='info.upcoming.length===0')
 						h4.list-group-item-heading No Upcoming Fixtures
 						p You aren't scheduled to play in any upcoming fixtures. You can see the team schedule by visting Fixtures
-				a.list-group-item(ng-repeat="ask in info.upcoming | orderBy: 'date'")
-					h4.list-group-item-heading {{ ask.side }} v {{ ask.opposition }}
-					p {{ ask.location }} on {{ ask.date | date:"dd MMMM yyyy" }}
-					p You Are Playing
-					div.row.text-center
-						span.glyphicon.glyphicon-remove(ng-click='replyToAsk(ask.id, false, player)')
+				a.list-group-item(ng-href='#fixture/{{ ask.fixtureId }}', ng-repeat="ask in info.upcoming | orderBy: 'date'")
+					div.row
+						div.col-xs-10
+							h4.list-group-item-heading {{ ask.side }} v {{ ask.opposition }}
+							p {{ ask.location }} on {{ ask.date | date:"dd MMMM yyyy" }}
+							p You Are Playing
+						div.col-xs-2
+							div.row.text-center
+								span.glyphicon.glyphicon-response.glyphicon-remove(ng-click='replyToAsk(ask.id, false, player)')

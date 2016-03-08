@@ -4,5 +4,13 @@
     float: none;
 }
 
+.glyphicon-response {
+    font-size: 25px;
+}
+
+.ask-response {
+	padding: 0.5cm 0cm 0cm 0cm;
+}
+
 .nounderline{text-decoration: none}
 .nounderline:hover{text-decoration: none}

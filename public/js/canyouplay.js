@@ -28,6 +28,10 @@ canyouplayApp.run(function($rootScope, $http) {
 canyouplayApp.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
+      when('/', {
+        templateUrl: '/partials/info',
+        controller: 'InfoController'
+      }).
       when('/settings', {
         templateUrl: 'partials/settings',
         controller: 'SettingsController'
@@ -47,10 +51,6 @@ canyouplayApp.config(['$routeProvider',
       when('/fixtures/add', {
         templateUrl: '/partials/addfixture',
         controller: 'AddFixtureController'
-      }).
-      when('/status', {
-      	templateUrl: '/partials/status',
-      	controller: 'StatusController'
       }).
       when('/settings/changename', {
         templateUrl: '/partials/name',
@@ -85,7 +85,7 @@ canyouplayApp.config(['$routeProvider',
         controller: 'InfoController'
       }).
       otherwise({
-        redirectTo: '/status'
+        redirectTo: '/'
       });
   }]);
 

@@ -517,7 +517,6 @@ router.get('/info', auth.isAuthenticated, function(req, res){
 			// were scheduled to start in the last 24 hours of the request
 			var relevantDateUpcoming = new Date();
 			relevantDateUpcoming.setDate(relevantDateUpcoming.getDate()-1);
-			console.log(relevantDateUpcoming);
 
 			// Process all Asks related to player
 			for (var i = 0; i < asks.length; i++) {
@@ -529,6 +528,7 @@ router.get('/info', auth.isAuthenticated, function(req, res){
 				askDict.date = ask.fixture.date;
 				askDict.askedBy = ask.asked_by.firstname + ' ' + ask.asked_by.lastname;
 				askDict.id = ask._id;
+				askDict.fixtureId = ask.fixture._id;
 
 				// Push to responses array if player has not responded, upcoming if they have and are playing
 				if (!ask.responded) {
