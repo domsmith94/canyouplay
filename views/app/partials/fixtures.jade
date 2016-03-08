@@ -13,7 +13,7 @@ div.container
 							th Date
 							th Time
 					tbody
-						tr(ng-repeat="fixture in fixtures | orderBy")
+						tr(ng-repeat="fixture in fixtures | orderBy: 'date'")
 							td
 								a(ng-href='#fixture/{{ fixture.id }}') {{ fixture['side'] }}
 							td {{ fixture['opposition'] }}
