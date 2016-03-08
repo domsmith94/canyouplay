@@ -8,8 +8,24 @@
     font-size: 25px;
 }
 
+.ask {
+	font-size: 25px;
+}
+
 .ask-response {
 	padding: 0.5cm 0cm 0cm 0cm;
+}
+
+.playing {
+	background-color: #00cc66;
+}
+
+.asked {
+	background-color: #ffff99;
+}
+
+.declined {
+	background-color: #ff5c33;
 }
 
 .nounderline{text-decoration: none}
