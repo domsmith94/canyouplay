@@ -7,21 +7,29 @@ div.container
 		div.row
 			div.col-md-6.col-md-offset-3
 				ul.list-group
+					a.list-group-item(ng-show='info.responses.length===0')
+						h4.list-group-item-heading No Responses Required
+						p You haven't recieved any invitations you need to respond to at the moment. We'll let you know when you do.
 					a.list-group-item(ng-repeat="ask in info.responses | orderBy: 'date'")
-						h4.list-group-item-heading {{ ask.side }} v {{ ask.opposition }}
-						p {{ ask.location }} on {{ ask.date | date:"dd MMMM yyyy" }}
-						p Asked to play by {{ ask.askedBy }}
-						div.row.text-center
-							div.col-xs-1.col-xs-offset-4
-								span.glyphicon.glyphicon-ok(ng-click='replyToAsk(ask.id, true, player)')
-							div.col-xs-1.col-xs-offset-2
-								span.glyphicon.glyphicon-remove(ng-click='replyToAsk(ask.id, false, player)')
+						div.row
+							div.col-xs-10
+								h4.list-group-item-heading {{ ask.side }} v {{ ask.opposition }}
+								p {{ ask.location }} on {{ ask.date | date:"dd MMMM yyyy" }}
+								p Asked to play by {{ ask.askedBy }}
+							div.col-xs-2
+								div.row.text-center
+									span.glyphicon.glyphicon-ok(ng-click='replyToAsk(ask.id, true, player)')
+								div.row.text-center
+									span.glyphicon.glyphicon-remove(ng-click='replyToAsk(ask.id, false, player)')
 
 		div.row.text-center
 			h2 Upcoming Fixtures
 
 		div.col-md-6.col-md-offset-3
 			ul.list-group
+				a.list-group-item(ng-show='info.upcoming.length===0')
+						h4.list-group-item-heading No Upcoming Fixtures
+						p You aren't scheduled to play in any upcoming fixtures. You can see the team schedule by visting Fixtures
 				a.list-group-item(ng-repeat="ask in info.upcoming | orderBy: 'date'")
 					h4.list-group-item-heading {{ ask.side }} v {{ ask.opposition }}
 					p {{ ask.location }} on {{ ask.date | date:"dd MMMM yyyy" }}
