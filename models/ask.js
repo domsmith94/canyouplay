@@ -10,7 +10,8 @@ var AskSchema = new Schema({
 	player: {type: Schema.ObjectId, required: true, ref: 'User'},
 	responded: {type: Boolean, default: false},
 	is_playing: {type: Boolean, default: false}, 
-	created: {type:Date, default: Date.now}
+	created: {type:Date, default: Date.now},
+	fixdate: {type:Date, required: true}
 });
 
 module.exports = mongoose.model('Ask', AskSchema);

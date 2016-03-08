@@ -391,8 +391,7 @@ router.get('/ask/:fixtureId', function(req, res){
 							// Player has already been asked for this fixture
 							console.log('Player already asked');
 							playersAvail.splice(x, 1);
-						}
-
+						} 
 					}
 				}
 
@@ -436,19 +435,50 @@ router.put('/ask', auth.isAuthenticated, function(req, res){
 	var result = v.validate(req.body, askReplySchema);
 
 	if (result.valid) {
-		Ask.findOne({_id: req.body.askId}, function(err, ask){
-			ask.responded = true;
-			ask.is_playing = req.body.reply;
+		Ask.findOne({_id: req.body.askId}).
+			populate('fixture').
+			exec(function(err, ask){
+				ask.responded = true;
+				ask.is_playing = req.body.reply;
 
-			ask.save(function(err){
-				if (err) {
-					console.log(err);
-					res.send({'success': false});
-				} else {
-					res.send({'success': true});
-				}
-			})
-		});
+				ask.save(function(err){
+					if (err) {
+						console.log(err);
+						res.send({'success': false});
+					} else {
+						res.send({'success': true});
+
+						// Now we must add the date of fixture to a date that is unavailable for person
+						// as they are playing
+
+						User.findOneAndUpdate(
+							{_id: req.session.user._id},
+							{$addToSet: {not_avail_on: ask.fixture.date}}, 
+							{safe: true, upsert: true},
+							function(err, model) {
+								if (err) {
+									console.log(err);
+								} else {
+									console.log("Updated availability for user " + req.session.user._id);
+								}
+							}
+						);
+
+						// The player has accepted to play on a date. This automatically rejects Asks requests to player
+						// for same date...as he cannot play in 2 fixtures on same date
+						Ask.find({player: req.session.user._id, fixdate: ask.fixdate, responded: false}, function(err, asks) {
+							for (var i = 0; i < asks.length; i++) {
+								asks[i].responded = true;
+								asks[i].playing = false;
+								asks[i].save();
+							}
+						});
+
+
+					}
+				});
+			});
+
 
 	} else {
 		res.send({'success': false});
@@ -474,13 +504,14 @@ router.post('/ask/:fixtureId', auth.isTeamOwner, function(req, res){
 	var result = v.validate(req.body, askSchema);
 
 	if (result.valid) {
-		Fixture.count({_id: req.params.fixtureId}, function(err, count){
-			if (count > 0){
+		Fixture.findOne({_id: req.params.fixtureId}, function(err, fixture){
+			if (fixture){
 				console.log('Fixture does exist in Mongo');
 				ask = new Ask();
 				ask.fixture = req.params.fixtureId;
 				ask.asked_by = req.session.user._id;
 				ask.player = req.body.playerId;
+				ask.fixdate = fixture.date;
 				ask.save(function(err){
 					if (err) {
 						console.log('Could not save new ask to Mongo');
