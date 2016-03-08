@@ -23,28 +23,40 @@ div.container
 				label(for='time') Time
 				input#time.form-control(type='time', name='time', ng-model='time', class='form-control', required)
 			div.row.text-center
-				button.btn.btn-default(type='submit', ng-disabled='editFixtureForm.$invalid') Update
+				button.btn.btn-default(type='submit', ng-disabled='editFixtureForm.$invalid', ng-show="currentUser.isOwner") Update
+
 	div.col-md-6.col-md-offset-3.text-center
 		a(ng-href='#fixture/{{ fixture.id }}/ask')
 			h2 Team Selection
+
 	div.col-md-4
 		h3 Playing
-		ul.list-group(ng-repeat="player in fixture.playing")
-			a.list-group-item.playing(ng-href='#fixture/{{ fixture.id }}/ask')
+		ul.list-group
+			a.list-group-item(ng-show='fixture.playing.length===0')
+				p No players have confirmed yet
+			a.list-group-item.playing(ng-repeat="player in fixture.playing", ng-href='#fixture/{{ fixture.id }}/ask')
 				h4.list-group-item-heading {{ player.firstName }} {{ player.lastName }}
 				p Agreed to play
+
 	div.col-md-4
 		h3 Asked
 		ul.list-group
+			a.list-group-item(ng-show='fixture.invited.length===0', ng-href='#fixture/{{ fixture.id }}/ask')
+				p No players have been asked yet. Click to ask
 			a.list-group-item.asked(ng-repeat="player in fixture.invited")
 				h4.list-group-item-heading {{ player.firstName }} {{ player.lastName }}
 				p Awaiting reply. Asked {{ player.askdate | date:"d MMMM yyyy"  }}
+
 	div.col-md-4
 		h3 Declined
 		ul.list-group
+			a.list-group-item(ng-show='fixture.declined.length===0')
+				p No players have declined
 			a.list-group-item.declined(ng-repeat="player in fixture.declined")
 				h4.list-group-item-heading {{ player.firstName }} {{ player.lastName}}
 				p {{ player.firstName }} has declined
+
+
 	div.col-md-6.col-md-offset-3.text-center
 		a(ng-href='#fixture/{{ fixture.id }}/ask')
 			span.glyphicon.ask.glyphicon-plus

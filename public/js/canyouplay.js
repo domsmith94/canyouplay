@@ -12,6 +12,7 @@ canyouplayApp.run(function($rootScope, $http) {
     $rootScope.currentUser['_id'] = response.data._id;
     $rootScope.currentUser['firstName'] = response.data.firstName;
     $rootScope.currentUser['lastName'] = response.data.lastName;
+    $rootScope.currentUser['isOwner'] = response.data.owner;
     $rootScope.teamName = response.data.teamName;
 
     //TO DO ADD team name to root scope for use in Fixtures page

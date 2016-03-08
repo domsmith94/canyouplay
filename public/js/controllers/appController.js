@@ -131,7 +131,7 @@ canyouplayControllers.controller('InviteMemberController', function($scope, $htt
   };
 });
 
-canyouplayControllers.controller('FixturesController', function($scope, $http, $window) {
+canyouplayControllers.controller('FixturesController', function($scope, $rootScope, $http, $window) {
   $http({
     method: 'GET',
     url: '/fixtures'

@@ -2,9 +2,9 @@ div.container
 	div.col-md-12.text-center
 		ol.breadcrumb
 			li
-				a(href='#fixtures') All Fixtures
+				a(href='#fixtures') Fixtures
 			li
-				a(ng href='#fixture/{{availData.fixtureId}}') Fixture
+				a(ng href='#fixture/{{availData.fixtureId}}') V {{ availData.opposition }}
 			li.active Ask
 
 		h2 Ask Players To Play
@@ -13,6 +13,8 @@ div.container
 	div.col-md-4.col-md-offset-2
 		h4 Availiable On This Date
 		ul.list-group
+			a.list-group-item(ng-show='availData.playersAvail.length===0')
+				p No players seem to be available on this date
 			a.list-group-item.playing(ng-repeat="player in availData.playersAvail", ng-click='askPlayer(player.id, player)')
 				h4.list-group-item-heading {{ player.firstName}} {{ player.lastName}}
 				p Click to ask {{ player.firstName }} to play
