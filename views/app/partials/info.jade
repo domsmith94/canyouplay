@@ -10,7 +10,7 @@ div.container
 					a.list-group-item(ng-show='info.responses.length===0')
 						h4.list-group-item-heading No Responses Required
 						p You haven't recieved any invitations you need to respond to at the moment. We'll let you know when you do.
-					a.list-group-item(ng-href='#fixture/{{ ask.fixtureId }}', ng-repeat="ask in info.responses | orderBy: 'date'")
+					a.list-group-item(ng-repeat="ask in info.responses | orderBy: 'date'")
 						div.row
 							div.col-xs-10
 								h4.list-group-item-heading {{ ask.side }} v {{ ask.opposition }}
@@ -21,6 +21,19 @@ div.container
 									span.glyphicon.glyphicon-response.glyphicon-ok(ng-click='replyToAsk(ask.id, true, ask)')
 								div.row.text-center
 									span.glyphicon.glyphicon-response.glyphicon-remove.ask-response(ng-click='replyToAsk(ask.id, false, ask)')
+
+		div.row.text-center(ng-show='currentUser.isOwner')
+			h2 Responses Received
+		div.row
+			div.col-md-6.col-md-offset-3(ng-show='currentUser.isOwner')
+				ul.list-group
+					a.list-group-item(ng-show='info.recResponses.length === 0')
+						h4.list-group-item Users have made any responses to your Asks
+						p When users reply to an Ask for them to play you'll see them here
+					a.list-group-item(ng-repeat="ask in info.recResponses | orderBy: '-responseDate'")
+						h4.list-group-item-heading {{ ask.side }} v {{ ask.opposition }}
+						p(ng-if="ask.isPlaying") {{ ask.player }} is playing. Responded {{ ask.responseDate | date:"d MMMM yyyy" }} at {{ ask.responseDate | date:"HH:mm" }}
+						p(ng-if="!ask.isPlaying") {{ ask.player }} is not playing
 
 		div.row.text-center
 			h2 Upcoming Fixtures

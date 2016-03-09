@@ -11,7 +11,8 @@ var AskSchema = new Schema({
 	responded: {type: Boolean, default: false},
 	is_playing: {type: Boolean, default: false}, 
 	created: {type:Date, default: Date.now},
-	fixdate: {type:Date, required: true}
+	fixdate: {type:Date, required: true},
+	response_date: {type:Date}
 });
 
 module.exports = mongoose.model('Ask', AskSchema);

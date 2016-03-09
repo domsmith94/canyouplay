@@ -440,6 +440,7 @@ router.put('/ask', auth.isAuthenticated, function(req, res){
 			exec(function(err, ask){
 				ask.responded = true;
 				ask.is_playing = req.body.reply;
+				ask.response_date = Date.now();
 
 				ask.save(function(err){
 					if (err) {
@@ -539,9 +540,11 @@ router.get('/info', auth.isAuthenticated, function(req, res){
 		populate('fixture').
 		populate('asked_by').
 		exec(function(err, asks){
-			// Send 2 seperate arrays, one for responses and ones for fixtures that have been agreed to
+			// Send 3 seperate arrays, one for responses and ones for fixtures that have been agreed to
+			// recRespnses is only sent if user who is logged in is authenticated as team owner
 			var responses = [];
 			var upcoming = [];
+			var recResponses = [];
 
 			// Define what dates are relevant for displaying upcoming fixtures. We don't want to show
 			// fixtures that have already taken place. Currently we show fixtures that are upcoming, or
@@ -567,13 +570,38 @@ router.get('/info', auth.isAuthenticated, function(req, res){
 				} else if (ask.responded && ask.is_playing && (ask.fixture.date > relevantDateUpcoming)) {
 					upcoming.push(askDict);
 				}
-
 			}
 
-			res.send({'responses': responses, 'upcoming': upcoming});
-		
-	});
+			// If team owner has made request send the latest responses to their invitations
+			if (req.session.user.is_owner){
+				Ask.find({asked_by: req.session.user._id, responded: true}).
+					sort('-response_date').
+					populate('fixture').
+					populate('player').
+					exec(function(err, more_asks){
+						for (var i = 0; i < more_asks.length; i++) {
+							askDict = {};
+							var ask = more_asks[i];
+							askDict.opposition = ask.fixture.opposition;
+							askDict.side = ask.fixture.side;
+							askDict.location = ask.fixture.location;
+							askDict.date = ask.fixture.date;
+							askDict.player = ask.player.firstname + ' ' + ask.player.lastname;
+							askDict.id = ask._id;
+							askDict.fixtureId = ask.fixture._id;
+							askDict.isPlaying = ask.is_playing;
+							askDict.responseDate = ask.response_date;
 
+							recResponses.push(askDict);
+						}
+
+						res.send({'responses': responses, 'upcoming': upcoming, 'recResponses': recResponses});
+
+					});
+			} else {
+				res.send({'responses': responses, 'upcoming': upcoming, 'recResponses': recResponses});
+			}		
+	});
 });
 
 module.exports = router;
