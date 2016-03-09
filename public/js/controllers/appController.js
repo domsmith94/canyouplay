@@ -426,7 +426,7 @@ canyouplayControllers.controller('InfoController', function($scope, $http, $wind
   }, function errorCallback(response) {
   });
 
-  $scope.replyToAsk = function(id, canPlay, item, ask) {
+  $scope.replyToAsk = function(id, canPlay, item, whichList) {
     var data = {
       'askId': id,
       'reply': canPlay
@@ -436,9 +436,21 @@ canyouplayControllers.controller('InfoController', function($scope, $http, $wind
 
     res.success(function successCallback(data){
       if (data.success){
+
         // Remove element from responses list immediately
-        var index = $scope.info.responses.indexOf(item);
-        $scope.info.responses.splice(index, 1);
+        // switch statement required as replyToAsk can be called
+        // by both lists. Needed switch statements to remove element from correct list
+        switch(whichList) {
+          case 'responses':
+            var index = $scope.info.responses.indexOf(item);
+            $scope.info.responses.splice(index, 1);
+            break;
+          case 'upcoming':
+            var index = $scope.info.upcoming.indexOf(item);
+            $scope.info.upcoming.splice(index, 1);
+            break;
+        }
+
 
         // If user has replied they are playing add fixture to upcoming list
         if (canPlay) {
