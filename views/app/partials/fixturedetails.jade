@@ -44,9 +44,15 @@ div.container
 			a.list-group-item(ng-show='fixture.invited.length===0', ng-href='#fixture/{{ fixture.id }}/ask')
 				p No players have been asked yet. Click to ask
 			a.list-group-item.asked(ng-repeat="player in fixture.invited")
-				h4.list-group-item-heading {{ player.firstName }} {{ player.lastName }}
-				p Awaiting reply. Asked {{ player.askdate | date:"d MMMM yyyy"  }}
-
+				div.row
+					div.col-xs-10
+						h4.list-group-item-heading {{ player.firstName }} {{ player.lastName }}
+						p Awaiting reply. Asked {{ player.askdate | date:"d MMMM yyyy"  }}
+					div.col-xs-2(ng-if="currentUser.isOwner")
+						div.row.text-center
+							span.glyphicon.glyphicon-minus(ng-click='withdrawAsk(player.askId, item)')
+					
+		
 	div.col-md-4
 		h3 Declined
 		ul.list-group

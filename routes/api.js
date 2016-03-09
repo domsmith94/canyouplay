@@ -532,6 +532,24 @@ router.post('/ask/:fixtureId', auth.isTeamOwner, function(req, res){
 	}
 });
 
+router.delete('/ask/:askId', auth.isTeamOwner, function(req, res){
+	console.log('Recieved a withdraw Ask request for ' + req.params.askId);
+
+	// Used to withdraw Ask requests
+
+	Ask.findOne({_id: req.params.askId}).remove(function(err){
+		if (err) {
+			console.log(err);
+			console.log('Could not delete this ask request');
+			res.send({'success': false});
+		} else {
+			console.log('Deleted Ask request');
+			res.send({'success': true});
+		}
+
+	});
+});
+
 router.get('/info', auth.isAuthenticated, function(req, res){
 	console.log('Recieved a info request from ' + req.session.user._id);
 

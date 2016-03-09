@@ -181,6 +181,21 @@ canyouplayControllers.controller('FixtureDetailController', function($scope, $ht
     opened: false
   };
 
+  $scope.withdrawAsk = function(id, ask) {
+    alert(id);
+
+    var res = $http.delete('/api/ask/' + id);
+
+    res.success(function successCallback(data) {
+      if (data.success) {
+        // Remove element from responses list immediately
+        var index = $scope.fixture.invited.indexOf(ask);
+        $scope.fixture.invited.splice(index, 1);
+      }
+    });
+
+  };
+
   $scope.submitForm = function(isValid) {
     if (isValid) {
       $scope.dt.setHours($scope.time.getHours());
