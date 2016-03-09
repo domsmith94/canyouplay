@@ -12,10 +12,13 @@ div.container
 			| {{ availData.side }} V {{ availData.opposition }}, {{ availData.date | date:"dd MMMM yyyy"}}
 	div.col-md-4.col-md-offset-2
 		h4 Availiable On This Date
+		div.form-group
+			div.input-group
+				input.form-control(type='text', placeholder='Search for player', ng-model='searchPlayer')
 		ul.list-group
 			a.list-group-item(ng-show='availData.playersAvail.length===0')
 				p No players seem to be available on this date
-			a.list-group-item.playing(ng-repeat="player in availData.playersAvail", ng-click='askPlayer(player.id, player)')
+			a.list-group-item.playing(ng-repeat="player in availData.playersAvail | filter:searchPlayer", ng-click='askPlayer(player.id, player)')
 				h4.list-group-item-heading {{ player.firstName}} {{ player.lastName}}
 				p Click to ask {{ player.firstName }} to play
 	div.col-md-4
