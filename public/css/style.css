@@ -8,6 +8,12 @@
     font-size: 25px;
 }
 
+.glyphicon-thumb {
+    font-size: 25px;
+    vertical-align:middle;
+
+}
+
 .ask {
 	font-size: 25px;
 }
@@ -27,6 +33,7 @@
 .declined {
 	background-color: #ff5c33;
 }
+
 
 .nounderline{text-decoration: none}
 .nounderline:hover{text-decoration: none}

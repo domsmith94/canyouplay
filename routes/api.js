@@ -576,6 +576,7 @@ router.get('/info', auth.isAuthenticated, function(req, res){
 			if (req.session.user.is_owner){
 				Ask.find({asked_by: req.session.user._id, responded: true}).
 					sort('-response_date').
+					limit(10).
 					populate('fixture').
 					populate('player').
 					exec(function(err, more_asks){
