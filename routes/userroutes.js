@@ -187,20 +187,38 @@ router.put('/user', auth.isAuthenticated, function(req, res){
 
 router.put('/user/availability', auth.isAuthenticated, function(req, res) {
 
-	User.findOneAndUpdate(
-		{_id: req.session.user._id},
-		{$addToSet: {not_avail_on: req.body['date']}}, 
-		{safe: true, upsert: true},
-		function(err, model) {
-			if (err) {
-				console.log(err);
-				res.send({'success': false});	
-			} else {
-				console.log("Updated availability for user " + req.session.user._id);
-				res.send({'success': true});
+	if (req.body.available) {
+		User.findOneAndUpdate(
+			{_id: req.session.user._id},
+			{$addToSet: {not_avail_on: req.body['date']}}, 
+			{safe: true, upsert: true},
+			function(err, model) {
+				if (err) {
+					console.log(err);
+					res.send({'success': false});	
+				} else {
+					console.log("Updated availability for user " + req.session.user._id);
+					res.send({'success': true});
+				}
 			}
-		}
-	);
+		);
+	} else {
+		User.findOneAndUpdate(
+			{_id: req.session.user._id},
+			{$pull: {not_avail_on: req.body['date']}}, 
+			{safe: true},
+			function(err, model) {
+				if (err) {
+					console.log(err);
+					res.send({'success': false});	
+				} else {
+					console.log("Updated availability for user " + req.session.user._id);
+					res.send({'success': true});
+				}
+			}
+		);
+
+	}
 });
 
 router.get('/user/availability', auth.isAuthenticated, function(req, res){

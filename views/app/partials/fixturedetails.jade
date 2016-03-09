@@ -50,7 +50,7 @@ div.container
 						p Awaiting reply. Asked {{ player.askdate | date:"d MMMM yyyy"  }}
 					div.col-xs-2(ng-if="currentUser.isOwner")
 						div.row.text-center
-							span.glyphicon.glyphicon-minus(ng-click='withdrawAsk(player.askId, item)')
+							span.glyphicon.glyphicon-minus.glyphicon-response(ng-click='withdrawAsk(player.askId, item)')
 					
 		
 	div.col-md-4

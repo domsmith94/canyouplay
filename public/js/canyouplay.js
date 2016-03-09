@@ -37,7 +37,7 @@ canyouplayApp.config(['$routeProvider',
         templateUrl: 'partials/settings',
         controller: 'SettingsController'
       }).
-      when('/fixtures', {
+      when('/fixture', {
       	templateUrl: '/partials/fixtures',
       	controller: 'FixturesController'
       }).
@@ -49,7 +49,7 @@ canyouplayApp.config(['$routeProvider',
         templateUrl: 'partials/ask',
         controller: 'AskPlayerController'
       }).
-      when('/fixtures/add', {
+      when('/fixture/add', {
         templateUrl: '/partials/addfixture',
         controller: 'AddFixtureController'
       }).
@@ -80,10 +80,6 @@ canyouplayApp.config(['$routeProvider',
       when('/availability', {
         templateUrl: '/partials/availability',
         controller: 'AvailabilityController'
-      }).
-      when('/panel', {
-        templateUrl: '/partials/info',
-        controller: 'InfoController'
       }).
       otherwise({
         redirectTo: '/'

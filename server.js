@@ -20,7 +20,6 @@ mongoose.connect(dbConfig.getMongoURI()); //connect once
 
 var bodyParser = require('body-parser');
 var api = require('./routes/api'); // Define and use the API routes
-var dashboard = require('./routes/dashboard');
 var core = require('./routes/core');
 var userroutes = require('./routes/userroutes');
 var fixtureroutes = require('./routes/fixtures');
@@ -36,7 +35,6 @@ app.use(session(sessionOptions));
 
 app.use('/api', api);
 app.use('/app', core);
-app.use('/dashboard', dashboard);
 app.use('/', userroutes);
 app.use('/fixtures', fixtureroutes);
 app.use('/partials', partials);
@@ -49,10 +47,16 @@ app.get('/', function(req, res) {
 
 
 app.get('/register', function(req, res){
+	if (req.session.auth) {
+		console.log('User already logged in');
+		res.redirect('/app');
+	} else {
+
+
 	res.render('register',
 		{title: 'Register - CanYouPlay',
 			user: req.session.auth});
-
+	}
 });
 
 app.get('/status', function(req, res) {

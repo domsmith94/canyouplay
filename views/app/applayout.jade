@@ -32,10 +32,12 @@ html
 					#navbar.navbar-collapse.collapse(uib-collapse="navCollapsed")
 						ul.nav.navbar-nav
 							li
-								a(href='#/fixtures', ng-click='navCollapsed = !navCollapsed') Fixtures
+								a(href='#fixture', ng-click='navCollapsed = !navCollapsed') Fixtures
 						ul.nav.navbar-nav.navbar-right
 								li
-									a(href='#/settings', ng-click='navCollapsed = !navCollapsed') Settings
+									a(href='#availability', ng-click='navCollapsed') Availability
+								li
+									a(href='#settings', ng-click='navCollapsed = !navCollapsed') Settings
 								li
 									form(method='post', action='/sign-out')
 										input(type='hidden', name='action', value='logout')

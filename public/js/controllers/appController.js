@@ -131,7 +131,7 @@ canyouplayControllers.controller('InviteMemberController', function($scope, $htt
   };
 });
 
-canyouplayControllers.controller('FixturesController', function($scope, $rootScope, $http, $window) {
+canyouplayControllers.controller('FixturesController', function($scope, $rootScope, $http, $window, $location) {
   $http({
     method: 'GET',
     url: '/fixtures'
@@ -141,6 +141,11 @@ canyouplayControllers.controller('FixturesController', function($scope, $rootSco
   }, function errorCallback(response) {
     //Handle errors here
   });
+
+  $scope.viewFixture = function(fixture) {
+    $location.path('fixture/' + fixture.id);
+
+  }
 
 });
 
@@ -372,7 +377,7 @@ canyouplayControllers.controller('AvailabilityController', function($scope, $htt
     startingDay: 1
   };
 
-  $scope.formats = ['dd MMMM yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+  $scope.formats = ['d MMMM yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
   $scope.format = $scope.formats[0];
   $scope.altInputFormats = ['M!/d!/yyyy'];
 
@@ -411,6 +416,31 @@ canyouplayControllers.controller('AvailabilityController', function($scope, $htt
       });
     }
   };
+
+  $scope.updateAvailability = function(date) {
+    var data = {
+      'date': date,
+      'available': false
+    };
+
+    var res = $http.put('/user/availability', data);
+
+    res.success(function(data, status, headers, config) {
+        if (data.success) {
+          alert('Date removed');
+        } else {
+            alert('Could not remove date');
+        }
+
+      });
+
+
+
+
+
+
+  }
+
 
 
 });
