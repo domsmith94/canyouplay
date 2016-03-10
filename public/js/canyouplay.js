@@ -57,6 +57,10 @@ canyouplayApp.config(['$routeProvider',
         templateUrl: 'partials/ask',
         controller: 'AskPlayerController'
       }).
+      when('/fixture/:id/cancel', {
+        templateUrl: 'partials/cancel',
+        controller: 'CancelController'
+      }).
       when('/settings/changename', {
         templateUrl: '/partials/name',
         controller: 'ChangeNameController'

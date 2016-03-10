@@ -186,4 +186,48 @@ router.put('/:fixtureId', auth.isAuthenticated, function(req, res){
 	}
 });
 
+router.patch('/:fixtureId', auth.isTeamOwner, function(req, res){
+	console.log('Recieved a request to cancel fixture');
+	console.log(req.body);
+
+	var v = new Validator();
+
+	var cancelFixtureSchema = {
+		"type": "object",
+		"properties": {
+			"message": {
+				"type": "string",
+				'required': false
+			},
+			"sendSMS": {
+				"type": "boolean",
+				'required': true
+			},
+		}
+	};
+
+	var result = v.validate(req.body, cancelFixtureSchema); //result.valid = true if valid
+
+	if (result.valid) {
+		Fixture.findOne({_id: req.params.fixtureId}, function(err, fixture){
+			if (err) {
+				console.log(err);
+				console.log('Could not find fixture in Mongo');
+				res.send({'success': false})
+			} else {
+				fixture.active = false;
+				fixture.save();
+				res.send({'success': true})
+			}
+		});
+
+
+	} else {
+		console.log(req.body);
+		res.send({'success': false});
+	}
+
+
+});
+
 module.exports = router;

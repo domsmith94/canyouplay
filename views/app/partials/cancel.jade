@@ -1,0 +1,24 @@
+div.container
+	div.page-header
+		h1 Cancel Fixture 
+			a(href='#settings')
+				small Back To Fixture
+
+	div.col-md-6.col-md-offset-3
+		form(name='cancelForm', ng-submit='submitForm(cancelForm.$valid)', novalidate='')
+			.checkbox
+				label
+					input(type='checkbox', ng-model='sendSMS', ng-init='sendSMS=true')
+					|  Send SMS To Players
+
+			div.form-group(ng-if="sendSMS")
+				label(for='message') Message
+				textarea#message.form-control(ng-model='$parent.message', name='message', type='text', rows='5')
+			div.row.text-center
+				button.btn.btn-default(type='submit', ng-disabled='cancelForm.$invalid') Cancel Fixture
+
+
+
+
+
+

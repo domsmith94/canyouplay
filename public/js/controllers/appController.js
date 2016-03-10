@@ -386,7 +386,7 @@ canyouplayControllers.controller('AddFixtureController', function($scope, $http,
       var res = $http.post('/fixtures', data);
 
       res.success(function(data, status, headers, config) {
-        if (data['success']) {
+        if (data.success) {
           $location.path('/fixtures');
         } else {
           alert('fixtures could not be added');
@@ -399,6 +399,37 @@ canyouplayControllers.controller('AddFixtureController', function($scope, $http,
       });
     }
   };
+
+
+});
+
+canyouplayControllers.controller('CancelController', function($scope, $http, $window, $location, $routeParams){
+  $http({
+    method: 'GET',
+    url: '/fixtures/' + $routeParams.id
+  }).then(function successCallback(response) {
+    $scope.fixture = response.data;
+  });
+
+  $scope.submitForm = function(isValid) {
+    if (isValid) {
+
+      var data = {
+        'message': $scope.message,
+        'sendSMS': $scope.sendSMS
+      };
+
+
+      var res = $http.patch('/fixtures/' + $routeParams.id, data);
+
+      res.success(function(data){
+        $location.path('/fixture/' + $routeParams.id);
+
+      });
+    }
+  };
+
+
 
 
 });
