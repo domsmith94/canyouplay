@@ -63,7 +63,9 @@ router.get('/', auth.isAuthenticated, function(req, res){
 router.get('/:fixtureId', auth.isAuthenticated, function(req, res) {
 	console.log('Trying to get fixture detail for ' + req.params.fixtureId);
 
-	Fixture.findOne({_id: req.params.fixtureId, team: req.session.user.team }, function(err, fixture){
+	Fixture.findOne({_id: req.params.fixtureId, team: req.session.user.team }).
+	populate('organiser').
+	exec(function(err, fixture){
 		if (err) {
 			console.log('Could not find fixture ' + req.params.fixtureId + ' in Mongo store');
 			res.send({'success': false});
@@ -106,6 +108,7 @@ router.get('/:fixtureId', auth.isAuthenticated, function(req, res) {
 						'opposition': fixture.opposition,
 						'active': fixture.active,
 						'date': fixture.date,
+						'organiser': fixture.organiser.firstname + ' ' + fixture.organiser.lastname,
 						'created': fixture.created,
 						'invited': playersInvited,
 						'playing': playersPlaying,
