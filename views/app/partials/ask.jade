@@ -1,7 +1,8 @@
 div.container
 	div.page-header
-		h1 Ask Players 
-			small {{ availData.side }} V {{ availData.opposition }}, {{ availData.date | date:"dd MMMM yyyy"}}
+		h1 Ask Players
+			a(ng-href='#fixture/{{availData.fixtureId}}') 
+				small {{ availData.side }} V {{ availData.opposition }}, {{ availData.date | date:"dd MMMM yyyy"}}
 	div.col-md-12.text-center
 		//ol.breadcrumb
 			li

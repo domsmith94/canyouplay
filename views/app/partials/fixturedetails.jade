@@ -1,6 +1,8 @@
 div.container
 	div.page-header
 		h1 Fixture Overview
+			a(ng-href='#fixture')
+				small  All Fixtures
 	div.col-md-5
 		ul.list-group
 			li.list-group-item {{ fixture.side }} v {{ fixture.opposition }}
@@ -54,6 +56,9 @@ div.container
 					div.col-xs-2(ng-if="currentUser.isOwner")
 						div.row.text-center
 							span.glyphicon.glyphicon-minus.glyphicon-response(ng-click='withdrawAsk(player.askId, item)')
+			a.list-group-item.text-center(ng-href='#fixture/{{ fixture.id }}/ask', ng-if='fixture.active')
+				span.glyphicon.ask.glyphicon-plus
+
 					
 		
 	div.col-md-4
@@ -64,8 +69,3 @@ div.container
 			a.list-group-item.declined(ng-repeat="player in fixture.declined")
 				h4.list-group-item-heading {{ player.firstName }} {{ player.lastName}}
 				p {{ player.firstName }} has declined
-
-
-	div.col-md-6.col-md-offset-3.text-center(ng-if='fixture.active')
-		a(ng-href='#fixture/{{ fixture.id }}/ask')
-			span.glyphicon.ask.glyphicon-plus
