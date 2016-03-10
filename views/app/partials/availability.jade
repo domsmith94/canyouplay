@@ -1,9 +1,12 @@
 div.container
-	div.col-md-6.col-md-offset-3
-		h2 Availability
+	div.page-header
+		h1.text-center Availability
 
+	div.col-md-6.col-md-offset-3
 		p Below are the dates you've said you're not available to play on. This information will be made available to team owners when selecting players for fixtures.
 		ui.list-group
+			li.list-group-item(ng-if="userAvailability.length === 0")
+				p You are yet to tell us about any dates your unavailable for.
 			li.list-group-item(ng-repeat="date in userAvailability | orderBy")
 				div.row
 					div.col-xs-11
