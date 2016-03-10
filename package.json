@@ -24,7 +24,8 @@
    "morgan": "1.6.1",
    "cookie-parser": "1.4.1",
    "connect-mongo": "1.1.0",
-   "postmark": "*"
+   "postmark": "*",
+   "twilio": "*"
  },
  "engines": {
  	"node": "5.0.0"

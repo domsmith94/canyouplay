@@ -41,17 +41,21 @@ canyouplayApp.config(['$routeProvider',
       	templateUrl: '/partials/fixtures',
       	controller: 'FixturesController'
       }).
+      when('/fixture/add', {
+        templateUrl: '/partials/addfixture',
+        controller: 'AddFixtureController'
+      }).
       when('/fixture/:id', {
         templateUrl: '/partials/fixturedetails',
         controller: 'FixtureDetailController'
       }).
+      when('/fixture/:id/edit', {
+        templateUrl: '/partials/editfixture',
+        controller: 'EditFixtureController'
+      }).
       when('/fixture/:id/ask', {
         templateUrl: 'partials/ask',
         controller: 'AskPlayerController'
-      }).
-      when('/fixture/add', {
-        templateUrl: '/partials/addfixture',
-        controller: 'AddFixtureController'
       }).
       when('/settings/changename', {
         templateUrl: '/partials/name',

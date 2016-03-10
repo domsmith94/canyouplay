@@ -2,16 +2,17 @@ extends layout
 
 block content
   div.container(ng-controller='loginController')
-    form(name='signinForm', ng-submit='submitForm(signinForm)')
-      h2.form-signin-heading Please sign in
-      label.sr-only(for='inputEmail') Email address
-      input#inputEmail.form-control(type='text', placeholder='Email address', required='', name='email'
-      ,ng-model='email', autocomplete='false', autocorrect='false')
-      label.sr-only(for='inputPassword') Password
-      input#inputPassword.form-control(type='password', placeholder='Password', required='', name='password',ng-model='password')
-      .checkbox
-        label
-          input(type='checkbox', value='remember-me')
-          |  Remember me
-      button.btn.btn-lg.btn-primary.btn-block(type='submit') Sign in
+    div.col-md-6.col-md-offset-3
+      form(name='signinForm', ng-submit='submitForm(signinForm)')
+        h2.form-signin-heading Please sign in
+        label.sr-only(for='inputEmail') Email address
+        input#inputEmail.form-control(type='text', placeholder='Email address', required='', name='email'
+        ,ng-model='email', autocomplete='false', autocorrect='false')
+        label.sr-only(for='inputPassword') Password
+        input#inputPassword.form-control(type='password', placeholder='Password', required='', name='password',ng-model='password')
+        .checkbox
+          label
+            input(type='checkbox', value='remember-me')
+            |  Remember me
+        button.btn.btn-lg.btn-primary.btn-block(type='submit') Sign in
   script(src='js/controllers/loginController.js')

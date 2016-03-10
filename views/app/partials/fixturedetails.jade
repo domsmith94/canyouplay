@@ -1,29 +1,26 @@
 div.container
-	div.row.text-center
-		h2 Fixture Overview
-	div.col-md-6.col-md-offset-3
-		form(name='editFixtureForm', ng-submit='submitForm(editFixtureForm.$valid)', novalidate='')
-			.form-group
-				label(for='selectSide') Team
-				input#selectSide.form-control(ng-model='fixture.side', required, name='side')
-			.form-group
-				label(for='opposition') Opposition
-				input#opposition.form-control(type='text', name='opposition', ng-model='fixture.opposition', class='form-control', required)
-			.form-group
-				label(for='location') Location
-				input#location.form-control(type='text', name='location', ng-model='fixture.location', class='form-control', required)
-			.form-group
-				label(for='date') Date
-				.input-group
-					input.form-control(type='text', name='date', uib-datepicker-popup='{{format}}', ng-model='dt', is-open='popup1.opened', min-date='minDate', max-date='maxDate', datepicker-options='dateOptions', ng-required='true', close-text='Close', alt-input-formats='altInputFormats')
-					span.input-group-btn
-						button.btn.btn-default(type='button', ng-click='open1()')
-							i.glyphicon.glyphicon-calendar
-			.form-group
-				label(for='time') Time
-				input#time.form-control(type='time', name='time', ng-model='time', class='form-control', required)
-			div.row.text-center
-				button.btn.btn-default(type='submit', ng-disabled='editFixtureForm.$invalid', ng-show="currentUser.isOwner") Update
+	div.page-header
+		h1 Fixture Overview
+	div.col-md-5
+		ul.list-group
+			a.list-group-item
+				p {{ fixture.side }} v {{ fixture.opposition }}
+				p Location: {{ fixture.location }}
+				p Date: {{ fixture.date | date:"d MMMM yyyy" }} - Still going ahead
+				p Time: {{ fixture.date | date:"HH:mm" }}
+
+	div.col-md-5.col-md-offset-2
+		ul.list-group
+			a.list-group-item
+				p 3 payers are currently scheduled to play
+				p 5 players have yet to respond
+				p 2 players have declined
+				p Organised by Dominic Smith Edit
+
+
+
+
+
 
 	div.col-md-6.col-md-offset-3.text-center
 		a(ng-href='#fixture/{{ fixture.id }}/ask')

@@ -237,6 +237,77 @@ canyouplayControllers.controller('FixtureDetailController', function($scope, $ht
 
 });
 
+canyouplayControllers.controller('EditFixtureController', function($scope, $http, $location, $routeParams){
+    $http({
+    method: 'GET',
+    url: '/fixtures/' + $routeParams.id
+  }).then(function successCallback(response) {
+    $scope.fixture = response.data;
+    var fixDate = new Date(response.data.date);
+    $scope.dt = new Date(fixDate.getFullYear(), fixDate.getMonth(), fixDate.getDate());
+    $scope.time = new Date(0,0,0, fixDate.getHours(), fixDate.getMinutes());
+  }, function errorCallback(response) {
+    //Handle errors here
+  });
+
+
+  $scope.maxDate = new Date(2020, 5, 22);
+
+  $scope.open1 = function() {
+    $scope.popup1.opened = true;
+  };
+
+  $scope.setDate = function(year, month, day) {
+    $scope.dt = new Date(year, month, day);
+  };
+
+  $scope.dateOptions = {
+    formatYear: 'yy',
+    startingDay: 1
+  };
+
+  $scope.formats = ['dd MMMM yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+  $scope.format = $scope.formats[0];
+  $scope.altInputFormats = ['M!/d!/yyyy'];
+
+  $scope.popup1 = {
+    opened: false
+  };
+
+  $scope.submitForm = function(isValid) {
+    if (isValid) {
+      $scope.dt.setHours($scope.time.getHours());
+      $scope.dt.setMinutes($scope.time.getMinutes());
+      $scope.dt.setSeconds(0);
+
+      var data = {
+        'side': $scope.fixture.side,
+        'opposition': $scope.fixture.opposition,
+        'location': $scope.fixture.location,
+        'date': $scope.dt
+      };
+
+      var res = $http.put('/fixtures/' + $scope.fixture.id, data);
+
+      res.success(function(data, status, headers, config) {
+        if (data['success']) {
+          $location.path('fixtures');
+        } else {
+          alert('We could not update the fixture information');
+        }
+
+      });
+
+      res.error(function(data, status, headers, config) {
+        alert("The query can't be processed at the moment. Please try again later.");
+      });
+
+
+    }
+  };
+
+});
+
 canyouplayControllers.controller('AskPlayerController', function($scope, $http, $window, $location, $routeParams) {
   $http({
     method: 'GET',
@@ -403,9 +474,8 @@ canyouplayControllers.controller('AvailabilityController', function($scope, $htt
       var res = $http.put('/user/availability', data);
 
       res.success(function(data, status, headers, config) {
-        if (data['success']) {
+        if (data.success) {
         } else {
-          alert('fixtures could not be added');
           $scope.userAvailability.pop();
         }
 
@@ -427,7 +497,8 @@ canyouplayControllers.controller('AvailabilityController', function($scope, $htt
 
     res.success(function(data, status, headers, config) {
         if (data.success) {
-          alert('Date removed');
+          var index = $scope.userAvailability.indexOf(date);
+          $scope.userAvailability.splice(index, 1);
         } else {
             alert('Could not remove date');
         }
