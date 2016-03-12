@@ -3,6 +3,3 @@ npm-debug.log
 .DS_Store
 /*.env
 /.idea/
-
-
-config/private.js
