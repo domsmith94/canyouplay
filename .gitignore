@@ -4,3 +4,5 @@ npm-debug.log
 /*.env
 /.idea/
 
+
+config/private.js
