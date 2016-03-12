@@ -1,4 +1,4 @@
-nmodule.exports = {
+module.exports = {
 
 	accountSid: 'SECRET',
 
