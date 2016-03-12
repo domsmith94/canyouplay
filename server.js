@@ -5,7 +5,6 @@ var privateConfig = require('./config/private');
 var app = express();
 var MongoStore = require('connect-mongo')(session);
 var mongoose = require('mongoose');
-var twilio = require("twilio")(privateConfig.accountSid, privateConfig.authToken);
 
 var sessionOptions = {
   secret: "secret",
@@ -68,18 +67,7 @@ app.get('/status', function(req, res) {
 			user: req.session.user
 		});
 });
-/*
-app.get('/sms', function(req, res){
-	twilio.messages.create({
-	    body: "Hello from CanYouPlay",
-	    to: "447595338249",
-	    from: "447481345982"
-	}, function(err, message) {
-	    process.stdout.write(message.sid);
-	});
-})
 
-*/
 
 var port = process.env.PORT || 3000;
 app.listen(port);
