@@ -1,7 +1,6 @@
 var express = require('express');
 var session = require('express-session');
 var dbConfig = require('./config/db');
-var privateConfig = require('./config/private');
 var app = express();
 var MongoStore = require('connect-mongo')(session);
 var mongoose = require('mongoose');
