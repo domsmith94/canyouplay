@@ -1,41 +1,44 @@
 var canyouplayControllers = angular.module('canyouplayControllers', []);
 
 canyouplayControllers.controller('SettingsController', function($scope, $http, $window) {
-	$http({
-		method: 'GET',
-		url: '/user'
-	}).then(function successCallback(response) {
-		$scope.firstName = response.data.firstName;
-		$scope.lastName = response.data.lastName;
-		$scope.email = response.data.email;
-		$scope.mobile = response.data.mobile;
-		$scope.teamName = response.data.teamName;
-		$scope.webName = response.data.webName;
-		$scope.sport = response.data.sport;
-		$scope.teamJoinDate = Date.parse(response.data.teamCreated);
-		$scope.joinDate = Date.parse(response.data.joined);
-		$scope.owner = response.data.owner;
+  $http({
+    method: 'GET',
+    url: '/user'
+  }).then(function successCallback(response) {
+    $scope.firstName = response.data.firstName;
+    $scope.lastName = response.data.lastName;
+    $scope.email = response.data.email;
+    $scope.mobile = response.data.mobile;
+    $scope.teamName = response.data.teamName;
+    $scope.webName = response.data.webName;
+    $scope.sport = response.data.sport;
+    $scope.teamJoinDate = Date.parse(response.data.teamCreated);
+    $scope.joinDate = Date.parse(response.data.joined);
+    $scope.owner = response.data.owner;
 
 
-	}, function errorCallback(response) {
-		$rootScope.currentUser['loggedIn'] = false;
-		alert('Could not find logged in user. Fatal error')
+  }, function errorCallback(response) {
+    $rootScope.currentUser['loggedIn'] = false;
+    alert('Could not find logged in user. Fatal error')
 
-	});
-
-
-
+  });
 
 });
 
 canyouplayControllers.controller('ChangeNameController', function($scope, $http, $window, $location) {
   $scope.submitForm = function(isValid) {
     if (isValid) {
-      var data = {'type': 'nameChange', 'firstName': $scope.firstName, 'lastName': $scope.lastName};
+
+      var data = {
+        'type': 'nameChange',
+        'firstName': $scope.firstName,
+        'lastName': $scope.lastName
+      };
+
       var res = $http.put('/user', data);
 
-      res.success(function(data, status, headers, config){
-        if (data['success']) {
+      res.success(function(data, status, headers, config) {
+        if (data.success) {
           $location.path('/settings');
         }
 
@@ -43,16 +46,19 @@ canyouplayControllers.controller('ChangeNameController', function($scope, $http,
     }
 
   };
-  
+
 });
 
 canyouplayControllers.controller('ChangeEmailController', function($scope, $http, $window, $location) {
   $scope.submitForm = function(isValid) {
     if (isValid) {
-      var data = {'type': 'emailChange', 'email': $scope.email};
+      var data = {
+        'type': 'emailChange',
+        'email': $scope.email
+      };
       var res = $http.put('/user', data);
 
-      res.success(function(data, status, headers, config){
+      res.success(function(data, status, headers, config) {
         if (data['success']) {
           $location.path('/settings');
         }
@@ -61,16 +67,20 @@ canyouplayControllers.controller('ChangeEmailController', function($scope, $http
     }
 
   };
-  
+
 });
 
 canyouplayControllers.controller('ChangeMobileController', function($scope, $http, $window, $location) {
   $scope.submitForm = function(isValid) {
     if (isValid) {
-      var data = {'type': 'mobileChange', 'mobile': $scope.mobile};
+      var data = {
+        'type': 'mobileChange',
+        'mobile': $scope.mobile
+      };
+
       var res = $http.put('/user', data);
 
-      res.success(function(data, status, headers, config){
+      res.success(function(data, status, headers, config) {
         if (data['success']) {
           $location.path('/settings');
         }
@@ -79,17 +89,22 @@ canyouplayControllers.controller('ChangeMobileController', function($scope, $htt
     }
 
   };
-  
+
 });
 
 canyouplayControllers.controller('ChangePasswordController', function($scope, $http, $window, $location) {
   $scope.submitForm = function(isValid) {
     if (isValid) {
-      var data = {'type': 'passwordChange', 'currentPassword': $scope.currentPassword,
-                  'newPassword': $scope.newPassword, 'confirmPassword': $scope.confirmPassword};
+      var data = {
+        'type': 'passwordChange',
+        'currentPassword': $scope.currentPassword,
+        'newPassword': $scope.newPassword,
+        'confirmPassword': $scope.confirmPassword
+      };
+      
       var res = $http.put('/user', data);
 
-      res.success(function(data, status, headers, config){
+      res.success(function(data, status, headers, config) {
         if (data['success']) {
           $location.path('/settings');
         }
@@ -98,7 +113,7 @@ canyouplayControllers.controller('ChangePasswordController', function($scope, $h
     }
 
   };
-  
+
 });
 
 canyouplayControllers.controller('ChangeTeamNameController', function($scope, $http, $window, $location) {
@@ -149,7 +164,7 @@ canyouplayControllers.controller('FixturesController', function($scope, $rootSco
 
 });
 
-canyouplayControllers.controller('FixtureDetailController', function($scope, $http, $window, $routeParams) {
+canyouplayControllers.controller('FixtureDetailController', function($scope, $http, $window, $routeParams, $location, $route) {
   $http({
     method: 'GET',
     url: '/fixtures/' + $routeParams.id
@@ -232,6 +247,22 @@ canyouplayControllers.controller('FixtureDetailController', function($scope, $ht
 
     }
   };
+
+  $scope.unCancel = function() {
+
+    var data = {
+      'cancel': false,
+      'sendSMS': false
+    };
+
+    var res = $http.patch('/fixtures/' + $routeParams.id, data);
+
+    res.success(function(data) {
+      $route.reload();
+
+
+    });
+  }
 
 
 
@@ -416,9 +447,9 @@ canyouplayControllers.controller('CancelController', function($scope, $http, $wi
 
       var data = {
         'message': $scope.message,
-        'sendSMS': $scope.sendSMS
+        'sendSMS': $scope.sendSMS,
+        'cancel': true
       };
-
 
       var res = $http.patch('/fixtures/' + $routeParams.id, data);
 
@@ -428,8 +459,6 @@ canyouplayControllers.controller('CancelController', function($scope, $http, $wi
       });
     }
   };
-
-
 
 
 });
@@ -547,32 +576,36 @@ canyouplayControllers.controller('AvailabilityController', function($scope, $htt
 
 });
 
-canyouplayControllers.controller('InfoController', function($scope, $http, $window) {
-    $http({
+canyouplayControllers.controller('InfoController', function($scope, $http, $window, $location) {
+  $http({
     method: 'GET',
     url: '/api/info'
   }).then(function successCallback(response) {
     $scope.info = response.data;
 
 
-  }, function errorCallback(response) {
-  });
+  }, function errorCallback(response) {});
+
+  $scope.goToFixture = function(fixtureId) {
+    $location.path('/fixture/' + fixtureId);
+
+  };
 
   $scope.replyToAsk = function(id, canPlay, item, whichList) {
-    var data = {
-      'askId': id,
-      'reply': canPlay
-    };
+      var data = {
+        'askId': id,
+        'reply': canPlay
+      };
 
-    var res = $http.put('/api/ask', data); 
+    var res = $http.put('/api/ask', data);
 
-    res.success(function successCallback(data){
-      if (data.success){
+    res.success(function successCallback(data) {
+      if (data.success) {
 
         // Remove element from responses list immediately
         // switch statement required as replyToAsk can be called
         // by both lists. Needed switch statements to remove element from correct list
-        switch(whichList) {
+        switch (whichList) {
           case 'responses':
             var index = $scope.info.responses.indexOf(item);
             $scope.info.responses.splice(index, 1);
@@ -583,14 +616,13 @@ canyouplayControllers.controller('InfoController', function($scope, $http, $wind
             break;
         }
 
-
         // If user has replied they are playing add fixture to upcoming list
         if (canPlay) {
           $scope.info.upcoming.push(item);
         }
 
       }
-    }); 
+    });
 
   }
 

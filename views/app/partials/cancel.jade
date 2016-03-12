@@ -1,7 +1,7 @@
 div.container
 	div.page-header
 		h1 Cancel Fixture 
-			a(href='#settings')
+			a(href='#fixture')
 				small Back To Fixture
 
 	div.col-md-6.col-md-offset-3
@@ -13,7 +13,7 @@ div.container
 
 			div.form-group(ng-if="sendSMS")
 				label(for='message') Message
-				textarea#message.form-control(ng-model='$parent.message', name='message', type='text', rows='5')
+				textarea#message.form-control(ng-model='$parent.message', name='message', type='text', rows='5', placeholder='Enter a message to be sent to all players who were scheduled to take part in this fixture')
 			div.row.text-center
 				button.btn.btn-default(type='submit', ng-disabled='cancelForm.$invalid') Cancel Fixture
 

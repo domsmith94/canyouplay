@@ -6,6 +6,10 @@ var auth = require('../config/auth');
 var Validator = require('jsonschema').Validator;
 var Ask = require('../models/ask');
 var User = require('../models/users');
+var privateConfig = require('../config/private');
+var accountSid = process.env.accountSid || privateConfig.accountSid;
+var authToken = process.env.authToken || privateConfig.authToken;
+var twilio = require("twilio")(accountSid, authToken);
 
 
 router.post('/', auth.isTeamOwner, function(req, res){
@@ -35,7 +39,7 @@ router.post('/', auth.isTeamOwner, function(req, res){
 });
 
 router.get('/', auth.isAuthenticated, function(req, res){
-	Fixture.find({team: req.session.user.team, active: true}, function(err, results){
+	Fixture.find({team: req.session.user.team}, function(err, results){
 		if (err) {
 			console.log('There was an error getting the fixtures from Mongo');
 		}
@@ -187,7 +191,7 @@ router.put('/:fixtureId', auth.isAuthenticated, function(req, res){
 });
 
 router.patch('/:fixtureId', auth.isTeamOwner, function(req, res){
-	console.log('Recieved a request to cancel fixture');
+	console.log('Recieved a request to cancel/uncancel fixture');
 	console.log(req.body);
 
 	var v = new Validator();
@@ -195,6 +199,10 @@ router.patch('/:fixtureId', auth.isTeamOwner, function(req, res){
 	var cancelFixtureSchema = {
 		"type": "object",
 		"properties": {
+			"cancel": {
+				"type": "boolean",
+				"required": true
+			},
 			"message": {
 				"type": "string",
 				'required': false
@@ -215,9 +223,31 @@ router.patch('/:fixtureId', auth.isTeamOwner, function(req, res){
 				console.log('Could not find fixture in Mongo');
 				res.send({'success': false})
 			} else {
-				fixture.active = false;
+				fixture.active = !req.body.cancel;
 				fixture.save();
 				res.send({'success': true})
+				if (req.body.sendSMS) {
+
+					Ask.find({fixture: req.params.fixtureId, is_playing: true})
+						.populate('player')
+						.exec(function(err, asks){
+							if (err) {
+								console.log('There was a problem');
+								console.log(err);
+							} else {
+								for (var i = 0; i < asks.length; i++) {
+									twilio.messages.create({
+									    body: req.body.message,
+									    to: asks[i].player.mobile,
+									    from: "447481345982"
+									}, function(err, message) {
+									    process.stdout.write(message.sid);
+									});
+								}
+							}
+
+					});
+				}
 			}
 		});
 

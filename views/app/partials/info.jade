@@ -3,20 +3,18 @@ div.container
 		h1 CanYouPlay 
 
 	div.col-md-12
-
-
-		div.row.text-center
-			h2 Responses Required
+			
 		div.row
-			div.col-md-6.col-md-offset-3
+			div.col-md-6
+				h2 Responses Required
 				ul.list-group
-					a.list-group-item(ng-show='info.responses.length===0')
+					a#nohover.list-group-item(ng-show='info.responses.length===0')
 						h4.list-group-item-heading No Responses Required
 						p You haven't recieved any invitations you need to respond to at the moment. We'll let you know when you do.
 					a.list-group-item(ng-repeat="ask in info.responses | orderBy: 'date'")
 						div.row
 							div.col-xs-10
-								h4.list-group-item-heading {{ ask.side }} v {{ ask.opposition }}
+								h4(ng-click='goToFixture(ask.fixtureId)').list-group-item-heading.can-click {{ ask.side }} v {{ ask.opposition }}
 								p {{ ask.location }} on {{ ask.date | date:"dd MMMM yyyy" }}
 								p Asked to play by {{ ask.askedBy }}
 							div.col-xs-2
@@ -25,15 +23,32 @@ div.container
 								div.row.text-center
 									span.glyphicon.glyphicon-response.glyphicon-remove.ask-response(ng-click='replyToAsk(ask.id, false, ask)')
 
+			div.col-md-6
+				h2 Upcoming Fixtures
+				ul.list-group
+					a#nohover.list-group-item(ng-show='info.upcoming.length === 0')
+							h4.list-group-item-heading No Upcoming Fixtures
+							p You aren't scheduled to play in any upcoming fixtures. You can see the team schedule by visting Fixtures
+					a.list-group-item(ng-repeat="ask in info.upcoming | orderBy: 'date'")
+						div.row
+							div.col-xs-10
+								h4(ng-click='goToFixture(ask.fixtureId)').list-group-item-heading.can-click {{ ask.side }} v {{ ask.opposition }}
+								p {{ ask.location }} on {{ ask.date | date:"dd MMMM yyyy" }}
+								p(ng-show='ask.active') You Are Playing. If you can no longer play, press the X on the right.
+								p(ng-show='!ask.active') This fixture has been cancelled
+							div.col-xs-2
+								div.row.text-center
+									span.glyphicon.glyphicon-response.glyphicon-remove(ng-click='replyToAsk(ask.id, false, player, "upcoming")', ng-hide='!ask.active')
+
 		div.row.text-center(ng-show='currentUser.isOwner')
 			h2 Responses Received
 		div.row
 			div.col-md-6.col-md-offset-3(ng-show='currentUser.isOwner')
 				ul.list-group
 					a.list-group-item(ng-show='info.recResponses.length === 0')
-						h4.list-group-item Users have made any responses to your Asks
+						h4.list-group-item Users have not made any responses to your Asks
 						p When users reply to an Ask for them to play you'll see them here
-					a.list-group-item(ng-repeat="ask in info.recResponses | orderBy: '-responseDate'")
+					a.list-group-item(ng-repeat="ask in info.recResponses | orderBy: '-responseDate'", ng-href='#fixture/{{ ask.fixtureId }}')
 						div.row
 							div.col-xs-10
 								h4.list-group-item-heading {{ ask.side }} v {{ ask.opposition }}
@@ -43,22 +58,3 @@ div.container
 								div.row.text-center
 									span.glyphicon.glyphicon-thumbs-up.glyphicon-thumb(ng-if="ask.isPlaying")
 									span.glyphicon.glyphicon-thumbs-down.glyphicon-thumb(ng-if="!ask.isPlaying")
-
-
-		div.row.text-center
-			h2 Upcoming Fixtures
-
-		div.col-md-6.col-md-offset-3
-			ul.list-group
-				a.list-group-item(ng-show='info.upcoming.length === 0')
-						h4.list-group-item-heading No Upcoming Fixtures
-						p You aren't scheduled to play in any upcoming fixtures. You can see the team schedule by visting Fixtures
-				a.list-group-item(ng-repeat="ask in info.upcoming | orderBy: 'date'")
-					div.row
-						div.col-xs-10
-							h4.list-group-item-heading {{ ask.side }} v {{ ask.opposition }}
-							p {{ ask.location }} on {{ ask.date | date:"dd MMMM yyyy" }}
-							p You Are Playing. If you can no longer play, press the X on the right.
-						div.col-xs-2
-							div.row.text-center
-								span.glyphicon.glyphicon-response.glyphicon-remove(ng-click='replyToAsk(ask.id, false, player, "upcoming")')

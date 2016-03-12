@@ -68,7 +68,7 @@ app.get('/status', function(req, res) {
 			user: req.session.user
 		});
 });
-
+/*
 app.get('/sms', function(req, res){
 	twilio.messages.create({
 	    body: "Hello from CanYouPlay",
@@ -79,6 +79,7 @@ app.get('/sms', function(req, res){
 	});
 })
 
+*/
 
 var port = process.env.PORT || 3000;
 app.listen(port);

@@ -578,8 +578,10 @@ router.get('/info', auth.isAuthenticated, function(req, res){
 				askDict.side = ask.fixture.side;
 				askDict.location = ask.fixture.location;
 				askDict.date = ask.fixture.date;
+				askDict.active = ask.fixture.active;
 				askDict.askedBy = ask.asked_by.firstname + ' ' + ask.asked_by.lastname;
 				askDict.id = ask._id;
+
 				askDict.fixtureId = ask.fixture._id;
 
 				// Push to responses array if player has not responded, upcoming if they have and are playing

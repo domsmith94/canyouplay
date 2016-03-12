@@ -6,6 +6,11 @@
 
 .glyphicon-response {
     font-size: 25px;
+    cursor: pointer;
+}
+
+.can-click {
+  cursor: pointer;
 }
 
 .glyphicon-thumb {
@@ -22,16 +27,34 @@
 	padding: 0.5cm 0cm 0cm 0cm;
 }
 
-.playing {
+#playing {
 	background-color: #00cc66;
+  
 }
 
-.asked {
+#playing:hover {
+  background-color: #00cc66;
+}
+
+#asked {
 	background-color: #ffff99;
+
 }
 
-.declined {
+#asked:hover {
+  background-color: #ffff99;
+}
+
+#declined {
 	background-color: #ff5c33;
+}
+
+#declined:hover {
+  background-color: #ff5c33;
+}
+
+#nohover:hover {
+  background-color: #ffffff;
 }
 
 

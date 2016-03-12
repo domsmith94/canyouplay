@@ -1,6 +1,6 @@
 div.container
 	div.page-header
-		h1 Fixture Overview 
+		h1 {{ fixture.side }} v {{ fixture.opposition }} 
 			a(ng-href='#fixture')
 				small All Fixtures
 	div.col-md-5
@@ -23,7 +23,7 @@ div.container
 			a.list-group-item(ng-href='#fixture/{{ fixture.id }}/ask', ng-if='fixture.active') Ask Players To Play
 			a.list-group-item(ng-href='#fixture/{{ fixture.id }}/edit', ng-if='fixture.active') Edit Fixture
 			a.list-group-item(ng-href='#fixture/{{ fixture.id }}/cancel', ng-if='fixture.active') Cancel Fixture
-			a.list-group-item(ng-href='#fixture/{{ fixture.id }}/cancel', ng-if='!fixture.active') Uncancel Fixture
+			a.list-group-item(ng-hide='fixture.active', ng-click='unCancel()') Uncancel Fixture
 
 
 	div.col-md-6.col-md-offset-3.text-center
@@ -35,7 +35,7 @@ div.container
 		ul.list-group
 			a.list-group-item(ng-show='fixture.playing.length===0')
 				p No players have confirmed yet
-			a.list-group-item.playing(ng-repeat="player in fixture.playing", ng-href='#fixture/{{ fixture.id }}/ask')
+			a#playing.list-group-item.playing(ng-repeat="player in fixture.playing")
 				h4.list-group-item-heading {{ player.firstName }} {{ player.lastName }}
 				p Agreed to play
 
@@ -44,7 +44,7 @@ div.container
 		ul.list-group
 			a.list-group-item(ng-show='fixture.invited.length===0', ng-href='#fixture/{{ fixture.id }}/ask')
 				p No players have been asked yet. Click to ask
-			a.list-group-item.asked(ng-repeat="player in fixture.invited")
+			a#asked.list-group-item(ng-repeat="player in fixture.invited")
 				div.row
 					div.col-xs-10
 						h4.list-group-item-heading {{ player.firstName }} {{ player.lastName }}
@@ -62,6 +62,6 @@ div.container
 		ul.list-group
 			a.list-group-item(ng-show='fixture.declined.length===0')
 				p No players have declined
-			a.list-group-item.declined(ng-repeat="player in fixture.declined")
+			a#declined.list-group-item.declined(ng-repeat="player in fixture.declined")
 				h4.list-group-item-heading {{ player.firstName }} {{ player.lastName}}
 				p {{ player.firstName }} has declined
