@@ -115,6 +115,10 @@
   color: #f2f2f2;
 }
 
+.jumbotron{
+    background-color:#00c161;
+}
+
 @media (max-width: 767px) {
   .navbar-default .navbar-nav .open .dropdown-menu > li > a {
     color: #ffffff;
