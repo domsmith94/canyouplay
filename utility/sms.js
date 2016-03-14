@@ -15,21 +15,31 @@ module.exports = {
 			populate('fixture').
 			populate('player').
 			exec(function(err, ask){
-				sms = new SMS();
-				sms.ask = ask._id;
-				sms.mobile = ask.player.mobile;
+				SMS.findOne({mobile: ask.player.mobile}, function(err, sms){
+					if (err) {
+						console.log(err)
+						console.log('Problem accessing SMS collection for number ' + ask.player.mobile);
+					} else if (!sms) {
+						// Create a new SMS object
+						sms = new SMS();
+					}
 
-				var message = 'Hi ' + ask.player.firstname + '. You have been asked to play for ' + 
-								ask.fixture.side + ' against ' + ask.fixture.opposition + ' on ' +
-								ask.fixture.date + '. If you can play reply YES, if you can\'t reply NO. Thanks'
+					sms.ask = ask._id;
+					sms.mobile = ask.player.mobile;
 
-				twilio.messages.create({
-					body: message,
-					to: ask.player.mobile,
-					from: "447481345982"
-				}, function(err, message) {
-					console.log(message.sid);
-					sms.save();
+					var message = 'Hi ' + ask.player.firstname + '. You have been asked to play for ' + 
+					ask.fixture.side + ' against ' + ask.fixture.opposition + ' on ' +
+					ask.fixture.date + '. If you can play reply YES, if you can\'t reply NO. Thanks'
+
+					twilio.messages.create({
+						body: message,
+						to: ask.player.mobile,
+						from: "447481345982"
+					}, function(err, message) {
+						console.log(message.sid);
+						sms.save();
+					});
+
 				});
 
 			});
