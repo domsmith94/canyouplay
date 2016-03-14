@@ -59,9 +59,7 @@ module.exports = {
 					ask.save(function(err){
 						if (err) {
 							console.log(err);
-							res.send({'success': false});
 						} else {
-							res.send({'success': true});
 
 							// Now we must add the date of fixture to a date that is unavailable for person
 							// as they are playing
