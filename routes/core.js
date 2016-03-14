@@ -58,8 +58,9 @@ router.get('/join-team', auth.isAuthenticated, function(req, res){
 
 });
 
-router.post('sms-reply', function(req, res){
+router.post('/sms-reply', function(req, res){
 	console.log(req.body);
+	res.send{'Got a SMS'};
 });
 
 module.exports = router;
