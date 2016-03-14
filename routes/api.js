@@ -5,6 +5,8 @@ var Team = require('../models/team');
 var Fixture = require('../models/fixture');
 var Invite = require('../models/invite');
 var Ask = require('../models/ask');
+var SMS = require('../models/sms');
+var smsHelper = require('../utility/sms');
 var postmarkConfig = require('../config/postmark');
 var Validator = require('jsonschema').Validator;
 var postmark = require("postmark")(postmarkConfig.postmarkKey());
@@ -520,6 +522,12 @@ router.post('/ask/:fixtureId', auth.isTeamOwner, function(req, res){
 					} else {
 						console.log('Ask saved to Mongo');
 						res.send({'success': true});
+
+						// Code to Send SMS 
+						if (true) {
+							console.log('Attempting to send SMS');
+							smsHelper.sendSMS(ask._id);
+						}
 					}
 				});
 			} else {

@@ -8,11 +8,9 @@ var Schema = mongoose.Schema;
 var SMSSchema = new Schema({
 
 	ask: { type: Schema.ObjectId, required: true, ref: 'Ask'},
-	player: {type: Schema.ObjectId, required: true, ref: 'User'},
-	number: {type: String, required: true}
-	created: {type:Date, default: Date.now},
+	mobile: {type: String, required: true},
 	send_date: {type:Date, default: Date.now}
-	
+
 });
 
 module.exports = mongoose.model('SMS', SMSSchema);
