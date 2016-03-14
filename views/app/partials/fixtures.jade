@@ -3,7 +3,8 @@ div.container
 		h1 Fixtures 
 
 	div.col-md-12
-		div.panel.panel-default
+		h4.text-center No fixtures have been added for this team yet
+		div.panel.panel-default(ng-if='fixtures.length > 0')
 			div.table-responsive
 				table.table.table-hover
 					thead

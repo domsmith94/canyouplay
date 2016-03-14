@@ -46,7 +46,7 @@ div.container
 			div.col-md-6.col-md-offset-3(ng-show='currentUser.isOwner')
 				ul.list-group
 					a.list-group-item(ng-show='info.recResponses.length === 0')
-						h4.list-group-item Users have not made any responses to your Asks
+						h4.list-group-item-heading Responses Received
 						p When users reply to an Ask for them to play you'll see them here
 					a.list-group-item(ng-repeat="ask in info.recResponses | orderBy: '-responseDate'", ng-href='#fixture/{{ ask.fixtureId }}')
 						div.row
