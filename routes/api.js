@@ -170,6 +170,7 @@ router.post('/team', function(req, res) {
 							if (err) {
 								console.log('Could not update user')
 							} else {
+								req.session.user.team = newTeam._id;
 								console.log('Save user to mongo');
 							}
 						});
@@ -256,6 +257,7 @@ router.post('/team/join', function(req, res){
 					if (err) {
 						console.log('Could not update user')
 					} else {
+						req.session.user.team = resut[0]._id;
 						console.log('Save user to mongo');
 					}
 				});

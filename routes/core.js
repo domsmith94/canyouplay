@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/users');
 var auth = require('../config/auth');
+var smsHelper = require('../utility/sms');
 
 router.get('/', auth.isAuthenticated, function(req, res) {
 	User.findOne({_id: req.session.user._id}, function(err, user) {
@@ -62,7 +63,9 @@ router.post('/sms-reply', function(req, res){
 	var numberFrom = req.body.From;
 	var message = req.body.Body;
 
-	
+	smsHelper.receivedSMS(req.body);
+
+
 	res.send('Got a SMS');
 });
 
