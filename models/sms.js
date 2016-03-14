@@ -8,7 +8,7 @@ var Schema = mongoose.Schema;
 var SMSSchema = new Schema({
 
 	ask: { type: Schema.ObjectId, required: true, ref: 'Ask'},
-	mobile: {type: String, required: true},
+	mobile: {type: String, required: true, unique: true},
 	send_date: {type:Date, default: Date.now}
 
 });

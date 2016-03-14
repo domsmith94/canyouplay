@@ -95,6 +95,8 @@ module.exports = {
 
 			});
 
+			
+			sms.remove();
 
 		});
 
