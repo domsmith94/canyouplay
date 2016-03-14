@@ -1,4 +1,5 @@
 var Ask = require('../models/ask');
+var User = require('../models/users');
 var SMS = require('../models/sms');
 var auth = require('../config/auth');
 
