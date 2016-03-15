@@ -18,7 +18,7 @@ div.container
 			li.list-group-item {{ fixture.declined.length }} players have declined
 			li.list-group-item Organised by {{ fixture.organiser }}
 
-	div.col-md-3
+	div.col-md-3(ng-if='currentUser.isOwner')
 		ul.list-group
 			a.list-group-item(ng-href='#fixture/{{ fixture.id }}/ask', ng-if='fixture.active') Ask Players To Play
 			a.list-group-item(ng-href='#fixture/{{ fixture.id }}/edit', ng-if='fixture.active') Edit Fixture
@@ -27,13 +27,13 @@ div.container
 
 
 	div.col-md-6.col-md-offset-3.text-center
-		a(ng-href='#fixture/{{ fixture.id }}/ask', ng-if='fixture.active')
+		a(ng-href='#fixture/{{ fixture.id }}/ask', ng-if='fixture.active && currentUser.isOwner')
 			h2 Team Selection
 
 	div.col-md-4
 		h3 Playing
 		ul.list-group
-			a.list-group-item(ng-show='fixture.playing.length===0')
+			li.list-group-item(ng-show='fixture.playing.length===0')
 				p No players have confirmed yet
 			a#playing.list-group-item.playing(ng-repeat="player in fixture.playing")
 				h4.list-group-item-heading {{ player.firstName }} {{ player.lastName }}
@@ -42,8 +42,10 @@ div.container
 	div.col-md-4
 		h3 Asked
 		ul.list-group
-			a.list-group-item(ng-show='fixture.invited.length===0', ng-href='#fixture/{{ fixture.id }}/ask')
+			a.list-group-item(ng-show='fixture.invited.length===0', ng-href='#fixture/{{ fixture.id }}/ask', ng-if='currentUser.isOwner')
 				p No players have been asked yet. Click to ask
+			li.list-group-item(ng-show='fixture.invited.length===0', ng-if='!currentUser.isOwner')
+				p No players have been asked yet.
 			a#asked.list-group-item(ng-repeat="player in fixture.invited")
 				div.row
 					div.col-xs-10
@@ -52,7 +54,7 @@ div.container
 					div.col-xs-2(ng-if="currentUser.isOwner")
 						div.row.text-center
 							span.glyphicon.glyphicon-minus.glyphicon-response(ng-click='withdrawAsk(player.askId, item)')
-			a.list-group-item.text-center(ng-href='#fixture/{{ fixture.id }}/ask', ng-if='fixture.active')
+			a.list-group-item.text-center(ng-href='#fixture/{{ fixture.id }}/ask', ng-if='fixture.active && currentUser.isOwner')
 				span.glyphicon.ask.glyphicon-plus
 
 					
@@ -60,7 +62,7 @@ div.container
 	div.col-md-4
 		h3 Declined
 		ul.list-group
-			a.list-group-item(ng-show='fixture.declined.length===0')
+			li.list-group-item(ng-show='fixture.declined.length===0')
 				p No players have declined
 			a#declined.list-group-item.declined(ng-repeat="player in fixture.declined")
 				h4.list-group-item-heading {{ player.firstName }} {{ player.lastName}}

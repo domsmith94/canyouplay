@@ -3,7 +3,7 @@ div.container
 		h1 Fixtures 
 
 	div.col-md-12
-		h4.text-center No fixtures have been added for this team yet
+		h4(ng-if='fixtures.length === 0').text-center No fixtures have been added for this team yet
 		div.panel.panel-default(ng-if='fixtures.length > 0')
 			div.table-responsive
 				table.table.table-hover
@@ -24,7 +24,7 @@ div.container
 							//td
 								button.btn.btn-default Organise
 								button.btn.btn-default Cancel
-		div.row.text-center
+		div.row.text-center(ng-if='currentUser.isOwner')
 			a(ng-href='#fixture/add')
 				span.glyphicon.ask.glyphicon-plus
 
