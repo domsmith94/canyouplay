@@ -236,13 +236,16 @@ router.patch('/:fixtureId', auth.isTeamOwner, function(req, res){
 								console.log(err);
 							} else {
 								for (var i = 0; i < asks.length; i++) {
-									twilio.messages.create({
-									    body: req.body.message,
-									    to: asks[i].player.mobile,
-									    from: "447481345982"
-									}, function(err, message) {
-									    process.stdout.write(message.sid);
-									});
+									if (asks[i].player.sms === true) {
+										twilio.messages.create({
+										    body: req.body.message,
+										    to: asks[i].player.mobile,
+										    from: "447481345982"
+										}, function(err, message) {
+										    console.log('Sending cancellation message ' + message.sid);
+										});
+									}
+
 								}
 							}
 
