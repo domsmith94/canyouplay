@@ -107,6 +107,8 @@ module.exports = {
 
 			
 			sms.remove();
+			var resp = new twilio.TwimlResponse();
+			return resp.toString();
 
 		});
 

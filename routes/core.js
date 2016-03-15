@@ -63,10 +63,8 @@ router.post('/sms-reply', function(req, res){
 	var numberFrom = req.body.From;
 	var message = req.body.Body;
 
-	smsHelper.receivedSMS(req.body);
-
-
-	res.send('Got a SMS');
+	var response = smsHelper.receivedSMS(req.body);
+	res.send(response);
 });
 
 module.exports = router; 
