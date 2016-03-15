@@ -517,31 +517,41 @@ router.post('/ask/:fixtureId', auth.isTeamOwner, function(req, res){
 
 	if (result.valid) {
 		Fixture.findOne({_id: req.params.fixtureId}, function(err, fixture){
-			if (fixture){
-				console.log('Fixture does exist in Mongo');
-				ask = new Ask();
-				ask.fixture = req.params.fixtureId;
-				ask.asked_by = req.session.user._id;
-				ask.player = req.body.playerId;
-				ask.fixdate = fixture.date;
-				ask.save(function(err){
-					if (err) {
-						console.log('Could not save new ask to Mongo');
-						res.send({'success': false});
-					} else {
-						console.log('Ask saved to Mongo');
-						res.send({'success': true});
+			User.findOne({_id: req.body.playerId}, function(err2, user){
+				if (err){
+					console.log(err);
+				}
 
-						// Code to Send SMS 
-						if (true) {
-							console.log('Attempting to send SMS');
-							smsHelper.sendSMS(ask._id);
+				if (err2) {
+					console.log(err2);
+				}
+				if (fixture && user){
+					console.log('Fixture does exist in Mongo');
+					ask = new Ask();
+					ask.fixture = req.params.fixtureId;
+					ask.asked_by = req.session.user._id;
+					ask.player = req.body.playerId;
+					ask.fixdate = fixture.date;
+					ask.save(function(err){
+						if (err) {
+							console.log('Could not save new ask to Mongo');
+							res.send({'success': false});
+						} else {
+							console.log('Ask saved to Mongo');
+							res.send({'success': true});
+
+							if (user.sms) {
+								console.log('Attempting to send SMS');
+								smsHelper.sendSMS(ask._id);
+							}
 						}
-					}
-				});
-			} else {
-				res.send({'success': false});
-			}
+					});
+				} else {
+
+					res.send({'success': false});
+				}
+
+			});
 		});
 	} else {
 		console.log('JSON submitted was not valid');

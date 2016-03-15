@@ -155,6 +155,18 @@ router.put('/user', auth.isAuthenticated, function(req, res){
 						}
 					});
 					break;
+				case 'smsChange':
+					result.sms = request.receiveSMS;
+					result.save(function(err){
+						if (err) {
+							console.log("ERROR: Could not update users SMS settings");
+							res.send({'success': false});
+						} else {
+							console.log("SMS settings updated successfully");
+							res.send({'success': true})
+						}
+					});
+					break;
 				case "passwordChange":
 					result.comparePassword(request['currentPassword'], function(err, isMatch){
 						if (isMatch) {
@@ -223,13 +235,23 @@ router.put('/user/availability', auth.isAuthenticated, function(req, res) {
 
 router.get('/user/availability', auth.isAuthenticated, function(req, res){
 
-	User.findOne({_id: req.session.user._id}, function(err, result){
+	User.findOne({_id: req.session.user._id}, function(err, result) {
 		if (err) {
 			res.send({'success': false});
 		} else {
 			res.send(result.not_avail_on);
 		}
 	});
+});
+
+router.get('/user/smssettings', auth.isAuthenticated, function(req, res){
+	User.findOne({_id: req.session.user._id}, function(err, user) {
+		if (err){
+			console.log(err);
+		} else {
+			res.send({"receiveSMS": user.sms});
+		}
+	})
 });
 
 module.exports = router;

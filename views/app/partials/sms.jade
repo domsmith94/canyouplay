@@ -1,0 +1,25 @@
+div.container
+	div.page-header
+		h1 SMS Settings 
+			a(href='#settings')
+				small All Settings
+
+	div.col-md-4.col-md-offset-4
+		form(name='changeSMSForm', ng-submit='submitForm(changeSMSForm.$valid)', novalidate='').text-center
+			.checkbox
+				label
+					input(type='checkbox', ng-model='receiveSMSLocal', ng-init='true')
+					|  Receive SMS Notifications
+
+				p(ng-show='receiveSMS') You are currently set up to receive SMS messages when you're asked to play in a fixture.
+				p(ng-show='!receiveSMS') You are currently set up not to receive SMS messages when you're asked to play in a fixture.
+
+			div.row.text-center
+					button.btn.btn-default(type='button', value='Back', onclick="history.back(-1)") Back
+					button.btn.btn-default(type='submit', ng-disabled='changeSMSForm.$invalid') Change
+
+
+
+
+
+

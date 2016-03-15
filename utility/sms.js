@@ -69,9 +69,10 @@ module.exports = {
 			Ask.findOne({_id: sms.ask})
 			.populate('fixture')
 			.exec(function(err2, ask){
-				if (err) {
+				if (err || err2) {
 					console.log(err);
-					console.log('There was a problem');
+					console.log(err2)
+					console.log('There was a problem finding SMS from this number or Ask');
 				} else {
 					var reply = body.Body.toLowerCase();
 					reply = reply.trim();
@@ -87,6 +88,7 @@ module.exports = {
 
 					ask.save(function(err){
 						if (err) {
+							console.log('There was a problem updating Ask ' + ask_id);
 							console.log(err);
 						} else {
 							// Now we must add the date of fixture to a date that is unavailable for person
@@ -106,7 +108,8 @@ module.exports = {
 
 							// The player has accepted to play on a date. This automatically rejects Asks requests to player
 							// for same date...as he cannot play in 2 fixtures on same date
-							Ask.find({player: ask.player, fixdate: ask.fixdate, responded: false}, function(err, asks) {
+							Ask.find({player: ask.player, fixdate: ask.fixdate, responded: false},
+							 function(err, asks) {
 								for (var i = 0; i < asks.length; i++) {
 									asks[i].responded = true;
 									asks[i].playing = false;

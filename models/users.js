@@ -14,6 +14,7 @@ var UserSchema = new Schema({
 	member_of_team: { type:Boolean, default: false },
 	team: {type: Schema.ObjectId },
 	is_owner: { type:Boolean, default: false },
+	sms: {type:Boolean, default: false},
 	created: {type:Date, default: Date.now },
 	not_avail_on: [{type: Date}]
 

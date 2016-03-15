@@ -73,6 +73,10 @@ canyouplayApp.config(['$routeProvider',
         templateUrl: '/partials/mobile',
         controller: 'ChangeMobileController'
       }).
+      when('/settings/sms', {
+        templateUrl: 'partials/sms',
+        controller: 'ChangeSMSController'
+      }).
       when('/settings/change-password', {
         templateUrl: '/partials/password',
         controller: 'ChangePasswordController'

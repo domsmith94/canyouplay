@@ -92,6 +92,40 @@ canyouplayControllers.controller('ChangeMobileController', function($scope, $htt
 
 });
 
+canyouplayControllers.controller('ChangeSMSController', function($scope, $http, $window, $location) {
+  $http({
+    method: 'GET',
+    url: '/user/smssettings'
+  }).then(function successCallback(response) {
+    $scope.receiveSMS = response.data.receiveSMS;
+    $scope.receiveSMSLocal = response.data.receiveSMS;
+
+  }, function errorCallback(response) {
+    console.log('Problem getting SMS settings');
+
+  });
+
+  $scope.submitForm = function(isValid) {
+    if (isValid) {
+      var data = {
+        'type': 'smsChange',
+        'receiveSMS': $scope.receiveSMSLocal
+      };
+
+      var res = $http.put('/user', data);
+
+      res.success(function(data, status, headers, config) {
+        if (data['success']) {
+          $location.path('/settings');
+        }
+
+      });
+    }
+
+  };
+
+});
+
 canyouplayControllers.controller('ChangePasswordController', function($scope, $http, $window, $location) {
   $scope.submitForm = function(isValid) {
     if (isValid) {
