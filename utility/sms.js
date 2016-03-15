@@ -6,7 +6,8 @@ var auth = require('../config/auth');
 var privateConfig = require('../config/private');
 var accountSid = process.env.accountSid || privateConfig.accountSid;
 var authToken = process.env.authToken || privateConfig.authToken;
-var twilio = require("twilio")(accountSid, authToken);
+var twilioAPI = require("twilio")
+var twilio = twilioAPI(accountSid, authToken);
 
 module.exports = {
 
@@ -107,7 +108,7 @@ module.exports = {
 
 			
 			sms.remove();
-			var resp = new twilio.TwimlResponse();
+			var resp = twilioAPI.TwimlResponse();
 			return resp.toString();
 
 		});
