@@ -56,6 +56,13 @@ router.post('/register', function(req, res){
 	if(result.valid){
 		console.log('JSON sent was valid...');
 
+		var mobilePrefix = inputData.mobile.substring(0,3);
+		
+		if (mobilePrefix !== '+44') {
+			inputData.mobile = inputData.mobile.substring(1)
+			inputData.mobile = '+44' + inputData.mobile;
+		}
+
 		var newUser = new User();
 		newUser.email = inputData['email'];
 		newUser.firstname = inputData['firstName'];

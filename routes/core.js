@@ -60,11 +60,9 @@ router.get('/join-team', auth.isAuthenticated, function(req, res){
 });
 
 router.post('/sms-reply', function(req, res){
-	var numberFrom = req.body.From;
-	var message = req.body.Body;
-
 	var response = smsHelper.receivedSMS(req.body);
 	res.send(response);
+	
 });
 
 module.exports = router; 

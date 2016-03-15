@@ -2,48 +2,48 @@ extends layout
 
 block content
   div.container(ng-controller='mainController')
-    div.jumbotron
-      h1 Join CanYouPlay
-      div.row
-        form(name='userForm', ng-submit='submitForm(userForm.$valid)', novalidate='')
-          div.col-md-6
+    h1 Join CanYouPlay
+    div.row
+      form(name='userForm', ng-submit='submitForm(userForm.$valid)', novalidate='')
+        div.col-md-6
 
-            .form-group(ng-class="{ 'has-error' : userForm.email.$invalid && !userForm.email.$pristine }")
-              label(for='inputEmail') Email address
-              input#inputEmail1.form-control(type='email', placeholder='Email', name='email', class='form-control', ng-model='email', required, autofocus)
-              p.help-block(ng-show='userForm.email.$invalid && !userForm.email.$pristine') There's a problem with your email
-            
-            .form-group(ng-class="{ 'has-error' : userForm.firstName.$invalid && !userForm.firstName.$pristine }")
-              label(for='inputFirstName') First Name
-              input#inputFirstName.form-control(type='text', placeholder='First Name' name='firstName',class='form-control', ng-model='firstName', required)
-              p.help-block(ng-show='userForm.firstName.$invalid && !userForm.firstName.$pristine') Your first name is required
-            
-            .form-group(ng-class="{ 'has-error' : userForm.lastName.$invalid && !userForm.lastName.$pristine }")
-              label(for='inputLastName') Last Name
-              input#inputLastName.form-control(type='text', placeholder='Last Name', name='lastName', class='form-control', ng-model='lastName', required)
-              p.help-block(ng-show='userForm.lastName.$invalid && !userForm.lastName.$pristine') Your last name is required
+          .form-group(ng-class="{ 'has-error' : userForm.email.$invalid && !userForm.email.$pristine }")
+            label(for='inputEmail') Email address
+            input#inputEmail1.form-control(type='email', placeholder='Email', name='email', class='form-control', ng-model='email', required, autofocus)
+            p.help-block(ng-show='userForm.email.$invalid && !userForm.email.$pristine') There's a problem with your email
           
-          div.col-md-6
-            
-            .form-group(ng-class="{ 'has-error' : userForm.mobile.$invalid && !userForm.mobile.$pristine }")
-              label(for='inputMobile') Mobile
-              input#inputMobile.form-control(type='text', placeholder='Mobile', name='mobile', required,
-              class='form-control', ng-model='mobile')
-              p.help-block(ng-show='userForm.mobile.$invalid && !userForm.mobile.$pristine') Your mobile is required
-            
-            .form-group(ng-class="{ 'has-error' : userForm.password.$invalid && !userForm.password.$pristine }")
-              label(for="inputPassword") Password
-              input#inputPassword.form-control(type='password', placeholder='Password', name='password', class='form-control', ng-model='password.new', required)
-              p.help-block(ng-show='userForm.password.$invalid && !userForm.password.$pristine') Your password is required
-            
-            .form-group(ng-class="{ 'has-error' : userForm.password2.$invalid && !userForm.password2.$pristine }")
-              label(for="inputPassword2") Password
-              input#inputPassword2.form-control(match='password.new' type='password', placeholder='Confirm Password', name='password2', required, class='form-control', ng-model='password.confirm')
-              p.help-block(ng-show='userForm.password2.$invalid && !userForm.password2.$pristine && !userForm.password2.$error.match') Your password is required
-              p.help-block(ng-show='userForm.password2.$error.match && !userForm.password2.$pristine') Password entered does not match
+          .form-group(ng-class="{ 'has-error' : userForm.firstName.$invalid && !userForm.firstName.$pristine }")
+            label(for='inputFirstName') First Name
+            input#inputFirstName.form-control(type='text', placeholder='First Name' name='firstName',class='form-control', ng-model='firstName', required)
+            p.help-block(ng-show='userForm.firstName.$invalid && !userForm.firstName.$pristine') Your first name is required
+          
+          .form-group(ng-class="{ 'has-error' : userForm.lastName.$invalid && !userForm.lastName.$pristine }")
+            label(for='inputLastName') Last Name
+            input#inputLastName.form-control(type='text', placeholder='Last Name', name='lastName', class='form-control', ng-model='lastName', required)
+            p.help-block(ng-show='userForm.lastName.$invalid && !userForm.lastName.$pristine') Your last name is required
+        
+        div.col-md-6
+          
+          .form-group(ng-class="{ 'has-error' : userForm.mobile.$invalid && !userForm.mobile.$pristine }")
+            label(for='inputMobile') Mobile
+            input#inputMobile.form-control(type='text', placeholder='Mobile', name='mobile', required,
+            class='form-control', ng-model='mobile')
+            p.help-block(ng-show='userForm.mobile.$invalid && !userForm.mobile.$pristine') Your mobile is required
+          
+          .form-group(ng-class="{ 'has-error' : userForm.password.$invalid && !userForm.password.$pristine }")
+            label(for="inputPassword") Password
+            input#inputPassword.form-control(type='password', placeholder='Password', name='password', class='form-control', ng-model='password.new', required)
+            p.help-block(ng-show='userForm.password.$invalid && !userForm.password.$pristine') Your password is required
+          
+          .form-group(ng-class="{ 'has-error' : userForm.password2.$invalid && !userForm.password2.$pristine }")
+            label(for="inputPassword2") Password
+            input#inputPassword2.form-control(match='password.new' type='password', placeholder='Confirm Password', name='password2', required, class='form-control', ng-model='password.confirm')
+            p.help-block(ng-show='userForm.password2.$invalid && !userForm.password2.$pristine && !userForm.password2.$error.match') Your password is required
+            p.help-block(ng-show='userForm.password2.$error.match && !userForm.password2.$pristine') Password entered does not match
 
-            p.help-block(ng-bind='displayMessage')
+          p.help-block(ng-bind='displayMessage')
 
+        div.row.text-center
             button.btn.btn-default(type='submit', ng-disabled='userForm.$invalid') Next
 
       script(src='js//controllers/registerController.js')
