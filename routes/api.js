@@ -257,7 +257,7 @@ router.post('/team/join', function(req, res){
 					if (err) {
 						console.log('Could not update user')
 					} else {
-						req.session.user.team = resut[0]._id;
+						req.session.user.team = result[0]._id;
 						console.log('Save user to mongo');
 					}
 				});
