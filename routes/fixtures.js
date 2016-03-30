@@ -230,6 +230,7 @@ router.patch('/:fixtureId', auth.isTeamOwner, function(req, res){
 
 					Ask.find({fixture: req.params.fixtureId, is_playing: true})
 						.populate('player')
+						.populate('fixture')
 						.exec(function(err, asks){
 							if (err) {
 								console.log('There was a problem');
@@ -237,8 +238,12 @@ router.patch('/:fixtureId', auth.isTeamOwner, function(req, res){
 							} else {
 								for (var i = 0; i < asks.length; i++) {
 									if (asks[i].player.sms === true) {
+										var message = 'Hi ' + asks[i].player.firstname + 
+										'. The fixture you were scheduled to take part in for ' + asks[i].fixture.side + ' against ' 
+										+ asks[i].fixture.opposition + ' on ' + asks[i].fixture.date + ' has been canceled. The organiser for the fixture says: ' + req.body.message
+
 										twilio.messages.create({
-										    body: req.body.message,
+										    body: message,
 										    to: asks[i].player.mobile,
 										    from: "447481345982"
 										}, function(err, message) {
