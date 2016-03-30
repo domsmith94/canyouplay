@@ -39,7 +39,38 @@ router.post('/', auth.isTeamOwner, function(req, res){
 });
 
 router.get('/', auth.isAuthenticated, function(req, res){
-	Fixture.find({team: req.session.user.team}, function(err, results){
+	var date = new Date();
+	date.setDate(date.getDate() - 1);
+
+	Fixture.find({team: req.session.user.team, date: {$gt: date}}, function(err, results){
+		if (err) {
+			console.log('There was an error getting the fixtures from Mongo');
+		}
+
+		if (results.length){
+			console.log('We found some fixtures');
+			var resultsToSend = [];
+
+			for(var i = 0; i < results.length; i++) {
+				fixture = {};
+				fixture['id'] = results[i]['_id'];
+				fixture['opposition'] = results[i]['opposition'];
+				fixture['location'] = results[i]['location'];
+				fixture['date'] = results[i]['date'];
+				fixture['side'] = results[i]['side'];
+				resultsToSend.push(fixture);
+			}
+			res.send({'fixtures': resultsToSend})
+		}
+
+	});
+
+});
+
+router.get('/history', auth.isAuthenticated, function(req, res){
+	var date = new Date();
+	date.setDate(date.getDate() - 1);
+	Fixture.find({team: req.session.user.team, date: { $lt: date }}, function(err, results){
 		if (err) {
 			console.log('There was an error getting the fixtures from Mongo');
 		}
@@ -79,10 +110,22 @@ router.get('/:fixtureId', auth.isAuthenticated, function(req, res) {
 			var playersPlaying = [];
 			var playersInvited = [];
 			var playersDeclined = [];
+			var userInvited = false;
+			var userResponded = false;
+			var userResponse = false;
+			var askId;
 
 			function processAsk(i){
 				if (i < results.length) {
 					var playerInvited = {};
+
+					if (results[i].player.equals(req.session.user._id)) {
+						userInvited = true;
+						userResponded = results[i].responded;
+						userResponse = results[i].is_playing;
+						askId = results[i]._id;
+
+					}
 
 					User.findOne({_id: results[i].player}, function(err, player){
 							playerInvited.id = player._id;
@@ -116,7 +159,11 @@ router.get('/:fixtureId', auth.isAuthenticated, function(req, res) {
 						'created': fixture.created,
 						'invited': playersInvited,
 						'playing': playersPlaying,
-						'declined': playersDeclined
+						'declined': playersDeclined,
+						'userInvited': userInvited,
+						'userResponded': userResponded,
+						'userResponse': userResponse,
+						'askId': askId
 					});
 
 				}

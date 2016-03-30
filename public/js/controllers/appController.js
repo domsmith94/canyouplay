@@ -198,6 +198,24 @@ canyouplayControllers.controller('FixturesController', function($scope, $rootSco
 
 });
 
+canyouplayControllers.controller('FixturesHistoryController', function($scope, $rootScope, $http, $window, $location) {
+  $http({
+    method: 'GET',
+    url: '/fixtures/history'
+  }).then(function successCallback(response) {
+    $scope.teamName = response.data.teamName;
+    $scope.fixtures = response.data.fixtures;
+  }, function errorCallback(response) {
+    //Handle errors here
+  });
+
+  $scope.viewFixture = function(fixture) {
+    $location.path('fixture/' + fixture.id);
+
+  }
+
+});
+
 canyouplayControllers.controller('FixtureDetailController', function($scope, $http, $window, $routeParams, $location, $route) {
   $http({
     method: 'GET',
@@ -249,6 +267,25 @@ canyouplayControllers.controller('FixtureDetailController', function($scope, $ht
     });
 
   };
+
+  $scope.replyToAsk = function(id, canPlay) {
+      var data = {
+        'askId': id,
+        'reply': canPlay
+      };
+
+      var res = $http.put('/api/ask', data);
+
+      res.success(function successCallback(data) {
+        if (data.success) {
+          $scope.fixture.userResponded = true;
+          $scope.fixture.userResponse = canPlay;
+          $scope.$apply();
+
+        }
+      });
+
+  }
 
   $scope.submitForm = function(isValid) {
     if (isValid) {

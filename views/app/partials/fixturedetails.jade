@@ -18,12 +18,35 @@ div.container
 			li.list-group-item {{ fixture.declined.length }} players have declined
 			li.list-group-item Organised by {{ fixture.organiser }}
 
+	div.col-md-3(ng-if='fixture.userInvited')
+		ul.list-group
+			li.list-group-item
+				h4.text-center(ng-if='!fixture.userResponded') CanYouPlay?
+				h4.text-center(ng-if='fixture.userResponded && fixture.userResponse') You're playing
+				h4.text-center(ng-if='fixture.userResponded && !fixture.userResponse') You can't play
+
+				div.row(ng-if = '!fixture.userResponded')
+					div.col-xs-6.text-center
+						span.span.glyphicon.glyphicon-ok.fix-sizing(ng-click='replyToAsk(fixture.askId, true)')
+					div.col-xs-6.text-center
+						span.glyphicon.glyphicon-remove.fix-sizing(ng-click='replyToAsk(fixture.askId, false)')
+				div.row(ng-if='fixture.userResponded && fixture.userResponse')
+					div.col-xs-12.text-center
+						span.span.glyphicon.glyphicon-ok.fix-sizing							
+				div.row(ng-if='fixture.userResponded && !fixture.userResponse')
+					div.col-xs-12.text-center
+						span.span.glyphicon.glyphicon-remove.fix-sizing
+
 	div.col-md-3(ng-if='currentUser.isOwner')
 		ul.list-group
 			a.list-group-item(ng-href='#fixture/{{ fixture.id }}/ask', ng-if='fixture.active') Ask Players To Play
 			a.list-group-item(ng-href='#fixture/{{ fixture.id }}/edit', ng-if='fixture.active') Edit Fixture
 			a.list-group-item(ng-href='#fixture/{{ fixture.id }}/cancel', ng-if='fixture.active') Cancel Fixture
 			a.list-group-item(ng-hide='fixture.active', ng-click='unCancel()') Uncancel Fixture
+
+
+
+
 
 
 	div.col-md-6.col-md-offset-3.text-center

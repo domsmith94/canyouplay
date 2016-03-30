@@ -14,7 +14,7 @@ div.container
 		//h3
 			| {{ availData.side }} V {{ availData.opposition }}, {{ availData.date | date:"dd MMMM yyyy"}}
 	div.col-md-4.col-md-offset-2
-		h4 Availiable On This Date
+		h4 Available On This Date
 		div.form-group
 			input.form-control(type='text', placeholder='Search for player', ng-model='searchPlayer')
 		ul.list-group
@@ -24,7 +24,7 @@ div.container
 				h4.list-group-item-heading {{ player.firstName}} {{ player.lastName}}
 				p Click to ask {{ player.firstName }} to play
 	div.col-md-4
-		h4 Not Availiable On This Date
+		h4 Not Available On This Date
 		ul.list-group
 			a.list-group-item.declined(ng-repeat="player in availData.playersNotAvail")
 				h4.list-group-item-heading {{ player.firstName }} {{ player.lastName}}

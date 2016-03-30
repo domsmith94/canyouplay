@@ -41,6 +41,10 @@ canyouplayApp.config(['$routeProvider',
       	templateUrl: '/partials/fixtures',
       	controller: 'FixturesController'
       }).
+      when('/fixture/history', {
+        templateUrl: '/partials/fixtures_past',
+        controller: 'FixturesHistoryController'
+      }).
       when('/fixture/add', {
         templateUrl: '/partials/addfixture',
         controller: 'AddFixtureController'

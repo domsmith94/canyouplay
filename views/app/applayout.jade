@@ -33,9 +33,12 @@ html
 						ul.nav.navbar-nav
 							li
 								a(href='#fixture', ng-click='navCollapsed = !navCollapsed') Fixtures
+							li
+								a(href='#availability', ng-click='navCollapsed') Availability
 						ul.nav.navbar-nav.navbar-right
-								li
-									a(href='#availability', ng-click='navCollapsed') Availability
+								li(ng-if = 'currentUser.isOwner')
+									a(href='#invite', ng-click='navCollapsed = !navCollapsed') Invite
+
 								li
 									a(href='#settings', ng-click='navCollapsed = !navCollapsed') Settings
 								li
