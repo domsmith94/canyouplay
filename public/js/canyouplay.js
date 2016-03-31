@@ -14,6 +14,7 @@ canyouplayApp.run(function($rootScope, $http) {
     $rootScope.currentUser['lastName'] = response.data.lastName;
     $rootScope.currentUser['isOwner'] = response.data.owner;
     $rootScope.teamName = response.data.teamName;
+    $rootScope.cancelPeriod = response.data.cancelPeriod;
 
     //TO DO ADD team name to root scope for use in Fixtures page
 
@@ -88,6 +89,10 @@ canyouplayApp.config(['$routeProvider',
       when('/settings/change-team-name', {
         templateUrl: '/partials/team',
         controller: 'ChangeTeamNameController'
+      }).
+      when('/settings/change-cancel', {
+        templateUrl: 'partials/cancelsettings',
+        controller: 'ChangeCancelPeriodController'
       }).
       when('/invite', {
         templateUrl: '/partials/invite',

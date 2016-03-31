@@ -70,6 +70,26 @@ canyouplayControllers.controller('ChangeEmailController', function($scope, $http
 
 });
 
+canyouplayControllers.controller('ChangeCancelPeriodController', function($scope, $http, $window, $location) {
+  $scope.submitForm = function(isValid) {
+    if (isValid) {
+      var data = {'type': 'cancelPeriodChange', 'cancelPeriod': $scope.cancelPeriod};
+      var res = $http.put('/api/team', data);
+
+      res.success(function(data, status, headers, config){
+        if (data.success) {
+          $location.path('/settings');
+        }
+
+      });
+    }
+
+  };
+
+
+});
+
+
 canyouplayControllers.controller('ChangeMobileController', function($scope, $http, $window, $location) {
   $scope.submitForm = function(isValid) {
     if (isValid) {
@@ -254,8 +274,6 @@ canyouplayControllers.controller('FixtureDetailController', function($scope, $ht
   };
 
   $scope.withdrawAsk = function(id, ask) {
-    alert(id);
-
     var res = $http.delete('/api/ask/' + id);
 
     res.success(function successCallback(data) {
@@ -433,7 +451,6 @@ canyouplayControllers.controller('AskPlayerController', function($scope, $http, 
       } else {
         alert('There was a problem asking player');
       }
-
     });
   }
 

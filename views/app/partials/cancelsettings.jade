@@ -1,0 +1,20 @@
+div.container
+	div.page-header
+		h1 Cancel Settings  
+			a(href='#settings')
+				small All Settings
+
+	div.col-md-4.col-md-offset-4
+		form(name='changeCancelSettings', ng-submit='submitForm(changeCancelSettings.$valid)', novalidate='')
+			.form-group
+				label(for='cancelPeriod') Current Cancel Period
+				input#email.form-control(ng-model='cancelPeriod', required, name='cancelPeriod')
+			div.row.text-center
+					button.btn.btn-default(type='button', value='Back', onclick="history.back(-1)") Back
+					button.btn.btn-default(type='submit', ng-disabled='changeCancelSettings.$invalid') Change
+
+
+
+
+
+

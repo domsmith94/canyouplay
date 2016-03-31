@@ -14,8 +14,8 @@ div.container
 	div.col-md-4
 		ul.list-group
 			li.list-group-item {{ fixture.playing.length }} payers are currently scheduled to play
-			li.list-group-item {{ fixture.invited.length }} players have yet to respond
-			li.list-group-item {{ fixture.declined.length }} players have declined
+			li.list-group-item {{ fixture.invited.length }} players are yet to respond
+			li.list-group-item {{ fixture.declined.length }} players have declined to play
 			li.list-group-item Organised by {{ fixture.organiser }}
 
 	div.col-md-3(ng-if='fixture.userInvited')
@@ -63,7 +63,7 @@ div.container
 				p Agreed to play
 
 	div.col-md-4
-		h3 Asked
+		h3 Awaiting Response
 		ul.list-group
 			a.list-group-item(ng-show='fixture.invited.length===0', ng-href='#fixture/{{ fixture.id }}/ask', ng-if='currentUser.isOwner')
 				p No players have been asked yet. Click to ask
@@ -83,7 +83,7 @@ div.container
 					
 		
 	div.col-md-4
-		h3 Declined
+		h3 Not Playing
 		ul.list-group
 			li.list-group-item(ng-show='fixture.declined.length===0')
 				p No players have declined

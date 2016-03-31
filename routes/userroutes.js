@@ -95,6 +95,7 @@ router.get('/user', auth.isAuthenticated, function(req, res) {
 					'teamName': team.team_name,
 					'webName': team.web_name,
 					'sport': team.sport,
+					'cancelPeriod': team.cancel_period,
 					'teamCreated': team.created,
 					'joined': result.created,
 					'owner': result.is_owner

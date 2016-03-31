@@ -7,7 +7,8 @@ var TeamSchema = new Schema({
 	web_name: { type: String, required: true, unique: true, lowercase: true, trim: true }, 
 	sport: { type: String, required: true },
 	owner: { type: Schema.ObjectId, required: true },
-	created: {type:Date, default:Date.now}
+	created: {type:Date, default:Date.now},
+	cancel_period: {type: Number, default: 3}
 });
 
 module.exports = mongoose.model('Team', TeamSchema);

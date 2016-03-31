@@ -196,6 +196,7 @@ router.post('/team', function(req, res) {
 
 });
 
+
 router.put('/team', auth.isTeamOwner, function(req, res){
 	if (req.session.auth){
 		var request = req.body;
@@ -223,7 +224,28 @@ router.put('/team', auth.isTeamOwner, function(req, res){
 					}
 				});
 				break;
+			case 'cancelPeriodChange':
+				Team.findOne({_id: req.session.user.team}, function(err, result){
+					if (err) {
+						console.log("ERROR: Could not find team in db");
+						console.log(err);
+						res.send({'success': false});
+					} else {
+						result.cancel_period = request.cancelPeriod;
+						result.save(function(err){
+							if (err) {
+								console.log(err);
+								console.log("Could not change cancel period");
+								res.send({'success': false});
+							} else {
+								console.log("Updated cancel period");
+								res.send({'success': true});
+							}
 
+						});
+					}
+				});
+				break;
 			}
 
 
