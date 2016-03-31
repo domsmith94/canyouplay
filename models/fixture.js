@@ -1,8 +1,12 @@
 var mongoose = require('mongoose');
-var dbConfig = require('../config/db');
 var User = require('./users');
 var Team = require('./team');
 var Schema = mongoose.Schema;
+
+// Mongoose schema for a Fixture object. Each Fixture belongs to a team. 
+// Upon creation, team owner specifies which side is taking part in the fixture.
+// Each team can have multiple different 'sides', e.g. 1st XI, 2nd XI etc. This gives
+// flexibility to define different aliases for fixtures. Active is false if Fixture is canceled
 
 var FixtureSchema = new Schema({
 	opposition: { type:String, required: true},

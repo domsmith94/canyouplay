@@ -4,6 +4,11 @@ var Fixture = require('./fixture');
 var User = require('./users');
 var Schema = mongoose.Schema;
 
+// Mongoose schema for an Ask object. An Ask is what is produced when a team owner sends
+// a request to a player, Asking them if they can play in a specific fixture. An Ask keeps
+// track of the state of the Ask in the fields is_playing & responded. If a player responds 
+// they can play to (by SMS or on the site) the responded & is_playingfield becomes true
+
 var AskSchema = new Schema({
 	fixture: { type: Schema.ObjectId, required: true, ref: 'Fixture'},
 	asked_by: { type: Schema.ObjectId, required: true, ref: 'User'},

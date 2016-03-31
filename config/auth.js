@@ -1,17 +1,25 @@
 var User = require('../models/users');
 
+// Middleware that is used for function level authentication control. isAuthenticated or isTeamOwner 
+// is passed as a parameter depending on what is required 
+
 module.exports = {
 
+	// isAuthenticated ensures users are logged in to the application before any request is processed. 
+	// If a user is not logged in, they are redirected to the sign in page.
+
 	isAuthenticated: function(req, res, next) {
-		// Checks to make sure user is logged in. If not redirect to sign-in page
 		if (req.session.auth) {
 			return next();
 		}
 
-		console.log("Request not authenticated. User must be logged in");
+		console.log('Request not authenticated. User must be logged in');
 		res.redirect('/sign-in');
 
 	},
+
+	// isTeamOwner checks that a person isAuthenticated and is also the owner of the team that the 
+	// request they are making is related to. If they are not the team owner a false JSON response is sent
 
 	isTeamOwner: function(req, res, next) {
 		if (req.session.auth) {
