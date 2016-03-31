@@ -100,6 +100,7 @@ router.get('/:fixtureId', auth.isAuthenticated, function(req, res) {
 
 	Fixture.findOne({_id: req.params.fixtureId, team: req.session.user.team }).
 	populate('organiser').
+	populate('team').
 	exec(function(err, fixture){
 		if (err) {
 			console.log('Could not find fixture ' + req.params.fixtureId + ' in Mongo store');
@@ -114,6 +115,16 @@ router.get('/:fixtureId', auth.isAuthenticated, function(req, res) {
 			var userResponded = false;
 			var userResponse = false;
 			var askId;
+			var canCancel = false;
+
+			var todaysDate = Date();
+			var cancellationDate = fixture.date;
+			cancellationDate.setDate(cancellationDate.getDate()-fixture.team.cancel_period);
+
+			if (cancellationDate > todaysDate) {
+				canCancel = true;
+
+			} 
 
 			function processAsk(i){
 				if (i < results.length) {
@@ -163,7 +174,8 @@ router.get('/:fixtureId', auth.isAuthenticated, function(req, res) {
 						'userInvited': userInvited,
 						'userResponded': userResponded,
 						'userResponse': userResponse,
-						'askId': askId
+						'askId': askId,
+						'canCancel': canCancel
 					});
 
 				}

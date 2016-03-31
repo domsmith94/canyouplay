@@ -17,7 +17,7 @@ div.container
 							th Date
 							th Time
 					tbody
-						tr(ng-repeat="fixture in fixtures | orderBy: 'date'", ng-click='viewFixture(fixture)')
+						tr(ng-repeat="fixture in fixtures | orderBy: '-date'", ng-click='viewFixture(fixture)')
 							td {{ fixture['side'] }}
 							td {{ fixture['opposition'] }}
 							td {{ fixture['location'] }}

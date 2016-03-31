@@ -13,7 +13,7 @@ div.container
 
 	div.col-md-4
 		ul.list-group
-			li.list-group-item {{ fixture.playing.length }} payers are currently scheduled to play
+			li.list-group-item {{ fixture.playing.length }} players have agreed to play
 			li.list-group-item {{ fixture.invited.length }} players are yet to respond
 			li.list-group-item {{ fixture.declined.length }} players have declined to play
 			li.list-group-item Organised by {{ fixture.organiser }}
@@ -32,7 +32,8 @@ div.container
 						span.glyphicon.glyphicon-remove.fix-sizing(ng-click='replyToAsk(fixture.askId, false)')
 				div.row(ng-if='fixture.userResponded && fixture.userResponse')
 					div.col-xs-12.text-center
-						span.span.glyphicon.glyphicon-ok.fix-sizing							
+						span.span.glyphicon.glyphicon-ok.fix-sizing
+						p.can-click(ng-if='fixture.canCancel', ng-click='replyToAsk(fixture.askId, false)') I can longer no longer play						
 				div.row(ng-if='fixture.userResponded && !fixture.userResponse')
 					div.col-xs-12.text-center
 						span.span.glyphicon.glyphicon-remove.fix-sizing
@@ -43,11 +44,6 @@ div.container
 			a.list-group-item(ng-href='#fixture/{{ fixture.id }}/edit', ng-if='fixture.active') Edit Fixture
 			a.list-group-item(ng-href='#fixture/{{ fixture.id }}/cancel', ng-if='fixture.active') Cancel Fixture
 			a.list-group-item(ng-hide='fixture.active', ng-click='unCancel()') Uncancel Fixture
-
-
-
-
-
 
 	div.col-md-6.col-md-offset-3.text-center
 		a(ng-href='#fixture/{{ fixture.id }}/ask', ng-if='fixture.active && currentUser.isOwner')
