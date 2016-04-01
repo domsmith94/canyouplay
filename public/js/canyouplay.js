@@ -8,6 +8,9 @@ canyouplayApp.run(function($rootScope, $http) {
     method: 'GET',
     url: '/user'
   }).then(function successCallback(response) {
+
+    // Crucial information added to rootScope
+
     $rootScope.currentUser['loggedIn'] = true;
     $rootScope.currentUser['_id'] = response.data._id;
     $rootScope.currentUser['firstName'] = response.data.firstName;
@@ -15,9 +18,6 @@ canyouplayApp.run(function($rootScope, $http) {
     $rootScope.currentUser['isOwner'] = response.data.owner;
     $rootScope.teamName = response.data.teamName;
     $rootScope.cancelPeriod = response.data.cancelPeriod;
-
-    //TO DO ADD team name to root scope for use in Fixtures page
-
 
   }, function errorCallback(response) {
     $rootScope.currentUser['loggedIn'] = false;
@@ -27,6 +27,7 @@ canyouplayApp.run(function($rootScope, $http) {
 
 });
 
+// Define all routes for the front end
 canyouplayApp.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
@@ -106,5 +107,3 @@ canyouplayApp.config(['$routeProvider',
         redirectTo: '/'
       });
   }]);
-
-

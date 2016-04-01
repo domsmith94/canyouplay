@@ -12,9 +12,10 @@ var Validator = require('jsonschema').Validator;
 var postmark = require("postmark")(postmarkConfig.postmarkKey());
 var auth = require('../config/auth');
 
+// Called in this first stage of registering a new user. We are looking for a JSON from
+// containing properties specified in register schema. 
 router.post('/register', function(req, res){
-	// Called in this first stage of registering a new user. We are looking for a JSON from
-	// containing properties specified in register schema. 
+
 	console.log(req.body);
 	var inputData = req.body;
 	var v = new Validator();
@@ -58,10 +59,14 @@ router.post('/register', function(req, res){
 
 		var mobilePrefix = inputData.mobile.substring(0,3);
 		
+		// Mobile numbers need +44 to work, so if user hasn't put it in this format we correct this
+		// here
+
 		if (mobilePrefix !== '+44') {
 			inputData.mobile = inputData.mobile.substring(1)
 			inputData.mobile = '+44' + inputData.mobile;
 		}
+
 
 		var newUser = new User();
 		newUser.email = inputData['email'];
@@ -121,6 +126,7 @@ router.post('/register', function(req, res){
 
 });
 
+// Route used when user chooses to create a new team on sign up instead of joining existing one
 router.post('/team', function(req, res) {
 	console.log(req.body);
 	var inputData = req.body;
@@ -156,10 +162,11 @@ router.post('/team', function(req, res) {
 		newTeam.sport = inputData['sport'];
 		newTeam.owner = req.session.user._id;
 
+		// Check to see team of same name already exists
 		Team.find({web_name: inputData['webName']}, function(err, results){
 			if (results.length) {
 				console.log('Team name already exists');
-				return res.send({'success': false, 'message': 'This web name is already taken!'});
+				return res.send({"success": false, 'message': 'This web name is already taken!'});
 			} else {
 				newTeam.save(function(err) {
 					if (err) {
@@ -196,7 +203,8 @@ router.post('/team', function(req, res) {
 
 });
 
-
+// Used when team owner updates a team in settings. Each setting change has a type that
+// is handled accordingly
 router.put('/team', auth.isTeamOwner, function(req, res){
 	if (req.session.auth){
 		var request = req.body;
@@ -256,6 +264,10 @@ router.put('/team', auth.isTeamOwner, function(req, res){
 
 });
 
+// Route is used to enable a new user to join an existing team. Checks if web name user submitted 
+// does exist and if it does user is joined to the team. If there is a problem appropriate error messages
+// are displayed
+
 router.post('/team/join', function(req, res){
 	var inputData = req.body;
 	var v = new Validator();
@@ -308,6 +320,8 @@ router.post('/team/join', function(req, res){
 	}
 });
 
+// Used when a team owner invites a new player to use the application for their team
+// Uses PostMark library to send out invites via email to specified email address.
 
 router.post('/invite', auth.isTeamOwner, function(req, res){
 	console.log(req.body);
@@ -345,7 +359,7 @@ router.post('/invite', auth.isTeamOwner, function(req, res){
 					"From": "ds19g13@soton.ac.uk",
 					"To": invite.email,
 					"Subject": "Invite to CanYouPlay",
-					"TextBody": "You have been invited to join CanYouPlay. Visit http://localhost:3000/register?token=" + invite._id
+					"TextBody": postmarkConfig.buildMessage(invite.id)
 				}, function(error, success) {
 					if (error) {
 						console.error("Unable to send via postmark: " + error.message);
@@ -362,7 +376,9 @@ router.post('/invite', auth.isTeamOwner, function(req, res){
 	}
 });
 
-router.get('/ask/:fixtureId', function(req, res){
+// Route used by the ask.jade page. Only accessible to team owners
+
+router.get('/ask/:fixtureId', auth.isTeamOwner, function(req, res){
 	console.log('GET request for Ask page for fixture ' + req.params.fixtureId);
 
 	// First we try and find the fixture in Mongo based on the URL parameter
@@ -446,6 +462,7 @@ router.get('/ask/:fixtureId', function(req, res){
 
 });
 
+// Used when users reply to Asks. Reply is true or false depending on if they can play or not
 router.put('/ask', auth.isAuthenticated, function(req, res){
 	console.log('User ' + req.session.user._id + ' has replied to an Ask request');
 
@@ -520,6 +537,9 @@ router.put('/ask', auth.isAuthenticated, function(req, res){
 
 });
 
+// Route used when a team owner Asks a player to play. Creates a new Ask and stores in mongo
+// Notifies user via SMS if they have chosen to be communicated with over SMS.
+
 router.post('/ask/:fixtureId', auth.isTeamOwner, function(req, res){
 	console.log('Received an ask request for fixture ' + req.params.fixtureId);
 
@@ -581,10 +601,10 @@ router.post('/ask/:fixtureId', auth.isTeamOwner, function(req, res){
 	}
 });
 
+// Used when a team owner wants to withdraw an Ask request to a player
+
 router.delete('/ask/:askId', auth.isTeamOwner, function(req, res){
 	console.log('Recieved a withdraw Ask request for ' + req.params.askId);
-
-	// Used to withdraw Ask requests
 
 	Ask.findOne({_id: req.params.askId}).remove(function(err){
 		if (err) {
@@ -599,6 +619,7 @@ router.delete('/ask/:askId', auth.isTeamOwner, function(req, res){
 	});
 });
 
+// Used on the Home page. (info.jade) 
 router.get('/info', auth.isAuthenticated, function(req, res){
 	console.log('Recieved a info request from ' + req.session.user._id);
 
