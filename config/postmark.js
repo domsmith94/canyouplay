@@ -1,5 +1,7 @@
 module.exports = {
 
+	// Used to configure Postmark. 
+
 	postmarkKey: function(){
 
 		var uristring =

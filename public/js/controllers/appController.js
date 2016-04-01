@@ -1,6 +1,10 @@
 var canyouplayControllers = angular.module('canyouplayControllers', []);
 
+// Controller for settings.jade
 canyouplayControllers.controller('SettingsController', function($scope, $http, $window) {
+  // Controller for the settings page. GET on /user/ returns Settings information which can then
+  // be displayed on page in scope. 
+
   $http({
     method: 'GET',
     url: '/user'
@@ -18,26 +22,33 @@ canyouplayControllers.controller('SettingsController', function($scope, $http, $
 
 
   }, function errorCallback(response) {
-    $rootScope.currentUser['loggedIn'] = false;
+    // If we can't retrieve GET on /user user probably isn't logged in and rootScope value for this
+    // should be updated
+
+    $rootScope.currentUser.loggedIn = false;
     alert('Could not find logged in user. Fatal error')
 
   });
-
 });
 
+// Controller for name.jade
 canyouplayControllers.controller('ChangeNameController', function($scope, $http, $window, $location) {
+
   $scope.submitForm = function(isValid) {
     if (isValid) {
 
+      // Compose JSON to send to back end. We let server know it's a nameChange in the type field
+
       var data = {
-        'type': 'nameChange',
-        'firstName': $scope.firstName,
-        'lastName': $scope.lastName
+        "type": "nameChange",
+        "firstName": $scope.firstName,
+        "lastName": $scope.lastName
       };
 
       var res = $http.put('/user', data);
 
       res.success(function(data, status, headers, config) {
+        // If successful redirect to settings
         if (data.success) {
           $location.path('/settings');
         }
@@ -49,9 +60,13 @@ canyouplayControllers.controller('ChangeNameController', function($scope, $http,
 
 });
 
+// Controller for email.jade
 canyouplayControllers.controller('ChangeEmailController', function($scope, $http, $window, $location) {
   $scope.submitForm = function(isValid) {
     if (isValid) {
+
+      // Compose JSON to send to back end. We let server know it's a emailChange in the type field
+
       var data = {
         'type': 'emailChange',
         'email': $scope.email
@@ -59,24 +74,7 @@ canyouplayControllers.controller('ChangeEmailController', function($scope, $http
       var res = $http.put('/user', data);
 
       res.success(function(data, status, headers, config) {
-        if (data['success']) {
-          $location.path('/settings');
-        }
-
-      });
-    }
-
-  };
-
-});
-
-canyouplayControllers.controller('ChangeCancelPeriodController', function($scope, $http, $window, $location) {
-  $scope.submitForm = function(isValid) {
-    if (isValid) {
-      var data = {'type': 'cancelPeriodChange', 'cancelPeriod': $scope.cancelPeriod};
-      var res = $http.put('/api/team', data);
-
-      res.success(function(data, status, headers, config){
+        // If successful redirect to settings
         if (data.success) {
           $location.path('/settings');
         }
@@ -86,10 +84,35 @@ canyouplayControllers.controller('ChangeCancelPeriodController', function($scope
 
   };
 
+});
+
+// Controller for cancel.jade
+canyouplayControllers.controller('ChangeCancelPeriodController', function($scope, $http, $window, $location) {
+  $scope.submitForm = function(isValid) {
+    if (isValid) {
+
+      // Compose JSON and specify type as cancelPeriodChange
+
+      var data = {
+        'type': 'cancelPeriodChange',
+        'cancelPeriod': $scope.cancelPeriod
+      };
+
+      var res = $http.put('/api/team', data);
+
+      res.success(function(data, status, headers, config) {
+        if (data.success) {
+          $location.path('/settings');
+        }
+
+      });
+    }
+
+  };
 
 });
 
-
+// Controller for mobile.jade
 canyouplayControllers.controller('ChangeMobileController', function($scope, $http, $window, $location) {
   $scope.submitForm = function(isValid) {
     if (isValid) {
@@ -101,7 +124,7 @@ canyouplayControllers.controller('ChangeMobileController', function($scope, $htt
       var res = $http.put('/user', data);
 
       res.success(function(data, status, headers, config) {
-        if (data['success']) {
+        if (data.success) {
           $location.path('/settings');
         }
 
@@ -112,6 +135,7 @@ canyouplayControllers.controller('ChangeMobileController', function($scope, $htt
 
 });
 
+// Controller for sms.jade
 canyouplayControllers.controller('ChangeSMSController', function($scope, $http, $window, $location) {
   $http({
     method: 'GET',
@@ -135,7 +159,7 @@ canyouplayControllers.controller('ChangeSMSController', function($scope, $http, 
       var res = $http.put('/user', data);
 
       res.success(function(data, status, headers, config) {
-        if (data['success']) {
+        if (data.success) {
           $location.path('/settings');
         }
 
@@ -146,6 +170,7 @@ canyouplayControllers.controller('ChangeSMSController', function($scope, $http, 
 
 });
 
+// Controller for password.jade
 canyouplayControllers.controller('ChangePasswordController', function($scope, $http, $window, $location) {
   $scope.submitForm = function(isValid) {
     if (isValid) {
@@ -159,7 +184,7 @@ canyouplayControllers.controller('ChangePasswordController', function($scope, $h
       var res = $http.put('/user', data);
 
       res.success(function(data, status, headers, config) {
-        if (data['success']) {
+        if (data.success) {
           $location.path('/settings');
         }
 
@@ -170,6 +195,7 @@ canyouplayControllers.controller('ChangePasswordController', function($scope, $h
 
 });
 
+// Controller for team.jade
 canyouplayControllers.controller('ChangeTeamNameController', function($scope, $http, $window, $location) {
   $scope.submitForm = function(isValid) {
     if (isValid) {
@@ -177,7 +203,7 @@ canyouplayControllers.controller('ChangeTeamNameController', function($scope, $h
       var res = $http.put('/api/team', data);
 
       res.success(function(data, status, headers, config){
-        if (data['success']) {
+        if (data.success) {
           $location.path('/settings');
         }
 
@@ -188,6 +214,7 @@ canyouplayControllers.controller('ChangeTeamNameController', function($scope, $h
   
 });
 
+// Controller for invite.jade
 canyouplayControllers.controller('InviteMemberController', function($scope, $http, $window, $location) {
   $scope.submitForm = function(isValid) {
     if (isValid){
@@ -200,6 +227,7 @@ canyouplayControllers.controller('InviteMemberController', function($scope, $htt
   };
 });
 
+// Controller for fixtures.jade
 canyouplayControllers.controller('FixturesController', function($scope, $rootScope, $http, $window, $location) {
   $http({
     method: 'GET',
@@ -218,6 +246,7 @@ canyouplayControllers.controller('FixturesController', function($scope, $rootSco
 
 });
 
+// Controller for fixtures_past.jade
 canyouplayControllers.controller('FixturesHistoryController', function($scope, $rootScope, $http, $window, $location) {
   $http({
     method: 'GET',
@@ -236,15 +265,20 @@ canyouplayControllers.controller('FixturesHistoryController', function($scope, $
 
 });
 
+// Controller for fixturedetails.jade
 canyouplayControllers.controller('FixtureDetailController', function($scope, $http, $window, $routeParams, $location, $route) {
   $http({
     method: 'GET',
     url: '/fixtures/' + $routeParams.id
   }).then(function successCallback(response) {
     $scope.fixture = response.data;
+
+    // Date comes back from server as one object. In view we consider the time and date separately 
+
     var fixDate = new Date(response.data.date);
     $scope.dt = new Date(fixDate.getFullYear(), fixDate.getMonth(), fixDate.getDate());
     $scope.time = new Date(0,0,0, fixDate.getHours(), fixDate.getMinutes());
+
   }, function errorCallback(response) {
     //Handle errors here
   });
@@ -273,6 +307,8 @@ canyouplayControllers.controller('FixtureDetailController', function($scope, $ht
     opened: false
   };
 
+  // withDrawAsk used by owners to cancel an invitation they have made to a player. Makes
+  // call to back end and then removed item from Asked list on success
   $scope.withdrawAsk = function(id, ask) {
     var res = $http.delete('/api/ask/' + id);
 
@@ -286,6 +322,8 @@ canyouplayControllers.controller('FixtureDetailController', function($scope, $ht
 
   };
 
+  // replyToAsk used when a player responds to an Ask within the fixture details page.
+  // Scope variables updated to changes can be seen immediately on screen
   $scope.replyToAsk = function(id, canPlay) {
       var data = {
         'askId': id,
@@ -321,7 +359,7 @@ canyouplayControllers.controller('FixtureDetailController', function($scope, $ht
       var res = $http.put('/fixtures/' + $scope.fixture.id, data);
 
       res.success(function(data, status, headers, config) {
-        if (data['success']) {
+        if (data.success) {
           $location.path('fixtures');
         } else {
           alert('We could not update the fixture information');
@@ -337,6 +375,7 @@ canyouplayControllers.controller('FixtureDetailController', function($scope, $ht
     }
   };
 
+  // Used to un cancel a fixture that has been canceled. Back end checks for team owner status 
   $scope.unCancel = function() {
 
     var data = {
@@ -349,27 +388,27 @@ canyouplayControllers.controller('FixtureDetailController', function($scope, $ht
     res.success(function(data) {
       $route.reload();
 
-
     });
   }
 
-
-
 });
 
+// Controller for editfixture.jade
 canyouplayControllers.controller('EditFixtureController', function($scope, $http, $location, $routeParams){
     $http({
     method: 'GET',
     url: '/fixtures/' + $routeParams.id
   }).then(function successCallback(response) {
     $scope.fixture = response.data;
+
+    // Split dates up for time and date components
+
     var fixDate = new Date(response.data.date);
     $scope.dt = new Date(fixDate.getFullYear(), fixDate.getMonth(), fixDate.getDate());
     $scope.time = new Date(0,0,0, fixDate.getHours(), fixDate.getMinutes());
   }, function errorCallback(response) {
     //Handle errors here
   });
-
 
   $scope.maxDate = new Date(2020, 5, 22);
 
@@ -410,10 +449,9 @@ canyouplayControllers.controller('EditFixtureController', function($scope, $http
       var res = $http.put('/fixtures/' + $scope.fixture.id, data);
 
       res.success(function(data, status, headers, config) {
-        if (data['success']) {
-          $location.path('fixtures');
+        if (data.success) {
+          $location.path('fixture');
         } else {
-          alert('We could not update the fixture information');
         }
 
       });
@@ -428,6 +466,7 @@ canyouplayControllers.controller('EditFixtureController', function($scope, $http
 
 });
 
+// Controller for ask.jade
 canyouplayControllers.controller('AskPlayerController', function($scope, $http, $window, $location, $routeParams) {
   $http({
     method: 'GET',
@@ -439,6 +478,7 @@ canyouplayControllers.controller('AskPlayerController', function($scope, $http, 
     //Handle errors here
   });
 
+  // Function handles asking players and update view to remove player from list
   $scope.askPlayer = function(playerId, item) {
     var data = {'playerId': playerId};
     var res = $http.post('/api/ask/' + $routeParams.id, data);
@@ -457,6 +497,7 @@ canyouplayControllers.controller('AskPlayerController', function($scope, $http, 
 
 });
 
+// Controller for addfixture.jade
 canyouplayControllers.controller('AddFixtureController', function($scope, $http, $window, $location) {
 
   $scope.today = function() {
@@ -506,7 +547,7 @@ canyouplayControllers.controller('AddFixtureController', function($scope, $http,
 
       res.success(function(data, status, headers, config) {
         if (data.success) {
-          $location.path('/fixtures');
+          $location.path('/fixture');
         } else {
           alert('fixtures could not be added');
         }
@@ -522,6 +563,7 @@ canyouplayControllers.controller('AddFixtureController', function($scope, $http,
 
 });
 
+// Controller for cancel.jade - page used for team owners to cancel fixtures. 
 canyouplayControllers.controller('CancelController', function($scope, $http, $window, $location, $routeParams){
   $http({
     method: 'GET',
@@ -551,6 +593,7 @@ canyouplayControllers.controller('CancelController', function($scope, $http, $wi
 
 });
 
+// Controller used by availability.jade 
 canyouplayControllers.controller('AvailabilityController', function($scope, $http, $window, $location) {
   $http({
     method: 'GET',
@@ -636,6 +679,7 @@ canyouplayControllers.controller('AvailabilityController', function($scope, $htt
   };
 
   $scope.updateAvailability = function(date) {
+
     var data = {
       'date': date,
       'available': false
@@ -653,17 +697,11 @@ canyouplayControllers.controller('AvailabilityController', function($scope, $htt
 
       });
 
-
-
-
-
-
   }
-
-
 
 });
 
+// Controller for info.jade
 canyouplayControllers.controller('InfoController', function($scope, $http, $window, $location) {
   $http({
     method: 'GET',
@@ -674,11 +712,13 @@ canyouplayControllers.controller('InfoController', function($scope, $http, $wind
 
   }, function errorCallback(response) {});
 
+  // Redirect users page to fixture page on click of fixture
   $scope.goToFixture = function(fixtureId) {
     $location.path('/fixture/' + fixtureId);
 
   };
 
+  // Function used so users can respond to invites and item moved to correct place on page
   $scope.replyToAsk = function(id, canPlay, item, whichList) {
       var data = {
         'askId': id,

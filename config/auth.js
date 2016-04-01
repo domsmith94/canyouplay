@@ -28,18 +28,18 @@ module.exports = {
 					console.log(err);
 				} else if (user) {
 					if (user.is_owner) {
-						console.log("User is owner. Request approved");
+						console.log('User is owner. Request approved');
 						return next();
 					} else {
-						console.log("User logged in but not team owner. Request denied");
-						res.send({'success': false, 'message': 'You must be a team owner to complete that action'});
+						console.log('User logged in but not team owner. Request denied');
+						res.send({"success": false, "message": "You must be a team owner to complete that action"});
 
 					}
 				}
 			});
 
 		} else {
-			console.log("Request not authenticated. User should be logged in");
+			console.log('Request not authenticated. User should be logged in');
 			res.redirect('/sign-in');
 		}
 

@@ -1,5 +1,7 @@
 module.exports = {
 
+	// Used to handle running the application locally and on Heroku.
+
 	locaUrl : 'mongodb://localhost:27017/canyouplay',
 
 	getMongoURI: function(){
