@@ -11,6 +11,7 @@ var accountSid = process.env.accountSid || privateConfig.accountSid;
 var authToken = process.env.authToken || privateConfig.authToken;
 var twilio = require("twilio")(accountSid, authToken);
 
+// Used when a team owner creates a new fixture. 
 
 router.post('/', auth.isTeamOwner, function(req, res){
 	var inputData = req.body;
@@ -37,6 +38,9 @@ router.post('/', auth.isTeamOwner, function(req, res){
 	});
 
 });
+
+// Used when a user visits app/fixture (fixture.jade). Returns a list of fixtures and their information
+// from the mongo store to the Angular front end
 
 router.get('/', auth.isAuthenticated, function(req, res){
 	var date = new Date();
@@ -67,6 +71,8 @@ router.get('/', auth.isAuthenticated, function(req, res){
 
 });
 
+// Same as function above but this is for history. Only retrieves fixtures that have now been completed
+
 router.get('/history', auth.isAuthenticated, function(req, res){
 	var date = new Date();
 	date.setDate(date.getDate() - 1);
@@ -95,9 +101,13 @@ router.get('/history', auth.isAuthenticated, function(req, res){
 
 });
 
+// Used by fixturedetails.jade. Shows specific information of each fixture and page is tailored to 
+// user who is viewing it. 
+
 router.get('/:fixtureId', auth.isAuthenticated, function(req, res) {
 	console.log('Trying to get fixture detail for ' + req.params.fixtureId);
 
+	// Find fixture in question using ID supplied in URL
 	Fixture.findOne({_id: req.params.fixtureId, team: req.session.user.team }).
 	populate('organiser').
 	populate('team').
@@ -106,6 +116,8 @@ router.get('/:fixtureId', auth.isAuthenticated, function(req, res) {
 			console.log('Could not find fixture ' + req.params.fixtureId + ' in Mongo store');
 			res.send({'success': false});
 		}
+
+		// Find all Ask requests associated to this fixture. 
 
 		Ask.find({fixture: fixture._id}, function(err, results){
 			var playersPlaying = [];
@@ -117,6 +129,9 @@ router.get('/:fixtureId', auth.isAuthenticated, function(req, res) {
 			var askId;
 			var canCancel = false;
 
+			// Work out if the fixture is allowed to be canceled based on the cancellation period in Team
+			// settings
+
 			var todaysDate = Date();
 			var cancellationDate = fixture.date;
 			cancellationDate.setDate(cancellationDate.getDate()-fixture.team.cancel_period);
@@ -125,6 +140,9 @@ router.get('/:fixtureId', auth.isAuthenticated, function(req, res) {
 				canCancel = true;
 
 			} 
+
+			// Use of recursion here is a work around arising from the problem of having callbacks within a for loop
+			// in Node.js. For loop executes before the callbacks have called back
 
 			function processAsk(i){
 				if (i < results.length) {
@@ -189,6 +207,8 @@ router.get('/:fixtureId', auth.isAuthenticated, function(req, res) {
 
 });
 
+// Used by editfixture.jade for updating fixtures. 
+
 router.put('/:fixtureId', auth.isAuthenticated, function(req, res){
 	console.log("Received a PUT request for fixture " + req.params.fixtureId);
 
@@ -249,6 +269,10 @@ router.put('/:fixtureId', auth.isAuthenticated, function(req, res){
 	}
 });
 
+// Used to cancel fixture if user is team owner. Sends SMS message if users have opted
+// to receive them 
+
+
 router.patch('/:fixtureId', auth.isTeamOwner, function(req, res){
 	console.log('Recieved a request to cancel/uncancel fixture');
 	console.log(req.body);
@@ -285,8 +309,9 @@ router.patch('/:fixtureId', auth.isTeamOwner, function(req, res){
 				fixture.active = !req.body.cancel;
 				fixture.save();
 				res.send({'success': true})
+				// If team owner wants to send SMS regarding the cancellation
 				if (req.body.sendSMS) {
-
+					// Find all Ask requests where users have responded that they are playing
 					Ask.find({fixture: req.params.fixtureId, is_playing: true})
 						.populate('player')
 						.populate('fixture')
@@ -295,6 +320,7 @@ router.patch('/:fixtureId', auth.isTeamOwner, function(req, res){
 								console.log('There was a problem');
 								console.log(err);
 							} else {
+								// Send SMS message to all players that wish to receive them
 								for (var i = 0; i < asks.length; i++) {
 									if (asks[i].player.sms === true) {
 										var message = 'Hi ' + asks[i].player.firstname + 

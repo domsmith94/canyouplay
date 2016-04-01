@@ -12,6 +12,7 @@ var twilio = twilioAPI(accountSid, authToken);
 // and receiving SMS. This is the only part of the application where twilio library is used. When CanYouPlay
 // is running on Heroku environment, the relevant tokens are stored as environment variables. When running 
 // locally these values are read from /config/private.js. 
+
 module.exports = {
 
 	// This is triggered when a person is Asked to play in a fixture and the player has chosen to receive
@@ -20,6 +21,7 @@ module.exports = {
 	// This is because the system can only have 1 outstanding SMS request for a player at a time due to the inability
 	// to know which SMS request a player is responding to if there is more than 1. Old one is replaced if exists or
 	// new one created. Then message is constructed and sent out. 
+
 	sendSMS : function(askId) {
 		Ask.findOne({_id: askId}).
 			populate('fixture').

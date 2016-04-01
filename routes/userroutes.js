@@ -4,11 +4,15 @@ var User = require('../models/users');
 var Team = require('../models/team');
 var auth = require('../config/auth');
 
+// Displays sign-in page
+
 router.get('/sign-in', function(req, res) {
 	res.render('sign-in',
 		{title : 'Sign In - CanYouPlay',
 		user: req.session.auth});
 });
+
+// Handles log in requests & sessions
 
 router.post('/sign-in', function(req, res) {
 	var success = false;
@@ -68,6 +72,8 @@ router.post('/sign-in', function(req, res) {
 
 });
 
+// Handles sign out requests
+
 router.post('/sign-out', function(req, res){
 	if (req.session.auth) {
 		console.log('User ' + req.session.user.firstname + " is being logged out");
@@ -81,6 +87,8 @@ router.post('/sign-out', function(req, res){
 	}
 
 });
+
+// Handles requests for user information
 
 router.get('/user', auth.isAuthenticated, function(req, res) {
 	if (req.session.auth) {
@@ -107,6 +115,8 @@ router.get('/user', auth.isAuthenticated, function(req, res) {
 		});
 	}
 });
+
+// Handles updates to user settings. type results in correct setting being changed
 
 router.put('/user', auth.isAuthenticated, function(req, res){
 	if (req.session.auth) {
@@ -198,6 +208,14 @@ router.put('/user', auth.isAuthenticated, function(req, res){
 
 });
 
+// Used in availability page so users can update their availability accordingly 
+// Availability is stored in User objects in mongo. Field called not_avail_on is an 
+// array of date objects. These are dates that the user has specified they cannot play on
+// AND dates that they are playing on. For example say a user receives an invite to play
+// on a fixture 3/05/2016. They say yes. The previously empty not_avail_on would then 
+// include 3/05/206. This prevents the user being asked to play on this date again as they 
+// cannot play in both fixtures
+
 router.put('/user/availability', auth.isAuthenticated, function(req, res) {
 
 	if (req.body.available) {
@@ -234,6 +252,8 @@ router.put('/user/availability', auth.isAuthenticated, function(req, res) {
 	}
 });
 
+// This returns the currents user availability dates
+
 router.get('/user/availability', auth.isAuthenticated, function(req, res){
 
 	User.findOne({_id: req.session.user._id}, function(err, result) {
@@ -244,6 +264,8 @@ router.get('/user/availability', auth.isAuthenticated, function(req, res){
 		}
 	});
 });
+
+// This returns a current Users SMS settings. 
 
 router.get('/user/smssettings', auth.isAuthenticated, function(req, res){
 	User.findOne({_id: req.session.user._id}, function(err, user) {
