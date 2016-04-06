@@ -309,14 +309,25 @@ canyouplayControllers.controller('FixtureDetailController', function($scope, $ht
 
   // withDrawAsk used by owners to cancel an invitation they have made to a player. Makes
   // call to back end and then removed item from Asked list on success
-  $scope.withdrawAsk = function(id, ask) {
+  $scope.withdrawAsk = function(id, ask, fromTable) {
     var res = $http.delete('/api/ask/' + id);
 
     res.success(function successCallback(data) {
       if (data.success) {
         // Remove element from responses list immediately
-        var index = $scope.fixture.invited.indexOf(ask);
-        $scope.fixture.invited.splice(index, 1);
+        switch(fromTable){
+          case ('invited'):
+            var index = $scope.fixture.invited.indexOf(ask);
+            $scope.fixture.invited.splice(index, 1);
+            break;
+          case('playing'):
+            var index = $scope.fixture.playing.indexOf(ask);
+            $scope.fixture.playing.splice(index, 1);
+            break;
+
+
+        }
+
       }
     });
 

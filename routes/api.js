@@ -606,12 +606,33 @@ router.post('/ask/:fixtureId', auth.isTeamOwner, function(req, res){
 router.delete('/ask/:askId', auth.isTeamOwner, function(req, res){
 	console.log('Recieved a withdraw Ask request for ' + req.params.askId);
 
-	Ask.findOne({_id: req.params.askId}).remove(function(err){
+	// Find Ask request from Mongo. If the user is playing, user needs to be retrieved from Mongo and
+	// the date of this fixture they are been removed from, needs to be removed from the list of dates
+	// they are not available for. As now they are not playing, they are technically available again.
+
+	Ask.findOne({_id: req.params.askId},function(err, ask){
 		if (err) {
 			console.log(err);
 			console.log('Could not delete this ask request');
 			res.send({'success': false});
 		} else {
+			if (ask.is_playing) {
+				User.findOneAndUpdate(
+					{_id: req.session.user._id},
+					{$pull: {not_avail_on: ask.fixdate}}, 
+					{safe: true},
+					function(err, model) {
+						if (err) {
+							console.log(err);
+							res.send({'success': false});	
+						} else {
+							console.log("Updated availability for user " + req.session.user._id);
+						}
+					}
+				);
+			}
+			ask.remove();
+
 			console.log('Deleted Ask request');
 			res.send({'success': true});
 		}

@@ -55,8 +55,15 @@ div.container
 			li.list-group-item(ng-show='fixture.playing.length===0')
 				p No players have confirmed yet
 			a#playing.list-group-item.playing(ng-repeat="player in fixture.playing")
-				h4.list-group-item-heading {{ player.firstName }} {{ player.lastName }}
-				p Agreed to play
+				div.row
+					div.col-xs-10
+						h4.list-group-item-heading {{ player.firstName }} {{ player.lastName }}
+						p Agreed to play
+					div.col-xs-2(ng-if="currentUser.isOwner")
+						div.row-text-center
+							span.glyphicon.glyphicon-minus.glyphicon-response(ng-click='withdrawAsk(player.askId, item, "playing")')
+
+						
 
 	div.col-md-4
 		h3 Awaiting Response
@@ -72,7 +79,7 @@ div.container
 						p Awaiting reply. Asked {{ player.askdate | date:"d MMMM yyyy"  }}
 					div.col-xs-2(ng-if="currentUser.isOwner")
 						div.row.text-center
-							span.glyphicon.glyphicon-minus.glyphicon-response(ng-click='withdrawAsk(player.askId, item)')
+							span.glyphicon.glyphicon-minus.glyphicon-response(ng-click='withdrawAsk(player.askId, item, "invited")')
 			a.list-group-item.text-center(ng-href='#fixture/{{ fixture.id }}/ask', ng-if='fixture.active && currentUser.isOwner')
 				span.glyphicon.ask.glyphicon-plus
 
