@@ -7,7 +7,7 @@ router.get('/status', function(req, res){
 			auth: req.session.auth,
 			user: req.session.user
 		});
-	});
+});
 
 router.get('/:partial', function(req, res){
 	var name = req.params.partial;
