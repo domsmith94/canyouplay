@@ -168,7 +168,7 @@ router.post('/team', function(req, res) {
 				console.log('Team name already exists');
 				return res.send({"success": false, 'message': 'This web name is already taken!'});
 			} else {
-				newTeam.save(function(err) {
+				newTeam.save(function(err, team) {
 					if (err) {
 						console.log('There was an error');
 						console.log(err);
@@ -176,6 +176,7 @@ router.post('/team', function(req, res) {
 					} else {
 						req.session.user.member_of_team = true;
 						req.session.user.is_owner = true;
+						req.session.user.team = team._id;
 						User.findByIdAndUpdate(req.session.user._id, {
 							member_of_team: true,
 							is_owner: true,
@@ -184,7 +185,7 @@ router.post('/team', function(req, res) {
 							if (err) {
 								console.log('Could not update user')
 							} else {
-								req.session.user.team = newTeam._id;
+
 								console.log('Save user to mongo');
 							}
 						});

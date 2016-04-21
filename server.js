@@ -5,6 +5,7 @@ var app = express();
 var MongoStore = require('connect-mongo')(session);
 var mongoose = require('mongoose');
 
+// Configure sessions. Sessions will last 24 hours. 
 var sessionOptions = {
   secret: "secret",
   resave : true,
@@ -12,7 +13,6 @@ var sessionOptions = {
   cookie: {maxAge: 3600 * 1000 * 24},
   store: new MongoStore({
     url: dbConfig.getMongoURI(),
-    //other advanced options
   })
 };
 
@@ -31,21 +31,21 @@ app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.use(session(sessionOptions));
 
-//*** Below here is route stuff ***
-
+// Routes are defined here. For example, all /api requests are passed to the API router object
 app.use('/api', api);
 app.use('/app', core);
 app.use('/', userroutes);
 app.use('/fixtures', fixtureroutes);
 app.use('/partials', partials);
 
+// Displays the static home page
 app.get('/', function(req, res) {
 
 	res.render('index',
 		{title : 'CanYouPlay', user: req.session.auth})
 });
 
-
+// Displays the app home page if user is authenticated, registration if they are not
 app.get('/register', function(req, res){
 	if (req.session.auth) {
 		console.log('User already logged in');
@@ -59,6 +59,7 @@ app.get('/register', function(req, res){
 	}
 });
 
+// Status page used for debugging
 app.get('/status', function(req, res) {
 	res.render('status',
 		{
