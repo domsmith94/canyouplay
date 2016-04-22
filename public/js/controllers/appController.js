@@ -415,7 +415,6 @@ canyouplayControllers.controller('EditFixtureController', function($scope, $http
     // Split dates up for time and date components
 
     var fixDate = new Date(response.data.date);
-    alert(response.data.date);
     $scope.dt = new Date(fixDate.getFullYear(), fixDate.getMonth(), fixDate.getDate());
     $scope.time = new Date(0,0,0, fixDate.getHours(), fixDate.getMinutes());
   }, function errorCallback(response) {
