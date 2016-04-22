@@ -10,7 +10,7 @@ div.container
 				ul.list-group
 					a#nohover.list-group-item(ng-show='info.responses.length===0')
 						h4.list-group-item-heading No Responses Required
-						p You haven't recieved any invitations you need to respond to at the moment. We'll let you know when you do.
+						p You haven't received any invitations you need to respond to at the moment. We'll let you know when you do.
 					a.list-group-item(ng-repeat="ask in info.responses | orderBy: 'date'")
 						div.row
 							div.col-xs-10
@@ -28,7 +28,7 @@ div.container
 				ul.list-group
 					a#nohover.list-group-item(ng-show='info.upcoming.length === 0')
 							h4.list-group-item-heading No Upcoming Fixtures
-							p You aren't scheduled to play in any upcoming fixtures. You can see the team schedule by visting Fixtures
+							p You aren't scheduled to play in any upcoming fixtures. You can see the team schedule by visiting Fixtures
 					a.list-group-item(ng-repeat="ask in info.upcoming | orderBy: 'date'")
 						div.row
 							div.col-xs-10

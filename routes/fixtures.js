@@ -131,10 +131,11 @@ router.get('/:fixtureId', auth.isAuthenticated, function(req, res) {
 
 			// Work out if the fixture is allowed to be canceled based on the cancellation period in Team
 			// settings
-
+			console.log(fixture.date);
 			var todaysDate = Date();
-			var cancellationDate = fixture.date;
+			var cancellationDate = new Date(fixture.date.getTime());
 			cancellationDate.setDate(cancellationDate.getDate()-fixture.team.cancel_period);
+			console.log(fixture.date);
 
 			if (cancellationDate > todaysDate) {
 				canCancel = true;
@@ -177,6 +178,7 @@ router.get('/:fixtureId', auth.isAuthenticated, function(req, res) {
 					});
 
 				} else {
+					console.log(fixture.date);
 					res.send({
 						'id': fixture._id,
 						'side': fixture.side,
