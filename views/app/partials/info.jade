@@ -47,7 +47,7 @@ div.container
 				ul.list-group
 					a.list-group-item(ng-show='info.recResponses.length === 0')
 						h4.list-group-item-heading Responses Received
-						p When users reply to an Ask for them to play you'll see them here
+						p When users reply to an invitation for them to play you'll see them here
 					a.list-group-item(ng-repeat="ask in info.recResponses | orderBy: '-responseDate'", ng-href='#fixture/{{ ask.fixtureId }}')
 						div.row
 							div.col-xs-10
